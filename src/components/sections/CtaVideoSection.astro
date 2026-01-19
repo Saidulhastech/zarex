@@ -1,0 +1,44 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+
+const { cta } = Astro.props;
+---
+
+<section class="relative overflow-hidden text-white" data-cta-video>
+  <div class="relative z-[100] h-[500px] min-h-[450px] max-h-[450px] min-[1440px]:min-h-[565px] min-[1440px]:max-h-[565px]">
+    <video
+      class="absolute inset-0 h-full w-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster={cta.video.poster}
+    >
+      <source src={cta.video.mp4} type="video/mp4" />
+      <source src={cta.video.webm} type="video/webm" />
+    </video>
+    <div class="absolute inset-0 bg-[#000000d6]"></div>
+    <div class="absolute inset-0 z-[12] flex items-center justify-center">
+      <Container>
+        <div class="flex flex-col items-center text-center" data-cta-video-content>
+          <div class="max-w-[680px] min-[1280px]:max-w-[700px] min-[1440px]:max-w-[760px] max-[767px]:max-w-[600px] max-[479px]:max-w-[500px]">
+            <h2 class="section-title font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white">
+              {cta.title.prefix}
+              <span class="text-gradient">{cta.title.highlight}</span>
+              {cta.title.suffix}
+            </h2>
+          </div>
+          <div class="mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[624px]">
+            <p class="section-summary text-[18px] text-[#c4c4c4]">
+              {cta.summary}
+            </p>
+          </div>
+          <div class="cta-button-wrap mt-[30px] min-[1280px]:mt-[40px] max-[767px]:mt-[24px]" data-cta-video-button>
+            <Button href={cta.cta.href}>{cta.cta.label}</Button>
+          </div>
+        </div>
+      </Container>
+    </div>
+  </div>
+</section>

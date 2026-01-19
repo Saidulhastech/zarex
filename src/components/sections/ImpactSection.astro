@@ -1,0 +1,76 @@
+---
+const { impact } = Astro.props;
+
+let titleHtml;
+
+if (typeof impact.title === "string") {
+  titleHtml = impact.title.replace(
+    "Lead Generation",
+    '<span class="text-gradient">Lead Generation</span>',
+  );
+} else {
+  titleHtml = `${impact.title.prefix}<span class="text-gradient">${impact.title.highlight}</span>${impact.title.suffix}`;
+}
+const getStatDisplayValue = (stat: {
+  value: number | string;
+  prefix?: string;
+  suffix?: string;
+}) => `${stat.prefix ?? ""}${stat.value}${stat.suffix ?? ""}`;
+---
+
+<section
+  class="bg-[url('/src/assets/images/impact.png')] bg-cover bg-center py-[var(--_typography-size---gap--section-gap)] text-white"
+  data-impact-section
+>
+  <div
+    class="mx-auto w-full px-[15px] max-w-[1330px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[479px]:max-w-full"
+  >
+    <div class="mx-auto max-w-[750px] text-center" data-impact-heading>
+      <h2
+        class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+        set:html={titleHtml}
+      />
+    </div>
+    <div
+      class="mt-[var(--_typography-size---gap--content-gap)] flex flex-wrap items-center justify-between gap-4 max-[991px]:justify-center max-[991px]:gap-x-4 max-[991px]:gap-y-10 max-[479px]:gap-x-[30px] max-[479px]:gap-y-[30px] min-[1440px]:gap-x-5"
+      data-impact-wrapper
+    >
+      {
+        impact.stats.map(
+          (stat: {
+            value: number | string;
+            prefix?: string;
+            suffix?: string;
+            labelWidth: string;
+            label: string;
+          }) => {
+            return (
+              <div
+                class="relative z-30 flex items-center gap-4 max-[991px]:flex-col max-[991px]:text-center min-[1440px]:gap-5"
+                data-impact-stat
+              >
+                <div class="flex h-[32px] shrink-0 items-center overflow-hidden whitespace-nowrap min-[1440px]:h-[45px] max-[991px]:h-[28px] max-[767px]:h-[24px] max-[479px]:h-[22px]">
+                  <div class="funfact-number-block flex items-center">
+                    <div
+                      class="funfact-number text-gradient text-[40px] font-medium leading-[0.8] min-[1440px]:text-[56px] max-[991px]:text-[35px] max-[767px]:text-[30px] max-[479px]:text-[28px]"
+                      data-impact-number
+                      data-impact-value={getStatDisplayValue(stat)}
+                    >
+                      {getStatDisplayValue(stat)}
+                    </div>
+                  </div>
+                </div>
+                <p
+                  class={`text-[16px] font-normal leading-[1.6] text-white ${stat.labelWidth} max-[767px]:max-w-none`}
+                >
+                  {stat.label}
+                </p>
+              </div>
+            );
+          },
+        )
+      }
+    </div>
+  </div>
+</section>
+

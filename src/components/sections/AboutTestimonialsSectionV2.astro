@@ -1,0 +1,135 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { testimonials } = Astro.props;
+const fullStars = Array.from({ length: testimonials.rating.full });
+const emptyStars = Array.from({ length: testimonials.rating.empty });
+---
+
+<section
+  class="bg-[url('/src/assets/images/testimonial-bg-2.png')] bg-cover bg-center py-[var(--_typography-size---gap--section-gap)] text-white overflow-hidden"
+>
+  <Container
+    class="max-w-[970px] px-[15px] min-[1280px]:max-w-[1220px] min-[1440px]:max-w-[1330px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[479px]:max-w-full"
+  >
+    <div class="max-w-[700px]">
+      <h2
+        class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+      >
+        {testimonials.title.prefix}
+        <span class="highlight-text">{testimonials.title.highlight}</span>
+        {testimonials.title.suffix}
+      </h2>
+    </div>
+
+    <div class="mt-[var(--_typography-size---gap--content-gap)]">
+      <div class="h-px w-[100vw] bg-[#88888878]"></div>
+      <div
+        class="testimonial-slider-inner-block relative flex flex-col items-center"
+      >
+        <div
+          class="testimonial-slider-mask w-full max-w-[55%] overflow-visible max-[991px]:max-w-[67%] max-[767px]:max-w-[92%]"
+        >
+          <div
+            class="testimonial-slider-block flex snap-x snap-mandatory overflow-x-auto"
+          >
+            {
+              testimonials.items.map(
+                (item: {
+                  title: string;
+                  feedback: string;
+                  name: string;
+                  role: string;
+                }) => (
+                  <article class="testimonial-slider-item min-w-full snap-center bg-transparent">
+                    <div class="testimonial-slider-item-block border-l-[0.5px] border-r-[0.5px] border-[#88888878] px-[30px] py-[40px] min-[1280px]:px-[40px] min-[1280px]:py-[50px] min-[1440px]:px-[60px] min-[1440px]:py-[70px] max-[767px]:p-5">
+                      <h3 class="testimonial-author-review-excerpt font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] text-white">
+                        {item.title}
+                      </h3>
+                      <p class="testimonial-author-feedback-v2 mt-5 text-[22px] leading-[1.4] text-[#c4c4c4] min-[1440px]:mt-[34px] min-[1440px]:text-[24px] max-[991px]:text-[20px]">
+                        {item.feedback}
+                      </p>
+                      <div class="testimonial-title-and-rating-block v2 mt-5 flex items-center justify-between gap-4">
+                        <div class="testimonial-author-name-designation-block-v2">
+                          <div class="testimonial-author-name-v2 font-title text-[18px] font-medium leading-[1.2] text-white">
+                            {item.name}
+                          </div>
+                          <div class="testimonial-author-designation mt-2 text-[14px] text-[#aaa]">
+                            {item.role}
+                          </div>
+                        </div>
+                        <div class="testimonial-rating-block flex items-center gap-2">
+                          {fullStars.map(() => (
+                            <AppImage
+                              src={testimonials.ratingIcon}
+                              alt=""
+                              width="16"
+                              height="16"
+                              class="h-4 w-4"
+                              aria-hidden="true"
+                            />
+                          ))}
+                          {emptyStars.map(() => (
+                            <AppImage
+                              src={testimonials.ratingInactiveIcon}
+                              alt=""
+                              width="16"
+                              height="16"
+                              class="h-4 w-4"
+                              aria-hidden="true"
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                ),
+              )
+            }
+          </div>
+        </div>
+        <button
+          type="button"
+          aria-label="Previous testimonial"
+          class="slider-arrow-block absolute -top-[90px] right-[104px] hidden h-9 w-9 items-center justify-center rounded-full border border-white text-white transition hover:border-transparent hover:bg-[#d8ae6b] min-[992px]:flex max-[991px]:-top-[80px] max-[767px]:top-auto max-[767px]:bottom-[-60px] max-[767px]:right-auto max-[767px]:left-1/2 max-[767px]:-translate-x-[50px]"
+        >
+          <svg
+            width="18"
+            height="16"
+            viewBox="0 0 18 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M8.37938 15.501L0.9375 8.00098L8.37938 0.500977M1.97156 8.00098H17.0625"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <button
+          type="button"
+          aria-label="Next testimonial"
+          class="slider-arrow-block absolute -top-[90px] right-0 hidden h-9 w-9 items-center justify-center rounded-full border border-white text-white transition hover:border-transparent hover:bg-[#d8ae6b] min-[992px]:flex max-[991px]:-top-[80px] max-[767px]:top-auto max-[767px]:bottom-[-60px] max-[767px]:right-auto max-[767px]:left-1/2 max-[767px]:translate-x-[50px]"
+        >
+          <svg
+            width="18"
+            height="16"
+            viewBox="0 0 18 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M9.62062 15.501L17.0625 8.00098L9.62062 0.500977M16.0284 8.00098H0.9375"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="h-px w-[100vw] bg-[#88888878]"></div>
+    </div>
+  </Container>
+</section>
+

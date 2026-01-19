@@ -1,0 +1,86 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BlogSectionV3 from "../components/sections/BlogSectionV3.astro";
+import CtaVideoSection from "../components/sections/CtaVideoSection.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const heading = {
+  subtitle: "Blog Category",
+  title: {
+    prefix: "Ideas, Inspiration, and Updates to Help You ",
+    highlight: "Grow Smarter",
+  },
+  summary: {
+    prefix: "To grow your LinkedIn profile through our ",
+    highlight: "Zarex",
+    suffix:
+      ", create opportunity for generate more Leeds, create more opportunities for profile progress",
+  },
+  categories: [
+    {
+      label: "All Articles",
+      value: "all",
+      href: "/blog",
+      isActive: true,
+    },
+    {
+      label: "Zarex Software",
+      value: "Zarex Software",
+      href: "/blog/category/zarex-software",
+      isActive: false,
+    },
+    {
+      label: "Email Outreach",
+      value: "Email Outreach",
+      href: "/blog/category/email-outreach",
+      isActive: false,
+    },
+    {
+      label: "Lead Generation",
+      value: "Lead Generation",
+      href: "/blog/category/lead-generation",
+      isActive: false,
+    },
+    {
+      label: "Email Campaign",
+      value: "Email Campaign",
+      href: "/blog/category/email-campaign",
+      isActive: false,
+    },
+    {
+      label: "LinkedIn Hacks",
+      value: "LinkedIn Hacks",
+      href: "/blog/category/linkedin-hacks",
+      isActive: false,
+    },
+  ],
+};
+
+const cta = {
+  title: {
+    prefix: "Try Out the ",
+    highlight: "Leading Tools",
+    suffix: " for Your Profileƒ?Ts Consistent Growth",
+  },
+  summary:
+    "Its intuitive interface, powerful automation workflows, and seamless LinkedIn integration gave our team the edge we needed reach.",
+  cta: {
+    href: "/pricing-plan",
+    label: "Start 16 Days Free Trial",
+  },
+  video: {
+    poster: "/videos/cta-videos-poster-00001.jpg",
+    mp4: "/videos/cta-videos-transcode.mp4",
+    webm: "/videos/cta-videos-transcode.webm",
+  },
+};
+---
+
+<BaseLayout title="" description="">
+  <BlogSectionV3 heading={heading} posts={posts} />
+  <CtaVideoSection cta={cta} />
+</BaseLayout>

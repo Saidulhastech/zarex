@@ -1,0 +1,89 @@
+---
+import Container from "../ui/Container.astro";
+---
+
+<section
+  class="bg-[url('/src/assets/images/Breadcrumb-BG.png')] bg-cover bg-center bg-no-repeat pt-[190px] pb-[112px] min-[1280px]:pt-[200px] min-[1440px]:pt-[240px] max-[991px]:pt-[140px] max-[991px]:pb-[80px] max-[767px]:pt-[130px] max-[767px]:pb-[60px]"
+>
+  <Container>
+    <div
+      class="flex flex-col items-center text-center"
+      data-licenses-breadcrumb-animate
+    >
+      <div
+        class="text-gradient text-[20px] font-medium leading-[1.1] max-[767px]:text-[18px]"
+      >
+        Licenses
+      </div>
+      <div class="mt-[20px]">
+        <h1
+          class="font-title text-[length:var(--_typography-size---typography--h1)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+        >
+          Asset <span class="highlight-text">License</span> Details Here
+        </h1>
+      </div>
+      <div
+        class="mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[800px] text-[20px] text-[#c4c4c4]"
+      >
+        <p>
+          All graphical assets in this template are licensed for personal and
+          commercial use. If you'd like to use a specific asset, please check
+          the license below.
+        </p>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  [data-licenses-breadcrumb-animate] {
+    opacity: 0;
+    filter: blur(100px);
+    transform: translateY(40px);
+    transition:
+      opacity 0.8s ease,
+      filter 0.8s ease,
+      transform 0.8s ease;
+  }
+
+  [data-licenses-breadcrumb-animate].animate-in {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const initLicensesBreadcrumbAnimation = () => {
+    const animatedElements = document.querySelectorAll(
+      "[data-licenses-breadcrumb-animate]",
+    );
+
+    if (!animatedElements.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry: IntersectionObserverEntry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            el.classList.add("animate-in");
+            observer.unobserve(el);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
+
+    animatedElements.forEach((el) => observer.observe(el));
+  };
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initLicensesBreadcrumbAnimation,
+  );
+  document.addEventListener("astro:page-load", initLicensesBreadcrumbAnimation);
+</script>
+

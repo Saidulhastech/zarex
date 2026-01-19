@@ -1,0 +1,82 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+
+const { advantages } = Astro.props;
+
+const normalizeText = (value: string = "") =>
+  value.replace(/ƒ\?T/g, "'").replace(/ƒ\?/g, "-");
+---
+
+<section
+  class="advantage-section py-[var(--_typography-size---gap--section-gap)]"
+  data-advantage-section
+>
+  <Container
+    class="max-w-[970px] px-[15px] min-[1280px]:max-w-[1220px] min-[1440px]:max-w-[1330px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[479px]:max-w-full"
+  >
+    <div
+      class="advantage-wrapper grid items-start gap-4 min-[992px]:grid-cols-2 min-[1280px]:gap-10 min-[1440px]:grid-cols-[500px_584px] min-[1440px]:gap-[80px] max-[991px]:grid-cols-1 max-[991px]:gap-0"
+    >
+      <div
+        class="section-heading-block sticky min-[992px]:sticky min-[992px]:top-5"
+        data-advantage-heading
+      >
+        <div class="section-title-block">
+          <h2
+            class="section-title font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+          >
+            {normalizeText(advantages.title.prefix)}
+            <span class="highlight-text"
+              >{normalizeText(advantages.title.highlight)}</span
+            >
+            {normalizeText(advantages.title.suffix)}
+          </h2>
+        </div>
+        <div
+          class="section-summary-block mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[418px]"
+        >
+          <p class="section-summary text-[18px] text-[#c4c4c4]">
+            {normalizeText(advantages.summary)}
+          </p>
+        </div>
+        <div
+          class="special-features-button-wrap mt-[30px]"
+          data-advantage-button
+        >
+          <Button
+            href={advantages.cta.href}
+            variant="outline"
+            class="padding-32px"
+          >
+            {advantages.cta.label}
+          </Button>
+        </div>
+      </div>
+
+      <div
+        class="advantage-content-wrap flex flex-col max-[991px]:mt-[var(--_typography-size---gap--content-gap)]"
+      >
+        {
+          advantages.items.map(
+            (item: { title: string; summary: string }, index: number) => (
+              <article
+                class={`advantage-single-content-item-block flex items-center justify-between gap-4 border-b border-[#88888875] py-6 min-[1440px]:py-8 max-[991px]:py-5 max-[767px]:flex-wrap ${
+                  index === 0 ? "pt-0" : ""
+                } ${index === advantages.items.length - 1 ? "border-b-0 pb-0" : ""}`}
+                data-advantage-item
+              >
+                <h3 class="advantage-title font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] tracking-[-0.01em] text-white">
+                  {normalizeText(item.title)}
+                </h3>
+                <p class="advantage-summary max-w-[280px] text-[16px] leading-[1.5] text-[#c4c4c4] min-[1280px]:max-w-[320px] min-[1440px]:max-w-[334px] max-[991px]:max-w-[334px] max-[767px]:max-w-none">
+                  {normalizeText(item.summary)}
+                </p>
+              </article>
+            ),
+          )
+        }
+      </div>
+    </div>
+  </Container>
+</section>

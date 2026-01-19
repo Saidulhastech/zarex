@@ -1,0 +1,64 @@
+---
+type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
+type ButtonSize = "sm" | "md";
+
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  class: className = "",
+} = Astro.props as {
+  href?: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  class?: string;
+};
+
+const base = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2';
+
+const sizes = {
+  sm: 'button-size-sm',
+  md: '',
+};
+
+const variants = {
+  primary: {
+    wrapper: 'primary-button-wrapper',
+    overlay: 'button-animation-overlay',
+    focus: 'focus-visible:outline-[#d8ae6b]',
+  },
+  secondary: {
+    wrapper: 'secondary-button-wrapper',
+    overlay: 'button-animation-overlay-v2',
+    focus: 'focus-visible:outline-white',
+  },
+  outline: {
+    wrapper: 'secondary-button-wrapper',
+    overlay: 'button-animation-overlay-v2',
+    focus: 'focus-visible:outline-white',
+  },
+  ghost: {
+    wrapper: 'text-slate-600 hover:text-slate-900',
+    overlay: '',
+    focus: 'focus-visible:outline-slate-300',
+  },
+};
+
+const variantConfig = variants[variant] ?? variants.primary;
+const classes = [base, sizes[size], variantConfig.wrapper, variantConfig.focus, className]
+  .filter(Boolean)
+  .join(' ');
+const overlayClass = variantConfig.overlay;
+---
+
+{href ? (
+  <a href={href} class={classes}>
+    <span class="primary-button-text"><slot /></span>
+    {overlayClass ? <span class={overlayClass}></span> : null}
+  </a>
+) : (
+  <button class={classes} type="button">
+    <span class="primary-button-text"><slot /></span>
+    {overlayClass ? <span class={overlayClass}></span> : null}
+  </button>
+)}

@@ -1,0 +1,387 @@
+---
+import Container from "../ui/Container.astro";
+import StyleGuideHeader from "./StyleGuideHeader.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const colorCards = [
+  { name: "Primary", value: "#D8AE6B", className: "bg-[#d8ae6b]" },
+  { name: "Secondary", value: "#1AD079", className: "bg-[#1ad079]" },
+  { name: "Border Color", value: "#484848", className: "bg-[#484848]" },
+  { name: "Text Color", value: "#C4C4C4", className: "bg-[#c4c4c4]" },
+  { name: "Neutral Color", value: "#6356E0", className: "bg-[#6356e0]" },
+  { name: "Neutral Color", value: "#0FCBFF", className: "bg-[#0fcbff]" },
+];
+
+const iconPaths = [
+  "/images/002-remove.svg",
+  "/images/compare-check-1.svg",
+  "/images/integration-check-1.svg",
+  "/images/blog-quate.png",
+  "/images/feature-top-arrow.png",
+];
+---
+
+<section
+  class="relative overflow-clip py-[var(--_typography-size---gap--section-gap)]"
+>
+  <Container>
+    <div
+      class="flex gap-[50px] min-[1280px]:gap-[70px] max-[991px]:gap-[25px] max-[767px]:block"
+    >
+      <aside
+        class="sticky top-[5%] h-full w-[25%] max-[991px]:w-[30%] max-[767px]:static max-[767px]:w-auto max-[767px]:mb-[40px]"
+        data-style-guide-animate
+        data-style-guide-on-load
+        data-style-guide-delay="0.05"
+      >
+        <div
+          class="flex w-[220px] flex-col gap-[5px] rounded-[8px] border border-[#d8ae6b] p-[10px] min-[1440px]:w-[320px] max-[991px]:w-[180px] max-[767px]:w-auto"
+        >
+          <a
+            href="#color"
+            class="js-styleguide-link rounded-[8px] px-[10px] py-[10px] text-[18px] font-medium leading-[1.667] text-white transition-colors duration-300 hover:bg-[#d8ae6b] hover:text-[#0c222c]"
+          >
+            01. Colors
+          </a>
+          <a
+            href="#typography"
+            class="js-styleguide-link rounded-[8px] px-[10px] py-[10px] text-[18px] font-medium leading-[1.667] text-white transition-colors duration-300 hover:bg-[#d8ae6b] hover:text-[#0c222c]"
+          >
+            02. Typography
+          </a>
+          <a
+            href="#button"
+            class="js-styleguide-link rounded-[8px] px-[10px] py-[10px] text-[18px] font-medium leading-[1.667] text-white transition-colors duration-300 hover:bg-[#d8ae6b] hover:text-[#0c222c]"
+          >
+            03. Buttons
+          </a>
+          <a
+            href="#icon"
+            class="js-styleguide-link rounded-[8px] px-[10px] py-[10px] text-[18px] font-medium leading-[1.667] text-white transition-colors duration-300 hover:bg-[#d8ae6b] hover:text-[#0c222c]"
+          >
+            04. Icons
+          </a>
+        </div>
+      </aside>
+
+      <div
+        class="ml-auto w-[75%] max-[991px]:w-[70%] max-[767px]:w-auto"
+        data-style-guide-animate
+        data-style-guide-on-load
+        data-style-guide-delay="0.15"
+      >
+        <div id="color">
+          <StyleGuideHeader title="Colors" />
+          <div
+            class="mt-[50px] flex flex-col gap-[60px] min-[1440px]:mt-[60px] max-[767px]:gap-[40px]"
+          >
+            <div
+              class="grid grid-cols-3 gap-5 pt-10 px-10 min-[1440px]:gap-[30px] max-[991px]:pt-[60px] max-[991px]:px-[25px] max-[767px]:grid-cols-2 max-[767px]:gap-[30px] max-[767px]:pt-[40px] max-[767px]:px-5 max-[479px]:grid-cols-1 max-[479px]:gap-5 max-[479px]:pt-[30px]"
+            >
+              {
+                colorCards.map((card) => (
+                  <div class="flex flex-col">
+                    <div class={`min-h-[100px] ${card.className}`} />
+                    <div class="px-[10px] py-[5px]">
+                      <div class="text-[18px] font-semibold leading-[1.667] text-[#c4c4c4]">
+                        {card.name}
+                      </div>
+                      <div class="text-[18px] leading-[1.667] text-[#9b9b9b]">
+                        {card.value}
+                      </div>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="typography"
+          class="pt-[80px] min-[1440px]:pt-[100px] max-[991px]:pt-[60px] max-[479px]:pt-[50px]"
+        >
+          <StyleGuideHeader title="Typography" />
+          <div
+            class="flex flex-col gap-[40px] pt-[80px] px-10 min-[1440px]:pt-[100px] max-[991px]:pt-[60px] max-[991px]:px-[25px] max-[767px]:gap-[30px] max-[767px]:pt-[40px] max-[767px]:px-5"
+          >
+            <div class="-ml-5 flex flex-col gap-2">
+              <h2 class="text-white">Fonts</h2>
+              <div class="ml-5 text-[18px] text-[#c4c4c4]">
+                Plus Jakarta Sans
+              </div>
+              <div class="ml-5 text-[18px] text-[#c4c4c4]">Inter</div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <h1 class="text-white">Heading 1</h1>
+              <div
+                class="text-[18px] leading-[1.5] text-[#c4c4c4] max-[767px]:text-[16px]"
+              >
+                H1 - 64px/120% - 400 - Plus Jakarta Sans
+              </div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <h2>Heading 2</h2>
+              <div
+                class="text-[18px] leading-[1.5] text-[#c4c4c4] max-[767px]:text-[16px]"
+              >
+                H2 - 48px/120% - 400 - Plus Jakarta Sans
+              </div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <h3 class="font-semibold leading-[1.3]">Heading 3</h3>
+              <div
+                class="text-[18px] leading-[1.5] text-[#c4c4c4] max-[767px]:text-[16px]"
+              >
+                H3 - 32px/130% - 600 - Plus Jakarta Sans
+              </div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <h4 class="font-semibold leading-[1.4]">Heading 4</h4>
+              <div
+                class="text-[18px] leading-[1.5] text-[#c4c4c4] max-[767px]:text-[16px]"
+              >
+                H4 - 24px/140% - 600 - Plus Jakarta Sans
+              </div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <p class="text-[20px] leading-[1.5] text-[#c4c4c4]">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Suspendisse varius enim in eros elementum tristique. Duis
+                cursus, mi quis viverra ornare, eros dolor interdum nulla, ut
+                commodo diam libero vitae erat. Aenean faucibus nibh et justo
+                cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus
+                tristique posuere.
+              </p>
+              <div
+                class="text-[18px] leading-[1.5] text-[#c4c4c4] max-[767px]:text-[16px]"
+              >
+                Paragraph Large 20px/150% - 400 - Inter
+              </div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <p
+                class="text-[18px] leading-[1.5] text-[#c4c4c4] max-[991px]:text-[20px] max-[767px]:text-[16px]"
+              >
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Suspendisse varius enim in eros elementum tristique. Duis
+                cursus, mi quis viverra ornare, eros dolor interdum nulla, ut
+                commodo diam libero vitae erat. Aenean faucibus nibh et justo
+                cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus
+                tristique posuere.
+              </p>
+              <div
+                class="text-[18px] leading-[1.5] text-[#c4c4c4] max-[767px]:text-[16px]"
+              >
+                Paragraph Small 18px/150% - 400 - Inter
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="button"
+          class="pt-[80px] min-[1440px]:pt-[100px] max-[991px]:pt-[60px] max-[479px]:pt-[50px]"
+        >
+          <StyleGuideHeader title="Buttons" />
+          <div
+            class="flex flex-wrap gap-[30px] pt-[80px] px-10 min-[1440px]:pt-[100px] max-[991px]:pt-[60px] max-[991px]:px-[25px] max-[767px]:pt-[40px] max-[767px]:px-5 max-[479px]:px-0 max-[479px]:pl-5"
+          >
+            <div class="flex flex-col gap-[30px] max-[767px]:flex-wrap">
+              <div class="flex flex-col gap-5">
+                <a
+                  href="https://example.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class="primary-button-wrapper"
+                >
+                  <span class="primary-button-text max-[479px]:text-[18px]"
+                    >Primary Button</span
+                  >
+                  <span class="button-animation-overlay"></span>
+                </a>
+                <div
+                  class="text-[18px] leading-[1.5] text-[#c4c4c4] max-[767px]:text-[16px]"
+                >
+                  Primary Button 16px/150% - 400 - Inter
+                </div>
+              </div>
+              <div class="flex flex-col gap-5">
+                <a
+                  href="https://example.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class="secondary-button-wrapper"
+                >
+                  <span class="primary-button-text max-[479px]:text-[18px]"
+                    >Secondary Button</span
+                  >
+                  <span class="button-animation-overlay-v2"></span>
+                </a>
+                <div
+                  class="text-[18px] leading-[1.5] text-[#c4c4c4] max-[767px]:text-[16px]"
+                >
+                  Primary Button 18px/150% - 400 - Inter
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="icon"
+          class="pt-[80px] min-[1440px]:pt-[100px] max-[991px]:pt-[80px] max-[767px]:pt-[60px] max-[479px]:pt-[50px]"
+        >
+          <StyleGuideHeader title="Icons" />
+          <div
+            class="flex flex-wrap gap-[30px] pt-[100px] px-10 max-[991px]:pt-[60px] max-[991px]:px-[25px] max-[767px]:pt-[40px] max-[767px]:px-5"
+          >
+            {
+              iconPaths.map((path) => (
+                <div>
+                  <AppImage
+                    src={path}
+                    alt="Style guide icon example"
+                    loading="lazy"
+                  />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+
+  <div
+    class="fixed bottom-1/2 left-[40%] -z-10 hidden h-[500px] w-[600px] rounded-[50px] bg-[#2600ff33] blur-[304px] max-[991px]:left-[30%] max-[991px]:h-[400px] max-[991px]:w-[400px] max-[767px]:left-[20%] max-[767px]:h-[300px] max-[767px]:w-[350px] max-[767px]:blur-[200px] max-[479px]:left-0 max-[479px]:h-[250px] max-[479px]:w-full"
+  >
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const section = document.currentScript?.previousElementSibling;
+    if (!section) return;
+
+    const links = Array.from(section.querySelectorAll(".js-styleguide-link"));
+    if (!links.length) return;
+
+    const sectionById = new Map(
+      links
+        .map((link) => {
+          const id = link.getAttribute("href")?.replace("#", "");
+          if (!id) return null;
+          const target = section.querySelector(`#${CSS.escape(id)}`);
+          return target ? [id, target] : null;
+        })
+        .filter(Boolean),
+    );
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        const isActive = link.getAttribute("href") === `#${id}`;
+        link.classList.toggle("bg-[#d8ae6b]", isActive);
+        link.classList.toggle("text-[#0c222c]", isActive);
+        link.setAttribute("aria-current", isActive ? "location" : "false");
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        if (!visible.length) return;
+        visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        setActive(visible[0].target.id);
+      },
+      {
+        rootMargin: "0px 0px -50% 0px",
+        threshold: [0.25, 0.5, 0.75],
+      },
+    );
+
+    sectionById.forEach((target) => observer.observe(target));
+    setActive(links[0].getAttribute("href").replace("#", ""));
+  })();
+</script>
+
+<style>
+  [data-style-guide-animate] {
+    opacity: 0;
+    filter: blur(60px);
+    transform: translateY(30px);
+    transition:
+      opacity 0.8s ease,
+      filter 0.8s ease,
+      transform 0.8s ease;
+  }
+
+  [data-style-guide-animate].animate-in {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const initStyleGuideAnimation = () => {
+    const animatedElements = document.querySelectorAll(
+      "[data-style-guide-animate]",
+    );
+
+    if (!animatedElements.length) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (prefersReducedMotion) {
+      animatedElements.forEach((element) => {
+        element.classList.add("animate-in");
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          const delay = parseFloat(
+            el.getAttribute("data-style-guide-delay") || "0",
+          );
+
+          if (delay > 0) {
+            window.setTimeout(() => {
+              el.classList.add("animate-in");
+            }, delay * 1000);
+          } else {
+            el.classList.add("animate-in");
+          }
+
+          observer.unobserve(el);
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
+
+    animatedElements.forEach((el) => {
+      if (el.hasAttribute("data-style-guide-on-load")) {
+        const delay = parseFloat(
+          el.getAttribute("data-style-guide-delay") || "0",
+        );
+        window.setTimeout(() => {
+          el.classList.add("animate-in");
+        }, delay * 1000);
+      } else {
+        observer.observe(el);
+      }
+    });
+  };
+
+  document.addEventListener("DOMContentLoaded", initStyleGuideAnimation);
+  document.addEventListener("astro:page-load", initStyleGuideAnimation);
+</script>

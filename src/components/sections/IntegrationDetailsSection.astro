@@ -1,0 +1,206 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const {
+  details = "",
+  about = "",
+  setup = "",
+  support = "",
+  icon = "/images/integration-icon-5.svg",
+} = Astro.props;
+
+const iconBlockClass =
+  "flex h-[80px] w-[80px] min-h-[80px] min-w-[80px] flex-none items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:min-h-[105px] min-[1440px]:min-w-[105px] max-[767px]:h-[70px] max-[767px]:w-[70px] max-[767px]:min-h-[70px] max-[767px]:min-w-[70px] max-[479px]:h-[50px] max-[479px]:w-[50px] max-[479px]:min-h-[50px] max-[479px]:min-w-[50px]";
+---
+
+<section
+  class="bg-[url('/src/assets/images/integratiion-details.png')] bg-cover bg-center bg-no-repeat py-[var(--_typography-size---gap--section-gap)] text-white"
+  data-integration-tabs
+  data-integration-details-section
+>
+  <Container>
+    <div class="flex flex-col">
+      <div
+        class="mx-auto flex max-w-[350px] items-center justify-between gap-3 max-[767px]:max-w-[300px] max-[479px]:max-w-[80%] max-[479px]:gap-2"
+        data-integration-details-icon
+      >
+        <div class={iconBlockClass}>
+          <AppImage
+            src={icon}
+            alt="Integration Icon"
+            width="50"
+            height="50"
+            class="w-[50px] max-[991px]:w-[40px]"
+            loading="lazy"
+          />
+        </div>
+        <div class="flex flex-col gap-5 overflow-hidden max-[479px]:gap-2">
+          <div
+            class="integration-dots-marquee flex items-center justify-end gap-5 max-[479px]:gap-2"
+          >
+            {
+              Array.from({ length: 4 }).map(() => (
+                <div class="flex-none">
+                  <AppImage
+                    src="/images/Integration-Circle-icon.png"
+                    alt="Integration Dot"
+                    width="auto"
+                    height="auto"
+                    class="flex-none"
+                    loading="lazy"
+                  />
+                </div>
+              ))
+            }
+          </div>
+          <div
+            class="integration-dots-marquee-fast mt-[5px] flex items-center justify-start gap-5 max-[479px]:mt-0 max-[479px]:gap-2"
+          >
+            {
+              Array.from({ length: 4 }).map(() => (
+                <div class="flex-none">
+                  <AppImage
+                    src="/images/Integration-Circle-icon.png"
+                    alt="Integration Dot"
+                    width="auto"
+                    height="auto"
+                    class="flex-none"
+                    loading="lazy"
+                  />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        <div class={iconBlockClass}>
+          <AppImage
+            src="/images/zarex-logo.svg"
+            alt="Zarex Logo"
+            width="50"
+            height="50"
+            class="w-[50px] max-[991px]:w-[40px]"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <div
+        class="mt-[50px] min-[1440px]:mt-[64px] max-[991px]:mt-[40px] max-[767px]:mt-[30px]"
+      >
+        <div
+          class="max-w-[962px] text-[16px] leading-[1.6] text-[#c4c4c4] [&_h2]:text-white [&_p]:mt-4 min-[1440px]:[&_p]:mt-5"
+          set:html={details}
+          data-integration-details-text
+        />
+
+        <div
+          class="mt-[60px] min-[1440px]:mt-[80px] max-[991px]:mt-[40px]"
+          data-integration-details-tabs
+        >
+          <div
+            class="flex items-end justify-between gap-4 border-b border-[#888] max-[479px]:flex-wrap max-[479px]:justify-center max-[479px]:gap-x-10 max-[479px]:gap-y-2"
+          >
+            <button
+              type="button"
+              class="tab-button cursor-pointer border-b border-transparent pb-[10px] text-[28px] font-semibold leading-[1.3] text-[#888] transition-colors hover:text-white min-[1440px]:pb-[18px] min-[1440px]:text-[32px] max-[991px]:text-[24px] max-[479px]:text-[22px]"
+              data-tab-button="about"
+              aria-selected="true"
+            >
+              About
+            </button>
+            <button
+              type="button"
+              class="tab-button cursor-pointer border-b border-transparent pb-[10px] text-[28px] font-semibold leading-[1.3] text-[#888] transition-colors hover:text-white min-[1440px]:pb-[18px] min-[1440px]:text-[32px] max-[991px]:text-[24px] max-[479px]:text-[22px]"
+              data-tab-button="setup"
+              aria-selected="false"
+            >
+              How to setup
+            </button>
+            <button
+              type="button"
+              class="tab-button cursor-pointer border-b border-transparent pb-[10px] text-[28px] font-semibold leading-[1.3] text-[#888] transition-colors hover:text-white min-[1440px]:pb-[18px] min-[1440px]:text-[32px] max-[991px]:text-[24px] max-[479px]:text-[22px]"
+              data-tab-button="support"
+              aria-selected="false"
+            >
+              Support
+            </button>
+          </div>
+
+          <div class="mt-[40px] min-[1440px]:mt-[50px] max-[991px]:mt-[30px]">
+            <div
+              class="tab-panel text-[16px] leading-[1.6] text-[#c4c4c4] [&_p]:mt-4 min-[1440px]:[&_p]:mt-5 [&_p]:pl-10 min-[1440px]:[&_p]:pl-[46px] [&_h4]:mt-7 min-[1440px]:[&_h4]:mt-[30px] max-[767px]:[&_h4]:mt-6 [&_h4]:font-semibold [&_h4]:bg-[url('/src/assets/images/integration-check-1.svg')] [&_h4]:bg-no-repeat [&_h4]:pl-10 min-[1440px]:[&_h4]:pl-[46px] [&_ul]:mt-4 [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-2 [&_ul]:pl-10 min-[1440px]:[&_ul]:pl-[46px]"
+              data-tab-panel="about"
+              set:html={about}
+            />
+            <div
+              class="tab-panel hidden -mt-4 text-[16px] leading-[1.6] text-[#c4c4c4] [&_p]:mt-4 [&_h4]:mt-7 min-[1440px]:[&_h4]:mt-[30px] max-[767px]:[&_h4]:mt-6 [&_h4]:text-white [&_h4]:font-semibold [&_ul]:mt-4 [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-[10px] [&_ul]:list-disc [&_ul]:pl-[22px] [&_li]:pl-0"
+              data-tab-panel="setup"
+              set:html={setup}
+            />
+            <div
+              class="tab-panel hidden text-[16px] leading-[1.6] text-[#c4c4c4] [&_ol]:mt-5 [&_ol]:mb-5 min-[1440px]:[&_ol]:mt-6 min-[1440px]:[&_ol]:mb-6 [&_ol]:flex [&_ol]:flex-col [&_ol]:gap-4 [&_ol]:list-decimal [&_ol]:pl-[22px] [&_a]:text-[#1ad079] [&_a]:font-semibold [&_a]:transition [&_a]:hover:text-[#d8ae6b]"
+              data-tab-panel="support"
+              set:html={support}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style is:global>
+  @keyframes integrationDotsScroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-40px);
+    }
+  }
+
+  .integration-dots-marquee {
+    animation: integrationDotsScroll 6s linear infinite;
+  }
+
+  .integration-dots-marquee-fast {
+    animation: integrationDotsScroll 3s linear infinite;
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector("[data-integration-tabs]");
+    if (!root) return;
+
+    const buttons = Array.from(root.querySelectorAll("[data-tab-button]"));
+    const panels = Array.from(root.querySelectorAll("[data-tab-panel]"));
+
+    const setActive = (tab) => {
+      buttons.forEach((button) => {
+        const hbutton = button;
+        const isActive = hbutton.dataset.tabButton === tab;
+        hbutton.classList.toggle("text-white", isActive);
+        hbutton.classList.toggle("border-white", isActive);
+        hbutton.classList.toggle("text-[#888]", !isActive);
+        hbutton.setAttribute("aria-selected", String(isActive));
+      });
+
+      panels.forEach((panel) => {
+        const hpanel = panel;
+        panel.classList.toggle("hidden", hpanel.dataset.tabPanel !== tab);
+      });
+    };
+
+    buttons.forEach((button) => {
+      const hbutton = button;
+      button.addEventListener("click", () =>
+        setActive(hbutton.dataset.tabButton),
+      );
+    });
+
+    setActive("about");
+  })();
+</script>
+

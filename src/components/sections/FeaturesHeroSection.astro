@@ -1,0 +1,136 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { hero } = Astro.props;
+const summaryParts = hero.summary.split("Zarex");
+const hasBrandHighlight = summaryParts.length > 1;
+---
+
+<section
+  class="bg-[url('/src/assets/images/features-image-bg.png')] bg-cover bg-center pt-[var(--_typography-size---gap--page-top-gap)] pb-[var(--_typography-size---gap--section-gap)] text-white"
+  data-feature-hero
+>
+  <Container>
+    <div
+      class="grid items-center gap-[60px] min-[992px]:grid-cols-2 min-[1280px]:grid-cols-[6.5fr_5.5fr] max-[991px]:gap-[40px] max-[767px]:gap-[30px]"
+    >
+      <div class="flex flex-col items-start" data-feature-hero-heading>
+        <div class="inline-flex items-center">
+          <span class="text-gradient text-[20px] font-medium leading-[1.1]">
+            {hero.subtitle}
+          </span>
+        </div>
+        <h1
+          class="mt-[var(--_typography-size---gap--subtitle-gap)] font-title text-[length:var(--_typography-size---typography--h1)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+        >
+          {hero.title.prefix}
+          <span class="text-gradient font-semibold">{hero.title.highlight}</span
+          >
+          {hero.title.suffix}
+        </h1>
+        <p
+          class="mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[492px] text-[20px] leading-[1.6] text-[#c4c4c4]"
+        >
+          {summaryParts[0]}
+          {
+            hasBrandHighlight && (
+              <span class="font-semibold text-white">Zarex</span>
+            )
+          }
+          {hasBrandHighlight ? summaryParts.slice(1).join("Zarex") : ""}
+        </p>
+      </div>
+
+      <div
+        class="flex items-start max-[991px]:justify-center max-[767px]:px-[50px] max-[479px]:px-[20px]"
+      >
+        <div class="flex flex-col">
+          <div class="flex flex-col items-start" data-feature-hero-left>
+            <span
+              class="mb-3 ml-[40px] font-title text-[16px] font-medium leading-[1.2] text-[#888] max-[479px]:ml-0"
+            >
+              {hero.before.label}
+            </span>
+            <div class="relative">
+              <div class="max-w-[306px]">
+                <AppImage
+                  src={hero.before.image}
+                  alt={hero.before.alt}
+                  width="306"
+                  height="370"
+                  class="w-full rounded-[16px] border border-white/10"
+                  loading="eager"
+                  fetchpriority="high"
+                />
+              </div>
+              <AppImage
+                src={hero.before.follower}
+                alt="Followers snapshot"
+                width="100"
+                height="120"
+                class="absolute left-[-50px] top-[28px] rounded-[10px] border border-white/10 max-[479px]:left-[-20px] max-[479px]:top-[106px] max-[479px]:w-[60px]"
+                loading="eager"
+                fetchpriority="high"
+                data-feature-hero-follower
+              />
+            </div>
+            <AppImage
+              src={hero.before.border}
+              alt=""
+              width="200"
+              height="100"
+              class="relative -top-[50px] left-[80px] -z-10 max-w-full min-[1280px]:-top-[66px] min-[1280px]:left-[117px]"
+              aria-hidden="true"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <div
+          class="ml-[-107px] mt-[100px] flex flex-col max-[479px]:ml-[-90px] max-[479px]:mt-[50px] min-[1280px]:mt-[155px]"
+          data-feature-hero-right
+        >
+          <AppImage
+            src={hero.after.arrow}
+            alt="Arrow pointing to improved profile"
+            width={78}
+            height={43}
+            class="relative -bottom-[20px] left-[-16px] mx-auto block min-[1280px]:-bottom-[16px] min-[1280px]:left-[-28px]"
+            loading="lazy"
+            data-feature-hero-arrow
+          />
+          <span
+            class="relative z-10 mb-3 mr-[55px] text-right font-title text-[16px] font-medium leading-[1.2] text-[#888]"
+          >
+            {hero.after.label}
+          </span>
+          <div class="relative">
+            <div class="max-w-[306px]">
+              <AppImage
+                src={hero.after.image}
+                alt={hero.after.alt}
+                width="306"
+                height="370"
+                class="w-full rounded-[16px] border border-white/10"
+                loading="eager"
+                fetchpriority="high"
+              />
+            </div>
+            <AppImage
+              src={hero.after.follower}
+              alt="Followers snapshot"
+              width="100"
+              height="120"
+              class="absolute right-[-10px] top-[110px] rounded-[10px] border border-white/10 max-[991px]:right-[-50px] max-[767px]:top-[100px] max-[479px]:right-[-20px] max-[479px]:top-[80px] max-[479px]:w-[60px] min-[1280px]:right-[-50px] min-[1440px]:top-[125px]"
+              loading="eager"
+              fetchpriority="high"
+              data-feature-hero-follower
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+

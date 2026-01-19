@@ -1,0 +1,30 @@
+---
+type LinkVariant = "primary" | "muted" | "inverse" | "none";
+
+const {
+  href,
+  variant = "primary",
+  class: className = "",
+  ...rest
+} = Astro.props as {
+  href?: string;
+  variant?: LinkVariant;
+  class?: string;
+  [key: string]: any;
+};
+
+const variants = {
+  primary: 'text-slate-700 hover:text-slate-900',
+  muted: 'text-slate-500 hover:text-slate-700',
+  inverse: 'text-white/80 hover:text-white',
+  none: '',
+};
+---
+
+<a
+  href={href}
+  class={`${variants[variant]} ${className}`.trim()}
+  {...rest}
+>
+  <slot />
+</a>

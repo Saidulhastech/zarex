@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogSectionV3 from "../../components/sections/BlogSectionV3.astro";
+import CtaVideoSection from "../../components/sections/CtaVideoSection.astro";
+import { featuresPage } from "../../data/features";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const heading = {
+  subtitle: "Blog Post",
+  title: {
+    prefix: "Ideas, Inspiration, and Updates to Help You ",
+    highlight: "Grow Smarter",
+  },
+  summary: {
+    prefix: "To grow your LinkedIn profile through our ",
+    highlight: "Zarex",
+    suffix:
+      ", create opportunity for generate more Leeds, create more opportunities for profile progress",
+  },
+  categories: [
+    {
+      label: "All Articles",
+      value: "all",
+      href: "/blog",
+      isActive: true,
+    },
+    {
+      label: "Zarex Software",
+      value: "Zarex Software",
+      href: "#",
+      isActive: false,
+    },
+    {
+      label: "Email Outreach",
+      value: "Email Outreach",
+      href: "#",
+      isActive: false,
+    },
+    {
+      label: "Lead Generation",
+      value: "Lead Generation",
+      href: "#",
+      isActive: false,
+    },
+    {
+      label: "Email Campaign",
+      value: "Email Campaign",
+      href: "#",
+      isActive: false,
+    },
+    {
+      label: "LinkedIn Hacks",
+      value: "LinkedIn Hacks",
+      href: "#",
+      isActive: false,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Blog"
+  description="Explore original insights, LinkedIn marketing strategies, and B2B lead generation tips from the Zarex team to help you grow your network and business."
+>
+  <BlogSectionV3 heading={heading} posts={posts} />
+  <CtaVideoSection cta={featuresPage.cta} />
+</BaseLayout>

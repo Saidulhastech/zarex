@@ -1,0 +1,66 @@
+---
+import AppImage from "../ui/AppImage.astro";
+const { approach } = Astro.props;
+---
+
+<section
+  class="approach-section overflow-hidden bg-black pb-[30px] min-[1440px]:pb-[45px] max-[767px]:pb-[24px]"
+>
+  <div
+    class="approach-wrapper flex flex-col gap-5 min-[1440px]:gap-9 max-[991px]:gap-4"
+  >
+    <div
+      class="approach-upper-content-block flex items-center gap-[60px] min-[1440px]:gap-[80px]"
+    >
+      {
+        [0, 1].map(() => (
+          <div class="approach-single-content-block v1 flex flex-none items-center gap-[60px] min-[1440px]:gap-[80px] max-[991px]:gap-[40px]">
+            {approach.items.map((item: { title: string; icon: string }) => (
+              <div class="approach-single-item-block flex flex-none items-center gap-[60px] min-[1440px]:gap-[80px] max-[991px]:gap-[40px]">
+                <div class="approach-text-block">
+                  <h2 class="approach-text font-title font-semibold text-white min-[1920px]:text-[56px]">
+                    {item.title}
+                  </h2>
+                </div>
+                <div class="approach-image-block">
+                  <AppImage
+                    src={item.icon}
+                    alt={`${item.title} icon`}
+                    width="80"
+                    height="80"
+                    class="approach-image w-auto max-[991px]:w-[60px] max-[767px]:w-[40px]"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+    <div
+      class="approach-lower-content-block flex items-center gap-[60px] min-[1440px]:gap-[80px]"
+    >
+      {
+        [0, 1].map(() => (
+          <div class="approach-single-content-block v2 flex flex-none items-center gap-[60px] min-[1440px]:gap-[80px] max-[991px]:gap-[40px]">
+            {approach.items.map((item: { title: string }) => (
+              <div class="approach-single-item-block flex flex-none items-center gap-[60px] min-[1440px]:gap-[80px] max-[991px]:gap-[40px]">
+                <div class="approach-stroke-text-block">
+                  <h2 class="approach-stoke-text font-title font-semibold text-transparent [-webkit-text-stroke:1px_#c7c7c7] min-[1920px]:text-[56px]">
+                    //
+                  </h2>
+                </div>
+                <div class="approach-stroke-text-block">
+                  <h2 class="approach-stoke-text font-title font-semibold text-transparent [-webkit-text-stroke:1px_#c7c7c7] min-[1920px]:text-[56px]">
+                    {item.title}
+                  </h2>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

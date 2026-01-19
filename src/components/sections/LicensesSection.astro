@@ -1,0 +1,125 @@
+---
+import Container from "../ui/Container.astro";
+import LicenseLink from "../ui/LicenseLink.astro";
+
+const { cards = [] } = Astro.props;
+---
+
+<section class="py-[100px]">
+  <Container>
+    <div
+      class="grid grid-cols-1 gap-[20px] place-items-stretch min-[768px]:grid-cols-2 max-[767px]:gap-[30px] min-[1920px]:gap-[30px] min-[1920px]:mx-auto min-[1920px]:max-w-[1440px]"
+    >
+      {
+        cards.map(
+          (
+            card: {
+              title: string;
+              summary: string;
+              links: { href: string; label: string }[];
+            },
+            index: number,
+          ) => (
+            <article
+              class="relative overflow-hidden rounded-[16px] bg-gradient-to-r from-[#d8ae6b99] to-[#1ad07999] shadow-[0_6px_15px_rgba(1,1,1,0.3)]"
+              data-licenses-animate
+              data-licenses-delay={(0.1 + index * 0.08).toFixed(2)}
+            >
+              <div class="relative z-10 border-b border-[#d8ae6b99] py-[20px] max-[991px]:py-[15px]">
+                <h2 class="text-center font-title text-[38px] font-normal leading-[1.2] tracking-[0.02em] text-white max-[991px]:text-[34px] min-[1920px]:text-[45px]">
+                  {card.title}
+                </h2>
+              </div>
+              <div class="relative z-10 p-5">
+                <p class="mb-5 text-[16px] leading-[1.6] text-[#c4c4c4] max-[767px]:text-[18px]">
+                  {card.summary}
+                </p>
+                {card.links.length > 1 ? (
+                  <div class="flex items-center gap-[40px]">
+                    {card.links.map((link: { href: string; label: string }) => (
+                      <LicenseLink href={link.href} label={link.label} />
+                    ))}
+                  </div>
+                ) : (
+                  <LicenseLink
+                    href={card.links[0].href}
+                    label={card.links[0].label}
+                  />
+                )}
+              </div>
+              <div class="absolute inset-0 z-[1] m-[1px] rounded-[16px] bg-black" />
+            </article>
+          ),
+        )
+      }
+    </div>
+  </Container>
+</section>
+
+<style>
+  [data-licenses-animate] {
+    opacity: 0;
+    filter: blur(30px);
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s ease,
+      filter 0.7s ease,
+      transform 0.7s ease;
+  }
+
+  [data-licenses-animate].animate-in {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const initLicensesAnimation = () => {
+    const animatedElements = document.querySelectorAll(
+      "[data-licenses-animate]",
+    );
+
+    if (!animatedElements.length) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (prefersReducedMotion) {
+      animatedElements.forEach((element) => {
+        element.classList.add("animate-in");
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry: IntersectionObserverEntry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const delay = parseFloat(el.dataset.licensesDelay || "0");
+
+          if (delay > 0) {
+            window.setTimeout(() => {
+              el.classList.add("animate-in");
+            }, delay * 1000);
+          } else {
+            el.classList.add("animate-in");
+          }
+
+          observer.unobserve(el);
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
+
+    animatedElements.forEach((el) => observer.observe(el));
+  };
+
+  document.addEventListener("DOMContentLoaded", initLicensesAnimation);
+  document.addEventListener("astro:page-load", initLicensesAnimation);
+</script>

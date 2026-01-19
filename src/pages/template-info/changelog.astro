@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TemplateInfoBreadcrumbSection from "../../components/sections/TemplateInfoBreadcrumbSection.astro";
+import ChangelogSection from "../../components/sections/ChangelogSection.astro";
+---
+
+<BaseLayout
+  title="Changelog"
+  description="Stay up to date with the latest improvements and new features in the Zarex Astro theme. View our version history and update logs."
+>
+  <TemplateInfoBreadcrumbSection
+    subtitle="Changelog"
+    title="History of "
+    highlight="Version Updates"
+  />
+  <ChangelogSection
+    version="Version 1.0"
+    label="Initial Release"
+    date="19 January 2026"
+    summary="The template has been released!"
+  />
+</BaseLayout>

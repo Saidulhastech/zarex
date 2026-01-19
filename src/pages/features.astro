@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { featuresPage } from "../data/features";
+import FeaturesHeroSection from "../components/sections/FeaturesHeroSection.astro";
+import FeaturesSectionV2 from "../components/sections/FeaturesSectionV2.astro";
+import PartnerSection from "../components/sections/PartnerSection.astro";
+import SpecialFeaturesSection from "../components/sections/SpecialFeaturesSection.astro";
+import AdvantageSection from "../components/sections/AdvantageSection.astro";
+import TestimonialsSectionV3 from "../components/sections/TestimonialsSectionV3.astro";
+import CtaVideoSection from "../components/sections/CtaVideoSection.astro";
+---
+
+<BaseLayout
+  title="Zarex - Features"
+  description="Discover the powerful features of Zarex designed for LinkedIn automation, lead generation, and team collaboration. Streamline your B2B outreach today."
+>
+  <FeaturesHeroSection hero={featuresPage.hero} />
+  <FeaturesSectionV2 features={featuresPage.features} />
+  <PartnerSection partners={featuresPage.partners} />
+  <SpecialFeaturesSection special={featuresPage.special} />
+  <AdvantageSection advantages={featuresPage.advantages} />
+  <TestimonialsSectionV3 testimonials={featuresPage.testimonials} />
+  <CtaVideoSection cta={featuresPage.cta} />
+</BaseLayout>

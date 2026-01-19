@@ -1,0 +1,1241 @@
+---
+import "../styles/global.css";
+import "lenis/dist/lenis.css";
+import Container from "../components/ui/Container.astro";
+import Link from "../components/ui/Link.astro";
+import Button from "../components/ui/Button.astro";
+import baseLayoutUrl from "../scripts/base-layout.js?url";
+import AppImage from "../components/ui/AppImage.astro";
+import { resolveImageUrl } from "../utils/resolveImage";
+
+// Props interface for the layout
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+  author?: string;
+  noindex?: boolean;
+}
+
+// Default values and site configuration
+const SITE_NAME = "Zarex";
+const SITE_URL = import.meta.env.SITE || "https://your-domain.com";
+const DEFAULT_IMAGE = "/images/Open-graph-image.webp";
+const TWITTER_HANDLE = "@yourhandle"; // Update with your Twitter handle
+
+// Destructure props with defaults
+const {
+  title = "Zarex - LinkedIn Marketing SaaS",
+  description = "Zarex helps teams generate LinkedIn leads faster with automation and analytics. Grow your LinkedIn profile with powerful marketing tools.",
+  image = DEFAULT_IMAGE,
+  canonicalURL = new URL(Astro.url.pathname, SITE_URL).href,
+  type = "website",
+  publishedTime,
+  author,
+  noindex = false,
+} = Astro.props;
+
+const [logoUrl, webclipUrl] = await Promise.all([
+  resolveImageUrl("/images/logo.svg"),
+  resolveImageUrl("/images/webclip.svg"),
+]);
+
+const imageIsRemote = image.startsWith("http");
+const imageIsAsset = image.startsWith("/images/");
+const resolvedImage = imageIsRemote
+  ? image
+  : imageIsAsset
+    ? await resolveImageUrl(image)
+    : image;
+const ogImage = imageIsRemote ? image : new URL(resolvedImage, SITE_URL).href;
+
+// Page title with site name
+const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const normalizePath = (href: string | undefined): string => {
+  const path = href?.split("#")[0] ?? "";
+  const trimmed = path.replace(/\/$/, "");
+  return trimmed === "" ? "/" : trimmed;
+};
+const isCurrent = (href: string | undefined): boolean =>
+  normalizePath(href) === currentPath;
+const isIn = (hrefs: string[]): boolean =>
+  hrefs.some((href) => isCurrent(href));
+const homeRoutes = ["/", "/home-two"];
+const pagesRoutes = [
+  "/blog",
+  "/pricing-plan",
+  "/integration",
+  "/authentication/sign-up",
+  "/integration/quick-fill",
+  "/blog/19-best-linkedin-ad-examples-that-inspired",
+  "/401",
+  "/404",
+  "/template-info/style-guide",
+  "/template-info/licenses",
+  "/template-info/changelog",
+  "/template-info/instruction",
+];
+
+// Structured Data (JSON-LD)
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: description,
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: new URL(logoUrl, SITE_URL).href,
+  sameAs: [
+    "https://www.facebook.com/",
+    "https://twitter.com/",
+    "https://www.linkedin.com/",
+    "https://www.instagram.com/",
+  ],
+};
+
+let articleSchema: any;
+if (type === "article") {
+  articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description: description,
+    image: ogImage,
+    datePublished: publishedTime,
+    author: {
+      "@type": "Person",
+      name: author || SITE_NAME,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      logo: {
+        "@type": "ImageObject",
+        url: new URL(logoUrl, SITE_URL).href,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": canonicalURL,
+    },
+  };
+}
+
+const combinedSchema: any[] = [websiteSchema, organizationSchema];
+if (articleSchema) combinedSchema.push(articleSchema);
+---
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <!-- Basic Meta Tags -->
+    <meta charset="utf-8" />
+    <script is:inline>
+      document.documentElement.className =
+        document.documentElement.className.replace("no-js", "js");
+      if (!document.documentElement.classList.contains("js")) {
+        document.documentElement.classList.add("js");
+      }
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Google Fonts Preconnect & Preload -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href={webclipUrl} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content="en_US" />
+    {
+      type === "article" && publishedTime && (
+        <meta property="article:published_time" content={publishedTime} />
+      )
+    }
+    {
+      type === "article" && author && (
+        <meta property="article:author" content={author} />
+      )
+    }
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={TWITTER_HANDLE} />
+    <meta name="twitter:creator" content={TWITTER_HANDLE} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#000000" />
+    <meta name="msapplication-TileColor" content="#000000" />
+
+    <!-- Lenis Smooth Scroll CSS -->
+
+    <!-- Page Title -->
+    <title>{fullTitle}</title>
+
+    <!-- Structured Data -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(combinedSchema)}
+    />
+  </head>
+  <body
+    class="min-h-screen bg-black text-[#c4c4c4] antialiased overflow-x-hidden"
+  >
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-[#d8ae6b] focus:px-4 focus:py-2 focus:text-black"
+    >
+      Skip to main content
+    </a>
+    <header class="absolute inset-x-0 top-0 z-[999] pt-[25px]">
+      <div class="main-container flex items-center justify-between">
+        <Link href="/" variant="none" class="flex items-center">
+          <AppImage src="/images/logo.svg" alt="Zarex" class="w-auto" />
+        </Link>
+        <nav class="hidden items-center gap-[60px] lg:flex">
+          <ul class="flex items-center gap-[25px] min-[1440px]:gap-[56px]">
+            <li class="relative group">
+              <Link
+                href="/"
+                variant="none"
+                class="flex items-center gap-[5px] font-title text-[18px] font-medium leading-5 tracking-[0.25px] text-white transition hover:text-[#d8ae6b]"
+                aria-haspopup="true"
+                aria-current={isIn(homeRoutes) ? "page" : undefined}
+              >
+                <span>Home</span>
+                <svg
+                  class="h-3 w-3 text-white transition group-hover:text-[#d8ae6b]"
+                  viewBox="0 0 12 8"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M1 1.5L6 6.5L11 1.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </Link>
+              <div
+                class="invisible absolute top-[50px] min-w-[160px] overflow-hidden rounded-lg bg-[#0e1522] opacity-0 transition-all duration-500 group-hover:visible group-hover:opacity-100"
+              >
+                <div
+                  class="absolute inset-0 z-0 m-[1px] rounded-lg border border-[#484848] bg-[#0e1522]"
+                >
+                </div>
+                <div
+                  class="relative z-10 flex min-w-[160px] flex-col items-start justify-between gap-[10px] p-5"
+                >
+                  <div class="group/link relative flex items-center">
+                    <span
+                      class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                    ></span>
+                    <Link
+                      href="/"
+                      variant="none"
+                      class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                      aria-current={isCurrent("/") ? "page" : undefined}
+                      >Home One</Link
+                    >
+                  </div>
+                  <div class="group/link relative flex items-center">
+                    <span
+                      class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                    ></span>
+                    <Link
+                      href="/home-two"
+                      variant="none"
+                      class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                      aria-current={isCurrent("/home-two") ? "page" : undefined}
+                      >Home Two</Link
+                    >
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <Link
+                href="/features"
+                variant="none"
+                class="font-title text-[18px] font-medium leading-none text-white transition hover:text-[#d8ae6b]"
+                aria-current={isCurrent("/features") ? "page" : undefined}
+                >Features</Link
+              >
+            </li>
+            <li>
+              <Link
+                href="/about-us"
+                variant="none"
+                class="font-title text-[18px] font-medium leading-none text-white transition hover:text-[#d8ae6b]"
+                aria-current={isCurrent("/about-us") ? "page" : undefined}
+                >About</Link
+              >
+            </li>
+            <li class="relative group">
+              <Link
+                href="/#pages"
+                variant="none"
+                class="flex items-center gap-[5px] font-title text-[18px] font-medium leading-5 tracking-[0.25px] text-white transition hover:text-[#d8ae6b]"
+                aria-haspopup="true"
+                aria-current={isIn(pagesRoutes) ? "page" : undefined}
+              >
+                <span>Page's</span>
+                <svg
+                  class="h-3 w-3 text-white transition group-hover:text-[#d8ae6b]"
+                  viewBox="0 0 12 8"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M1 1.5L6 6.5L11 1.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </Link>
+              <div
+                class="invisible absolute left-[-110px] top-[50px] min-w-[550px] overflow-hidden rounded-lg bg-[#0e1522] opacity-0 transition-all duration-500 group-hover:visible group-hover:opacity-100 min-[1440px]:left-[-50px]"
+              >
+                <div
+                  class="absolute inset-0 z-0 m-[1px] rounded-lg border border-[#484848] bg-[#0e1522]"
+                >
+                </div>
+                <div
+                  class="relative z-10 flex min-w-[550px] justify-around gap-5 overflow-hidden p-5 min-[1440px]:gap-[40px] min-[1440px]:p-[30px]"
+                >
+                  <div class="min-w-[160px]">
+                    <p
+                      class="font-title text-[20px] font-medium leading-[1.2] text-white"
+                    >
+                      Pages
+                    </p>
+                    <div class="mt-8 flex flex-col gap-[10px]">
+                      <div class="group/link relative flex items-center">
+                        <span
+                          class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                        ></span>
+                        <Link
+                          href="/blog"
+                          variant="none"
+                          class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                          aria-current={isCurrent("/blog") ? "page" : undefined}
+                          >Blog</Link
+                        >
+                      </div>
+                      <div class="group/link relative flex items-center">
+                        <span
+                          class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                        ></span>
+                        <Link
+                          href="/pricing-plan"
+                          variant="none"
+                          class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                          aria-current={isCurrent("/pricing-plan")
+                            ? "page"
+                            : undefined}>Pricing</Link
+                        >
+                      </div>
+                      <div class="group/link relative flex items-center">
+                        <span
+                          class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                        ></span>
+                        <Link
+                          href="/integration"
+                          variant="none"
+                          class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                          aria-current={isCurrent("/integration")
+                            ? "page"
+                            : undefined}>Integrations</Link
+                        >
+                      </div>
+                      <div class="group/link relative flex items-center">
+                        <span
+                          class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                        ></span>
+                        <Link
+                          href="/authentication/sign-up"
+                          variant="none"
+                          class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                          aria-current={isCurrent("/authentication/sign-up")
+                            ? "page"
+                            : undefined}>Sign Up</Link
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="min-w-[160px]">
+                    <p
+                      class="font-title text-[20px] font-medium leading-[1.2] text-white"
+                    >
+                      CMS Pages
+                    </p>
+                    <div class="mt-8 flex flex-col gap-[10px]">
+                      <div class="group/link relative flex items-center">
+                        <span
+                          class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                        ></span>
+                        <Link
+                          href="/integration/quick-fill"
+                          variant="none"
+                          class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                          aria-current={isCurrent("/integration/quick-fill")
+                            ? "page"
+                            : undefined}>Integration Details</Link
+                        >
+                      </div>
+                      <div class="group/link relative flex items-center">
+                        <span
+                          class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                        ></span>
+                        <Link
+                          href="/blog/19-best-linkedin-ad-examples-that-inspired"
+                          variant="none"
+                          class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                          aria-current={isCurrent(
+                            "/blog/19-best-linkedin-ad-examples-that-inspired",
+                          )
+                            ? "page"
+                            : undefined}>Blog Details</Link
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="min-w-[160px]">
+                    <p
+                      class="font-title text-[20px] font-medium leading-[1.2] text-white"
+                    >
+                      Utility Pages
+                    </p>
+                    <div class="mt-8 flex flex-col gap-[10px]">
+                      <div class="group/link relative flex items-center">
+                        <span
+                          class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                        ></span>
+                        <Link
+                          href="/401"
+                          variant="none"
+                          class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                          aria-current={isCurrent("/401") ? "page" : undefined}
+                          >Password Protected</Link
+                        >
+                      </div>
+                      <div class="group/link relative flex items-center">
+                        <span
+                          class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                        ></span>
+                        <Link
+                          href="/404"
+                          variant="none"
+                          class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                          aria-current={isCurrent("/404") ? "page" : undefined}
+                          >404 Page</Link
+                        >
+                      </div>
+                      <div class="group/link relative flex items-center">
+                        <span
+                          class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                        ></span>
+                        <Link
+                          href="/template-info/style-guide"
+                          variant="none"
+                          class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                          aria-current={isCurrent("/template-info/style-guide")
+                            ? "page"
+                            : undefined}>Style Guide</Link
+                        >
+                      </div>
+                      <div class="group/link relative flex items-center">
+                        <span
+                          class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                        ></span>
+                        <Link
+                          href="/template-info/licenses"
+                          variant="none"
+                          class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                          aria-current={isCurrent("/template-info/licenses")
+                            ? "page"
+                            : undefined}>Licenses</Link
+                        >
+                      </div>
+                      <div class="group/link relative flex items-center">
+                        <span
+                          class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                        ></span>
+                        <Link
+                          href="/template-info/changelog"
+                          variant="none"
+                          class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                          aria-current={isCurrent("/template-info/changelog")
+                            ? "page"
+                            : undefined}>Changelog</Link
+                        >
+                      </div>
+                      <div class="group/link relative flex items-center">
+                        <span
+                          class="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 bg-[#d8ae6b] opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:opacity-100"
+                        ></span>
+                        <Link
+                          href="/template-info/instruction"
+                          variant="none"
+                          class="translate-x-0 text-[16px] text-[#c4c4c4] transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/link:translate-x-[15px] hover:text-[#d8ae6b]"
+                          aria-current={isCurrent("/template-info/instruction")
+                            ? "page"
+                            : undefined}>Instruction</Link
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <Link
+                href="/contact-us"
+                variant="none"
+                class="font-title text-[18px] font-medium leading-none text-white transition hover:text-[#d8ae6b]"
+                aria-current={isCurrent("/contact-us") ? "page" : undefined}
+                >Contact</Link
+              >
+            </li>
+          </ul>
+          <div class="flex items-center gap-4">
+            <Link
+              href="/authentication/sign-in"
+              variant="none"
+              class="font-title text-[16px] font-medium leading-none tracking-[-0.02em] text-white transition hover:text-[#d8ae6b]"
+              aria-current={isCurrent("/authentication/sign-in")
+                ? "page"
+                : undefined}>Sign In</Link
+            >
+            <Button href="/pricing-plan" variant="outline"
+              >Start for Free</Button
+            >
+          </div>
+        </nav>
+        <button
+          type="button"
+          class="menu-button lg:hidden"
+          aria-label="Open menu"
+          aria-expanded="false"
+          data-nav-toggle
+        >
+          <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+            <path
+              d="M4 7h16M4 12h16M4 17h16"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="nav-overlay" data-nav-overlay></div>
+      <nav
+        class="nav-menu-wrapper lg:hidden"
+        data-nav-drawer
+        aria-hidden="true"
+      >
+        <ul class="nav-menu">
+          <li class="list-item mobile-logo">
+            <Link href="/" variant="none" class="navbar-brand">
+              <AppImage src="/images/logo.svg" alt="Zarex" class="nav-logo mobile" />
+            </Link>
+          </li>
+          <li class="nav-dropdown">
+            <button
+              type="button"
+              class="nav-dropdown-toggle"
+              aria-expanded="false"
+              data-nav-dropdown
+              aria-current={isIn(homeRoutes) ? "page" : undefined}
+            >
+              <span class="nav-menu-text">Home</span>
+              <svg
+                class="nav-dropdown-icon"
+                viewBox="0 0 12 8"
+                aria-hidden="true"
+              >
+                <path
+                  d="M1 1.5L6 6.5L11 1.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <div class="nav-dropdown-list v2" data-nav-dropdown-list>
+              <div class="nav-dropdown-flex v2">
+                <Link
+                  href="/"
+                  variant="none"
+                  class="nav-dropdown-link"
+                  aria-current={isCurrent("/") ? "page" : undefined}
+                  >Home One</Link
+                >
+                <Link
+                  href="/home-two"
+                  variant="none"
+                  class="nav-dropdown-link"
+                  aria-current={isCurrent("/home-two") ? "page" : undefined}
+                  >Home Two</Link
+                >
+              </div>
+            </div>
+          </li>
+          <li>
+            <Link
+              href="/features"
+              variant="none"
+              class="nav-link"
+              aria-current={isCurrent("/features") ? "page" : undefined}
+              >Features</Link
+            >
+          </li>
+          <li>
+            <Link
+              href="/about-us"
+              variant="none"
+              class="nav-link"
+              aria-current={isCurrent("/about-us") ? "page" : undefined}
+              >About</Link
+            >
+          </li>
+          <li class="nav-dropdown">
+            <button
+              type="button"
+              class="nav-dropdown-toggle"
+              aria-expanded="false"
+              data-nav-dropdown
+              aria-current={isIn(pagesRoutes) ? "page" : undefined}
+            >
+              <span class="nav-menu-text">Page's</span>
+              <svg
+                class="nav-dropdown-icon"
+                viewBox="0 0 12 8"
+                aria-hidden="true"
+              >
+                <path
+                  d="M1 1.5L6 6.5L11 1.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <div class="nav-dropdown-list" data-nav-dropdown-list>
+              <div class="nav-dropdown-flex">
+                <div class="nav-dropdown-column">
+                  <div class="nav-heading">Pages</div>
+                  <div class="nav-dropdown-wrap">
+                    <Link
+                      href="/blog"
+                      variant="none"
+                      class="nav-dropdown-link"
+                      aria-current={isCurrent("/blog") ? "page" : undefined}
+                      >Blog</Link
+                    >
+                    <Link
+                      href="/pricing-plan"
+                      variant="none"
+                      class="nav-dropdown-link"
+                      aria-current={isCurrent("/pricing-plan")
+                        ? "page"
+                        : undefined}>Pricing</Link
+                    >
+                    <Link
+                      href="/integration"
+                      variant="none"
+                      class="nav-dropdown-link"
+                      aria-current={isCurrent("/integration")
+                        ? "page"
+                        : undefined}>Integrations</Link
+                    >
+                    <Link
+                      href="/authentication/sign-up"
+                      variant="none"
+                      class="nav-dropdown-link"
+                      aria-current={isCurrent("/authentication/sign-up")
+                        ? "page"
+                        : undefined}>Sign Up</Link
+                    >
+                  </div>
+                </div>
+                <div class="nav-dropdown-column">
+                  <div class="nav-heading">CMS Pages</div>
+                  <div class="nav-dropdown-wrap">
+                    <Link
+                      href="/integration/quick-fill"
+                      variant="none"
+                      class="nav-dropdown-link"
+                      aria-current={isCurrent("/integration/quick-fill")
+                        ? "page"
+                        : undefined}>Integration Details</Link
+                    >
+                    <Link
+                      href="/blog/19-best-linkedin-ad-examples-that-inspired"
+                      variant="none"
+                      class="nav-dropdown-link"
+                      aria-current={isCurrent(
+                        "/blog/19-best-linkedin-ad-examples-that-inspired",
+                      )
+                        ? "page"
+                        : undefined}>Blog Details</Link
+                    >
+                  </div>
+                </div>
+                <div class="nav-dropdown-column">
+                  <div class="nav-heading">Utility Pages</div>
+                  <div class="nav-dropdown-wrap">
+                    <Link
+                      href="/401"
+                      variant="none"
+                      class="nav-dropdown-link"
+                      aria-current={isCurrent("/401") ? "page" : undefined}
+                      >Password Protected</Link
+                    >
+                    <Link
+                      href="/404"
+                      variant="none"
+                      class="nav-dropdown-link"
+                      aria-current={isCurrent("/404") ? "page" : undefined}
+                      >404 Page</Link
+                    >
+                    <Link
+                      href="/template-info/style-guide"
+                      variant="none"
+                      class="nav-dropdown-link"
+                      aria-current={isCurrent("/template-info/style-guide")
+                        ? "page"
+                        : undefined}>Style Guide</Link
+                    >
+                    <Link
+                      href="/template-info/licenses"
+                      variant="none"
+                      class="nav-dropdown-link"
+                      aria-current={isCurrent("/template-info/licenses")
+                        ? "page"
+                        : undefined}>Licenses</Link
+                    >
+                    <Link
+                      href="/template-info/changelog"
+                      variant="none"
+                      class="nav-dropdown-link"
+                      aria-current={isCurrent("/template-info/changelog")
+                        ? "page"
+                        : undefined}>Changelog</Link
+                    >
+                    <Link
+                      href="/template-info/instruction"
+                      variant="none"
+                      class="nav-dropdown-link"
+                      aria-current={isCurrent("/template-info/instruction")
+                        ? "page"
+                        : undefined}>Instruction</Link
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <Link
+              href="/contact-us"
+              variant="none"
+              class="nav-link"
+              aria-current={isCurrent("/contact-us") ? "page" : undefined}
+              >Contact</Link
+            >
+          </li>
+          <li class="mobile-button">
+            <Link
+              href="/authentication/sign-in"
+              variant="none"
+              class="nav-link"
+              aria-current={isCurrent("/authentication/sign-in")
+                ? "page"
+                : undefined}>Sign In</Link
+            >
+            <Button href="/pricing-plan" variant="outline"
+              >Start for Free</Button
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <footer
+      class="border-t border-[#88888875] bg-black text-white overflow-hidden"
+    >
+      <Container
+        class="max-w-[970px] px-[15px] min-[1280px]:max-w-[1220px] min-[1440px]:max-w-[1330px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[479px]:max-w-full"
+      >
+        <div
+          class="flex items-stretch justify-between gap-[30px] min-[1440px]:gap-[72px] max-[991px]:relative max-[991px]:grid max-[991px]:grid-cols-2 max-[991px]:gap-x-[30px] max-[991px]:gap-y-[40px] max-[991px]:py-[60px] max-[767px]:grid-cols-1 max-[767px]:gap-[30px] max-[767px]:py-[40px] max-[479px]:gap-[35px]"
+        >
+          <div
+            class="relative min-w-[30%] max-w-[30%] py-[70px] min-[1440px]:py-[100px] max-[991px]:static max-[991px]:min-w-0 max-[991px]:max-w-none max-[991px]:py-0"
+          >
+            <p
+              class="font-title text-[22px] font-medium leading-[1.4] text-white max-w-[294px] min-[1440px]:max-w-[310px] min-[1440px]:text-[24px]"
+            >
+              Grow LinkedIn Profile With Powerful Tool - Zarex
+            </p>
+            <div class="mt-[24px] min-[1440px]:mt-[32px] max-[479px]:mt-[20px]">
+              <div
+                class="mt-[20px] flex flex-col gap-[6px] min-[1440px]:mt-[24px] max-[767px]:mt-[16px]"
+              >
+                <p
+                  class="max-w-[440px] text-[16px] leading-[1.5] text-[#c4c4c4]"
+                >
+                  Unlock the full potential of your business by connecting the
+                  most tools and apps you already love. Our platform integrates
+                  effortlessly with your favourite CRMs.
+                </p>
+              </div>
+              <div
+                class="mt-[30px] flex items-center gap-4 min-[1440px]:mt-[37px] max-[991px]:mt-[35px] max-[767px]:mt-[24px]"
+              >
+                <a
+                  href="https://www.facebook.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex h-9 w-9 items-center justify-center rounded-full border border-[#888] text-[#888] transition hover:bg-[#d8ae6b] hover:text-[#0e1522]"
+                >
+                  <span class="sr-only">Facebook</span>
+                  <svg
+                    width="11"
+                    height="18"
+                    viewBox="0 0 11 18"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M10.2608 10.0485L10.779 6.81553H7.53702V4.71753C7.53702 3.83304 7.9899 2.97087 9.442 2.97087H10.916V0.218447C10.916 0.218447 9.5783 0 8.29935 0C5.62921 0 3.88405 1.54835 3.88405 4.35146V6.81553H0.916016V10.0485H3.88405V17.8641C4.47921 17.9534 5.08917 18 5.71054 18C6.33191 18 6.94186 17.9534 7.53702 17.8641V10.0485H10.2608Z"
+                      fill="currentColor"></path>
+                  </svg>
+                </a>
+                <a
+                  href="https://www.x.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex h-9 w-9 items-center justify-center rounded-full border border-[#888] text-[#888] transition hover:bg-[#d8ae6b] hover:text-[#0e1522]"
+                >
+                  <span class="sr-only">X</span>
+                  <svg
+                    width="26"
+                    height="25"
+                    viewBox="0 0 26 25"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M23.3829 6.17128C22.6045 6.51123 21.7801 6.73412 20.9365 6.83273C21.822 6.31274 22.4879 5.48814 22.8097 4.51299C21.9707 5.00137 21.0556 5.34536 20.1026 5.5306C19.7014 5.11027 19.2186 4.7761 18.684 4.54848C18.1493 4.32085 17.5738 4.20455 16.9927 4.20666C14.6397 4.20666 12.7322 6.08614 12.7322 8.40173C12.7322 8.72986 12.7696 9.05072 12.8423 9.35704C11.1545 9.27677 9.50191 8.84554 7.99008 8.09088C6.47825 7.33621 5.14033 6.27468 4.0617 4.97403C3.68355 5.61201 3.48479 6.34031 3.48644 7.08194C3.48716 7.77555 3.66071 8.45804 3.99139 9.06774C4.32208 9.67744 4.79948 10.1951 5.38045 10.574C4.70496 10.5522 4.04407 10.3719 3.45113 10.0476V10.0995C3.45113 12.1326 4.92044 13.8283 6.86741 14.2146C6.5015 14.3117 6.12453 14.3609 5.74596 14.361C5.47079 14.361 5.20392 14.335 4.94329 14.2831C5.22166 15.1221 5.75438 15.8535 6.46745 16.3758C7.18052 16.8982 8.03855 17.1855 8.92237 17.1979C7.4064 18.3656 5.54536 18.9964 3.63181 18.9911C3.28707 18.9911 2.94856 18.9704 2.61523 18.933C4.5687 20.1694 6.83376 20.8242 9.14562 20.8208C16.9823 20.8208 21.2667 14.4275 21.2667 8.88354L21.2521 8.34046C22.0879 7.7524 22.8099 7.0174 23.3829 6.17128Z"
+                      fill="currentColor"></path>
+                  </svg>
+                </a>
+                <a
+                  href="https://www.instagram.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex h-9 w-9 items-center justify-center rounded-full border border-[#888] text-[#888] transition hover:bg-[#d8ae6b] hover:text-[#0e1522]"
+                >
+                  <span class="sr-only">Instagram</span>
+                  <svg
+                    width="26"
+                    height="25"
+                    viewBox="0 0 26 25"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M13.0051 7.50641C10.2429 7.50641 8.01359 9.73568 8.01359 12.4979C8.01359 15.2602 10.2429 17.4895 13.0051 17.4895C15.7674 17.4895 17.9967 15.2602 17.9967 12.4979C17.9967 9.73568 15.7674 7.50641 13.0051 7.50641ZM13.0051 15.7421C11.2188 15.7421 9.76099 14.2843 9.76099 12.4979C9.76099 10.7116 11.2188 9.25381 13.0051 9.25381C14.7915 9.25381 16.2493 10.7116 16.2493 12.4979C16.2493 14.2843 14.7915 15.7421 13.0051 15.7421ZM18.2011 6.13866C17.5562 6.13866 17.0353 6.65947 17.0353 7.30441C17.0353 7.94934 17.5562 8.47015 18.2011 8.47015C18.846 8.47015 19.3668 7.95177 19.3668 7.30441C19.367 7.15127 19.337 6.99959 19.2785 6.85807C19.22 6.71655 19.1341 6.58796 19.0258 6.47967C18.9175 6.37138 18.789 6.28552 18.6474 6.22701C18.5059 6.16849 18.3542 6.13847 18.2011 6.13866ZM22.7351 12.4979C22.7351 11.1545 22.7473 9.8233 22.6718 8.48232C22.5964 6.92475 22.2411 5.5424 21.1021 4.40343C19.9607 3.26202 18.5808 2.90913 17.0232 2.83368C15.6798 2.75824 14.3485 2.77041 13.0076 2.77041C11.6641 2.77041 10.3329 2.75824 8.99194 2.83368C7.43436 2.90913 6.05202 3.26445 4.91304 4.40343C3.77163 5.54484 3.41874 6.92475 3.3433 8.48232C3.26785 9.82573 3.28002 11.157 3.28002 12.4979C3.28002 13.8389 3.26785 15.1726 3.3433 16.5136C3.41874 18.0711 3.77406 19.4535 4.91304 20.5925C6.05445 21.7339 7.43436 22.0868 8.99194 22.1622C10.3353 22.2376 11.6666 22.2255 13.0076 22.2255C14.351 22.2255 15.6822 22.2376 17.0232 22.1622C18.5808 22.0868 19.9631 21.7314 21.1021 20.5925C22.2435 19.451 22.5964 18.0711 22.6718 16.5136C22.7497 15.1726 22.7351 13.8413 22.7351 12.4979ZM20.5934 18.2366C20.4158 18.6796 20.2016 19.0105 19.8584 19.3513C19.5153 19.6944 19.1867 19.9086 18.7438 20.0862C17.4637 20.5949 14.424 20.4805 13.0051 20.4805C11.5863 20.4805 8.54413 20.5949 7.264 20.0887C6.82107 19.911 6.49008 19.6969 6.14936 19.3537C5.80621 19.0105 5.59204 18.682 5.41438 18.2391C4.90817 16.9565 5.02256 13.9168 5.02256 12.4979C5.02256 11.0791 4.90817 8.03695 5.41438 6.75682C5.59204 6.31389 5.80621 5.9829 6.14936 5.64218C6.49252 5.30147 6.82107 5.08487 7.264 4.9072C8.54413 4.40099 11.5863 4.51538 13.0051 4.51538C14.424 4.51538 17.4661 4.40099 18.7462 4.9072C19.1892 5.08487 19.5202 5.29903 19.8609 5.64218C20.204 5.98534 20.4182 6.31389 20.5959 6.75682C21.1021 8.03695 20.9877 11.0791 20.9877 12.4979C20.9877 13.9168 21.1021 16.9565 20.5934 18.2366Z"
+                      fill="currentColor"></path>
+                  </svg>
+                </a>
+                <a
+                  href="https://www.whatsapp.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex h-9 w-9 items-center justify-center rounded-full border border-[#888] text-[#888] transition hover:bg-[#d8ae6b] hover:text-[#0e1522]"
+                >
+                  <span class="sr-only">WhatsApp</span>
+                  <svg
+                    width="29"
+                    height="29"
+                    viewBox="0 0 29 29"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M21.1174 7.92011C20.2597 7.05596 19.2388 6.37096 18.1139 5.90496C16.9891 5.43895 15.7828 5.20124 14.5653 5.20566C12.9376 5.20725 11.3389 5.63645 9.9293 6.4503C8.51969 7.26415 7.34865 8.43407 6.53345 9.84289C5.71825 11.2517 5.28751 12.85 5.28436 14.4777C5.28121 16.1053 5.70577 17.7053 6.51551 19.1173L5.20508 23.9261L10.1192 22.639C11.4761 23.394 13.0008 23.7963 14.5536 23.8091C17.0219 23.8091 19.3904 22.8342 21.1434 21.0965C22.8965 19.3588 23.8922 16.999 23.9138 14.5308C23.9055 13.2991 23.6543 12.0811 23.1744 10.9467C22.6946 9.81235 21.9955 8.78382 21.1174 7.92011ZM14.5653 22.2061C13.1819 22.207 11.8239 21.8352 10.634 21.1297L10.3532 20.9542L7.43983 21.7264L8.21204 18.8832L8.02484 18.5907C7.02944 16.9839 6.65795 15.0678 6.98073 13.2054C7.30352 11.343 8.29817 9.66364 9.77625 8.4855C11.2543 7.30736 13.1132 6.71225 15.0007 6.8129C16.8882 6.91356 18.6732 7.70298 20.0176 9.03164C21.4872 10.4687 22.3284 12.4288 22.3576 14.484C22.3391 16.5384 21.51 18.5025 20.0506 19.9487C18.5913 21.3949 16.6198 22.2062 14.5653 22.2061ZM18.7891 16.4262C18.5551 16.3092 17.4201 15.7476 17.2095 15.6774C16.9989 15.6072 16.8351 15.5604 16.683 15.7944C16.4541 16.1081 16.208 16.4088 15.9459 16.6953C15.8172 16.8591 15.6768 16.8708 15.4428 16.6953C14.1087 16.1681 12.9971 15.197 12.2954 13.9457C12.0497 13.5362 12.5294 13.5596 12.974 12.6821C13.0069 12.6189 13.024 12.5486 13.024 12.4774C13.024 12.4061 13.0069 12.3359 12.974 12.2726C12.974 12.1556 12.4475 11.009 12.2603 10.5527C12.0731 10.0964 11.8859 10.1666 11.7338 10.1549H11.2775C11.1593 10.1567 11.0428 10.1837 10.9359 10.2342C10.8289 10.2846 10.734 10.3573 10.6574 10.4474C10.3949 10.7026 10.1901 11.0112 10.0569 11.3523C9.92368 11.6934 9.86513 12.0591 9.88518 12.4247C9.95854 13.3 10.2882 14.1342 10.8329 14.8233C11.83 16.3159 13.1964 17.5252 14.7993 18.3333C15.6399 18.8241 16.6169 19.0293 17.5839 18.9183C17.906 18.8544 18.2109 18.7235 18.479 18.534C18.7471 18.3445 18.9724 18.1007 19.1401 17.8185C19.2955 17.4741 19.3443 17.0911 19.2805 16.7187C19.1752 16.6017 19.0231 16.5432 18.7891 16.4262Z"
+                      fill="currentColor"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <a
+              href="/"
+              class="absolute right-0 bottom-[10px] min-[1440px]:bottom-[28px]"
+            >
+              <AppImage
+                src="/images/footer-logo.svg"
+                alt="Footer logo"
+                class="w-auto max-[479px]:w-[70px]"
+              />
+            </a>
+          </div>
+
+          <div
+            class="z-10 w-px self-stretch flex-none bg-[#88888875] relative max-[991px]:hidden"
+          >
+          </div>
+
+          <div
+            class="relative min-w-[35%] max-w-[35%] py-[70px] min-[1440px]:py-[100px] max-[991px]:static max-[991px]:min-w-0 max-[991px]:max-w-none max-[991px]:py-0 max-[767px]:flex-1"
+          >
+            <div class="flex items-center gap-[12px]">
+              <span
+                class="h-[6px] w-[6px] rounded-full bg-gradient-to-r from-[#d8ae6b] to-[#1ad079]"
+              ></span>
+              <p
+                class="font-title text-[22px] font-medium leading-[1.4] text-white min-[1440px]:text-[24px]"
+              >
+                Quick Links
+              </p>
+            </div>
+            <div
+              class="mt-[30px] ml-[12px] flex justify-between gap-[30px] min-[1440px]:mt-[40px] min-[1440px]:gap-[40px] max-[767px]:ml-[8px] max-[767px]:gap-[24px] max-[479px]:mt-[24px] max-[479px]:flex-wrap"
+            >
+              <div class="flex flex-col gap-[16px] min-[1440px]:gap-[19px]">
+                <a
+                  href="/"
+                  class="text-[16px] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >Home</a
+                >
+                <a
+                  href="/features"
+                  class="text-[16px] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >Features</a
+                >
+                <a
+                  href="/about-us"
+                  class="text-[16px] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >About Us</a
+                >
+                <a
+                  href="/pricing-plan"
+                  class="text-[16px] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >Pricing</a
+                >
+                <a
+                  href="/blog"
+                  class="text-[16px] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >Blog</a
+                >
+              </div>
+              <div class="flex flex-col gap-[16px] min-[1440px]:gap-[19px]">
+                <a
+                  href="/contact-us"
+                  class="text-[16px] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >Contact Us</a
+                >
+                <a
+                  href="/integration"
+                  class="text-[16px] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >Integrations</a
+                >
+                <a
+                  href="/template-info/style-guide"
+                  class="text-[16px] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >Style Guide</a
+                >
+                <a
+                  href="/template-info/changelog"
+                  class="text-[16px] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >Changelog</a
+                >
+              </div>
+              <div class="flex flex-col gap-[16px] min-[1440px]:gap-[19px]">
+                <a
+                  href="/template-info/licenses"
+                  class="text-[16px] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >Licenses</a
+                >
+                <a
+                  href="/404"
+                  class="text-[16px] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >Page Not Found</a
+                >
+                <a
+                  href="/401"
+                  class="text-[16px] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >Password Protected</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="z-10 w-px self-stretch flex-none bg-[#88888875] relative max-[991px]:hidden"
+          >
+          </div>
+
+          <div
+            class="relative min-w-[30%] max-w-[30%] py-[70px] min-[1440px]:py-[100px] max-[991px]:static max-[991px]:min-w-0 max-[991px]:max-w-none max-[991px]:py-0"
+          >
+            <div class="flex items-center gap-[12px]">
+              <span
+                class="h-[6px] w-[6px] rounded-full bg-gradient-to-r from-[#d8ae6b] to-[#1ad079]"
+              ></span>
+              <p
+                class="font-title text-[22px] font-medium leading-[1.4] text-white min-[1440px]:text-[24px]"
+              >
+                Contact Info
+              </p>
+            </div>
+            <div
+              class="mt-[30px] ml-[12px] flex flex-col gap-[24px] min-[1440px]:mt-[40px] min-[1440px]:gap-[30px] max-[767px]:ml-[8px] max-[767px]:gap-[20px]"
+            >
+              <p class="max-w-[300px] text-[16px] leading-[1.5] text-[#c4c4c4]">
+                256/F Central Street, Mavon Tower South City, New Jersey, USA
+              </p>
+              <div class="flex flex-col text-[16px] text-[#c4c4c4]">
+                <a
+                  href="tel:+01234567890"
+                  class="transition hover:text-[#d8ae6b]">+01234 567 890</a
+                >
+                <a
+                  href="tel:+01234567890"
+                  class="transition hover:text-[#d8ae6b]">+01234 567 890</a
+                >
+              </div>
+              <a
+                href="mailto:demo@info.com"
+                class="text-[18px] font-medium text-[#c4c4c4] transition hover:text-[#d8ae6b] min-[1440px]:text-[20px]"
+              >
+                demo@info.com
+              </a>
+            </div>
+          </div>
+        </div>
+      </Container>
+
+      <div class="border-t border-[#88888875]">
+        <Container
+          class="max-w-[970px] px-[15px] py-5 text-center text-[16px] text-[#c4c4c4] min-[1280px]:max-w-[1220px] min-[1440px]:max-w-[1330px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[479px]:max-w-full"
+        >
+          <div class="flex flex-col items-center justify-center">
+            <p class="text-center text-[16px] leading-[1.5] text-[#c4c4c4]">
+              Copyright @ Zarex | Designed by <a
+                href="https://brandbes.com/webflow-templates"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-semibold text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                >Brandbes</a
+              > - Powered by <a
+                href="https://webflow.com/templates/designers/brandbes"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-semibold text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                >Webflow</a
+              >
+            </p>
+          </div>
+        </Container>
+      </div>
+    </footer>
+
+    <script>
+      const menuButton = document.querySelector("[data-nav-toggle]");
+      const drawer = document.querySelector("[data-nav-drawer]");
+      const overlay = document.querySelector("[data-nav-overlay]");
+      const dropdownToggles = document.querySelectorAll("[data-nav-dropdown]");
+
+      if (
+        menuButton instanceof HTMLButtonElement &&
+        drawer instanceof HTMLElement &&
+        overlay instanceof HTMLElement
+      ) {
+        let previousActiveElement: HTMLElement | null = null;
+
+        const getFocusableElements = (): HTMLElement[] => {
+          const drawerElements = Array.from(
+            drawer.querySelectorAll<HTMLElement>(
+              'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+            ),
+          ).filter((el) => el.offsetParent !== null);
+
+          // Include the toggle button in the focus loop so users can close the menu
+          if (menuButton && menuButton.offsetParent !== null) {
+            return [menuButton, ...drawerElements];
+          }
+          return drawerElements;
+        };
+
+        const handleFocusTrap = (e: KeyboardEvent) => {
+          if (e.key === "Tab") {
+            const focusableElements = getFocusableElements();
+            if (focusableElements.length === 0) return;
+
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            if (e.shiftKey) {
+              // Shift + Tab
+              if (document.activeElement === firstElement) {
+                e.preventDefault();
+                lastElement.focus();
+              }
+            } else {
+              // Tab
+              if (document.activeElement === lastElement) {
+                e.preventDefault();
+                firstElement.focus();
+              }
+            }
+          }
+
+          if (e.key === "Escape") {
+            closeDrawer();
+          }
+        };
+
+        const closeDrawer = () => {
+          menuButton.classList.remove("w--open");
+          drawer.classList.remove("is-open");
+          overlay.classList.remove("is-visible");
+          menuButton.setAttribute("aria-expanded", "false");
+          menuButton.setAttribute("aria-label", "Open menu");
+          drawer.setAttribute("aria-hidden", "true");
+          drawer.removeAttribute("role");
+          drawer.removeAttribute("aria-modal");
+          document.body.style.overflow = ""; // Restore scroll
+
+          document.removeEventListener("keydown", handleFocusTrap);
+
+          if (previousActiveElement instanceof HTMLElement) {
+            previousActiveElement.focus();
+          }
+        };
+
+        const openDrawer = () => {
+          previousActiveElement =
+            document.activeElement instanceof HTMLElement
+              ? document.activeElement
+              : null;
+          menuButton.classList.add("w--open");
+          drawer.classList.add("is-open");
+          overlay.classList.add("is-visible");
+          menuButton.setAttribute("aria-expanded", "true");
+          menuButton.setAttribute("aria-label", "Close menu");
+          drawer.setAttribute("aria-hidden", "false");
+          drawer.setAttribute("role", "dialog");
+          drawer.setAttribute("aria-modal", "true");
+          document.body.style.overflow = "hidden"; // Prevent background scroll
+
+          const focusableElements = getFocusableElements();
+          // Find the first element that ISN'T the menu button to focus first
+          const firstMenuElement = focusableElements.find(
+            (el) => el !== menuButton,
+          );
+          if (firstMenuElement) {
+            setTimeout(() => firstMenuElement.focus(), 100);
+          } else if (menuButton) {
+            setTimeout(() => menuButton.focus(), 100);
+          }
+
+          document.addEventListener("keydown", handleFocusTrap);
+        };
+
+        menuButton.addEventListener("click", () => {
+          if (drawer.classList.contains("is-open")) {
+            closeDrawer();
+          } else {
+            openDrawer();
+          }
+        });
+
+        overlay.addEventListener("click", closeDrawer);
+        drawer.addEventListener("click", (event) => {
+          const target = event.target;
+          if (target instanceof HTMLElement && target.tagName === "A") {
+            closeDrawer();
+          }
+        });
+
+        dropdownToggles.forEach((toggle) => {
+          const parent = toggle.closest(".nav-dropdown");
+          const list = parent?.querySelector("[data-nav-dropdown-list]");
+
+          if (list instanceof HTMLElement) {
+            // Initialize states
+            list.setAttribute("aria-hidden", "true");
+            list
+              .querySelectorAll("a")
+              .forEach((link) => link.setAttribute("tabindex", "-1"));
+          }
+
+          toggle.addEventListener("click", () => {
+            if (!parent || !list) return;
+
+            const isOpen = parent.classList.toggle("is-open");
+            toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            list.setAttribute("aria-hidden", isOpen ? "false" : "true");
+
+            // Sync tabindex for links inside dropdown
+            list.querySelectorAll("a").forEach((link) => {
+              link.setAttribute("tabindex", isOpen ? "0" : "-1");
+            });
+          });
+        });
+      }
+    </script>
+    <script type="module" src={baseLayoutUrl}></script>
+  </body>
+</html>

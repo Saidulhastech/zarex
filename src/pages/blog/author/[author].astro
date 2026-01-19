@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import BlogAuthorSection from "../../../components/sections/BlogAuthorSection.astro";
+import CtaVideoSection from "../../../components/sections/CtaVideoSection.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const slugify = (value: string) =>
+    value
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+  const posts = await getCollection("blog");
+  const authors = new Map();
+
+  posts.forEach((post) => {
+    const author = post.data.author || "Unknown";
+    const slug = slugify(author);
+    if (!authors.has(slug)) {
+      authors.set(slug, author);
+    }
+  });
+
+  return Array.from(authors.entries()).map(([slug, author]) => ({
+    params: { author: slug },
+    props: {
+      author,
+      posts: posts
+        .filter((post) => slugify(post.data.author || "Unknown") === slug)
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { author, posts } = Astro.props;
+
+const cta = {
+  title: {
+    prefix: "Try Out the ",
+    highlight: "Leading Tools",
+    suffix: " for Your Profile’s Consistent Growth",
+  },
+  summary:
+    "Its intuitive interface, powerful automation workflows, and seamless LinkedIn integration gave our team the edge we needed reach.",
+  cta: {
+    href: "/pricing-plan",
+    label: "Start 16 Days Free Trial",
+  },
+  video: {
+    poster: "/videos/cta-videos-poster-00001.jpg",
+    mp4: "/videos/cta-videos-transcode.mp4",
+    webm: "/videos/cta-videos-transcode.webm",
+  },
+};
+---
+
+<BaseLayout title={author} description={`${author} blog posts`}>
+  <BlogAuthorSection title={author} posts={posts} />
+  <CtaVideoSection cta={cta} />
+</BaseLayout>

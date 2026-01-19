@@ -1,0 +1,10 @@
+---
+const { title = "" } = Astro.props;
+---
+
+<div class="relative overflow-hidden rounded-[8px] bg-gradient-to-r from-[#d8ae6b] to-[#1ad079]">
+  <div class="absolute inset-0 m-px rounded-[8px] bg-black"></div>
+  <h2 class="relative z-10 py-5 text-center font-title text-[40px] font-normal leading-[1.25] text-white min-[1280px]:text-[48px] min-[1440px]:text-[52px] max-[991px]:text-[35px] max-[767px]:text-[30px] max-[479px]:text-[28px]">
+    {title}
+  </h2>
+</div>

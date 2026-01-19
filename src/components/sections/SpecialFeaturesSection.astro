@@ -1,0 +1,210 @@
+---
+import Button from "../ui/Button.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { special } = Astro.props;
+
+const topTitleHtml = special.top.title.replace(
+  "Special Features",
+  '<span class="highlight-text">Special Features</span>',
+);
+const bottomTitleHtml = special.bottom.title.replace(
+  "Powerful Features",
+  '<span class="highlight-text">Powerful Features</span>',
+);
+---
+
+<section
+  class="special-features-section bg-[url('/src/assets/images/special-features.png')] bg-cover bg-center pb-[var(--_typography-size---gap--section-gap)] text-white overflow-hidden"
+>
+  <div
+    class="mx-auto w-full max-w-[1330px] px-[15px] min-[1280px]:max-w-[1220px] min-[1440px]:max-w-[1330px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[479px]:max-w-full"
+  >
+    <div
+      class="special-features-wrapper flex flex-col items-end bg-[url('/src/assets/images/Line-28.png'),url('/src/assets/images/Line-28.png')] bg-[position:100%_0%,0%_0%] bg-no-repeat bg-[length:auto_100%,auto_100%] pt-[var(--_typography-size---gap--section-gap)]"
+    >
+      <div
+        class="special-features-top-content-block grid w-full items-center grid-cols-2 gap-10 px-5 min-[1440px]:grid-cols-[5.5fr_6.5fr] min-[1440px]:gap-[80px] min-[1440px]:px-10 max-[991px]:grid-cols-1 max-[991px]:gap-[30px] max-[767px]:gap-[40px] max-[479px]:px-[15px]"
+      >
+        <div class="special-features-content-block">
+          <div class="section-heading-block">
+            <div class="section-title-block">
+              <h2
+                class="section-title font-title font-normal tracking-[-0.02em]"
+                set:html={topTitleHtml}
+              />
+            </div>
+            <div
+              class="section-summary-block mt-[var(--_typography-size---gap--subtitle-gap)]"
+            >
+              <p class="section-summary text-[18px] text-[#c4c4c4]">
+                {special.top.summary}
+              </p>
+            </div>
+          </div>
+          <ul
+            class="special-features-list-block mt-[30px] flex flex-col gap-5 min-[1440px]:mt-[46px] min-[1440px]:gap-6 max-[767px]:mt-[24px] max-[767px]:gap-4"
+          >
+            {
+              special.top.list.map((item: string) => (
+                <li class="special-features-list-item bg-[url('/src/assets/images/check-1.svg')] bg-[position:0_-1px] bg-no-repeat pl-10 font-title text-[22px] font-medium leading-[1.4] tracking-[-0.01em] text-white min-[1440px]:text-[24px] max-[479px]:bg-[position:0_-4px] max-[479px]:text-[18px]">
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+          <div
+            class="special-features-button-wrap mt-[30px] min-[1440px]:mt-[40px] max-[767px]:mt-[24px]"
+          >
+            <Button href={special.top.cta.href} variant="outline">
+              {special.top.cta.label}
+            </Button>
+          </div>
+        </div>
+
+        <div class="special-features-image-block">
+          <div
+            class="special-features-top-image-wrap relative z-10 flex items-end gap-4 max-[479px]:grid max-[479px]:grid-cols-2 max-[479px]:gap-3"
+          >
+            <AppImage
+              src={special.top.images[0]}
+              alt="Email data analytics dashboard"
+              width={524}
+              height={392}
+              class="special-features-top-left-image h-auto w-full max-w-[400px] rounded-[10px] border-2 border-[#262c38] rotate-[-10deg] max-[991px]:max-w-[400px] max-[767px]:max-w-[250px] max-[479px]:max-w-[320px] max-[479px]:rounded-[8px]"
+              loading="lazy"
+            />
+            <div
+              class="special-features-top-right-image-block z-10 ml-[-70px] shrink-0 min-[1440px]:ml-[-90px] max-[479px]:ml-0"
+            >
+              <AppImage
+                src={special.top.images[1]}
+                alt="Profile reach analytics"
+                width={392}
+                height={524}
+                class="min-[1440px]:max-w-[290px] shrink-0 rounded-[14px] border-2 border-[#262c38] rotate-[11deg] max-[767px]:max-w-[200px] min-[768px]:max-w-[200px]"
+                loading="lazy"
+              />
+            </div>
+          </div>
+          <div
+            class="special-features-bottom-image-wrap flex gap-5 max-[479px]:gap-3"
+          >
+            <AppImage
+              src={special.top.images[2]}
+              alt="Leads source tracking"
+              width={262}
+              height={392}
+              class="special-features-bottom-image min-w-[161px] rounded-[14px] border-2 border-[#262c38] h-full max-[479px]:min-w-0 max-[479px]:rounded-[8px]"
+              loading="lazy"
+            />
+            <AppImage
+              src={special.top.images[3]}
+              alt="Project analysis overview"
+              width={400}
+              height={350}
+              class="special-features-bottom-image min-w-[161px] rounded-[14px] border-2 border-[#262c38] h-full max-[479px]:min-w-0 max-[479px]:rounded-[8px]"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="special-features-devider-border my-[var(--_typography-size---gap--section-gap)] h-px w-[100vw] bg-[#48484875] self-end"
+      >
+      </div>
+
+      <div
+        class="special-features-lower-content-block grid w-full items-center grid-cols-2 gap-10 px-5 min-[1440px]:gap-[80px] min-[1440px]:px-10 max-[991px]:grid-cols-1 max-[991px]:gap-[30px] max-[991px]:items-center max-[767px]:gap-[40px] max-[479px]:gap-[30px] max-[479px]:px-[15px]"
+      >
+        <div
+          class="special-features-lower-image-block flex flex-col items-end gap-5 max-[767px]:items-center max-[767px]:justify-start"
+        >
+          <div
+            class="speacial-features-lower-large-image-block flex justify-end items-start"
+          >
+            <AppImage
+              src={special.bottom.images[0]}
+              alt="Latest email campaigns dashboard"
+              width={872}
+              height={600}
+              class="speacial-features-lower-large-image rounded-[14px] border-2 border-[#262c38] w-[80%] min-[1440px]:w-[436px] max-[767px]:w-full"
+              loading="lazy"
+            />
+          </div>
+          <div
+            class="special-features-lower-two-image-block flex gap-4 min-[1440px]:gap-5 max-[479px]:grid max-[479px]:grid-cols-2 max-[479px]:gap-[10px]"
+          >
+            <div
+              class="special-features-lower-left-image-block mt-[-194px] ml-[37px] min-[1440px]:mt-[-237px] max-[991px]:mt-[-300px] max-[767px]:mt-[-226px] max-[767px]:ml-[20px] max-[479px]:mt-[-70px] max-[479px]:ml-0"
+            >
+              <AppImage
+                src={special.bottom.images[1]}
+                alt="Email automation workflow"
+                width={658}
+                height={440}
+                class="special-features-lower-left-image rounded-[14px] border-2 border-[#262c38] rotate-[-6deg] min-[1440px]:w-[329px]"
+                loading="lazy"
+              />
+            </div>
+            <div
+              class="special-features-lower-right-image-block min-[1440px]:mt-[10px] max-[991px]:mt-[10px] max-[479px]:mt-0"
+            >
+              <AppImage
+                src={special.bottom.images[2]}
+                alt="Profile views statistics"
+                width={346}
+                height={500}
+                class="special-features-lower-right-image rounded-[14px] border border-[#262c38] rotate-[10deg] min-[1440px]:w-[173px]"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="special-features-content-block">
+          <div class="section-heading-block">
+            <div class="section-title-block">
+              <h2
+                class="section-title font-title font-normal tracking-[-0.02em]"
+                set:html={bottomTitleHtml}
+              />
+            </div>
+            <div
+              class="section-summary-block mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[528px]"
+            >
+              <p class="section-summary text-[18px] text-[#c4c4c4]">
+                {special.bottom.summary}
+              </p>
+            </div>
+          </div>
+          <ul
+            class="special-features-list-block mt-[30px] flex flex-col gap-5 min-[1440px]:mt-[46px] min-[1440px]:gap-6 max-[767px]:mt-[24px] max-[767px]:gap-4"
+          >
+            {
+              special.bottom.list.map((item: string) => (
+                <li class="special-features-list-item bg-[url('/src/assets/images/check-1.svg')] bg-[position:0_-1px] bg-no-repeat pl-10 font-title text-[22px] font-medium leading-[1.4] tracking-[-0.01em] text-white min-[1440px]:text-[24px] max-[479px]:bg-[position:0_-4px] max-[479px]:text-[18px]">
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+          <div
+            class="special-features-button-wrap mt-[30px] min-[1440px]:mt-[40px] max-[767px]:mt-[24px]"
+          >
+            <Button href={special.bottom.cta.href} variant="outline">
+              {special.bottom.cta.label}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="special-features-devider-border-lower mt-[var(--_typography-size---gap--section-gap)] h-px w-[100vw] bg-[#48484875] self-start"
+      >
+      </div>
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { aboutUs } from "../data/about-us";
+import AboutIntroSection from "../components/sections/AboutIntroSection.astro";
+import AboutValuesSection from "../components/sections/AboutValuesSection.astro";
+import PartnerSection from "../components/sections/PartnerSection.astro";
+import AboutHistorySection from "../components/sections/AboutHistorySection.astro";
+import AboutWcuSection from "../components/sections/AboutWcuSection.astro";
+import AboutTeamSection from "../components/sections/AboutTeamSection.astro";
+import TestimonialsSectionV2 from "../components/sections/TestimonialsSectionV2.astro";
+import FaqSection from "../components/sections/FaqSection.astro";
+import CtaVideoSection from "../components/sections/CtaVideoSection.astro";
+---
+
+<BaseLayout
+  title="Zarex - About Us"
+  description="Learn more about Zarex and our mission to revolutionize LinkedIn marketing. Discover our story, values, and the team behind the leading B2B lead generation platform."
+>
+  <div class="bg-[url('/src/assets/images/about-us-bg.png')] bg-cover bg-top">
+    <AboutIntroSection
+      hero={aboutUs.hero}
+      funfacts={aboutUs.funfacts}
+      cards={aboutUs.cards}
+    />
+
+    <AboutValuesSection values={aboutUs.values} />
+  </div>
+
+  <PartnerSection partners={aboutUs.partners} />
+  <AboutHistorySection history={aboutUs.history} />
+  <AboutWcuSection wcu={aboutUs.wcu} />
+  <AboutTeamSection team={aboutUs.team} />
+  <TestimonialsSectionV2 testimonials={aboutUs.testimonials} />
+  <FaqSection faq={aboutUs.faq} />
+  <CtaVideoSection cta={aboutUs.cta} />
+</BaseLayout>
+

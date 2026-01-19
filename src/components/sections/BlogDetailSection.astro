@@ -1,0 +1,138 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const {
+  author = "",
+  date = "",
+  title = "",
+  image = "https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg",
+  imageAlt = "Blog Main Image",
+} = Astro.props;
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+---
+
+<section
+  class="flex w-full justify-center bg-[url('/src/assets/images/blog-details-bg.png')] bg-cover bg-top bg-no-repeat pt-[var(--_typography-size---gap--page-top-gap)] pb-[var(--_typography-size---gap--section-gap)] text-white"
+>
+  <Container>
+    <div
+      class="flex flex-col items-center text-center"
+      data-blog-detail-animate
+      data-blog-detail-delay="0.05"
+    >
+      <div
+        class="blog-meta-wrap-v2 align-center flex flex-wrap items-center justify-center gap-[10px] border-y border-[#363636] py-2 text-[16px]"
+      >
+        <a
+          href={`/blog/author/${slugify(author)}`}
+          class="blog-author-link-text font-medium leading-[1.5] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+        >
+          {author}
+        </a>
+        <span class="blog-meta-devider h-px w-2 bg-[#888]"></span>
+        <span class="blog-date-text font-medium leading-[1.5] text-[#c4c4c4]"
+          >{date}</span
+        >
+      </div>
+      <div
+        class="mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[850px]"
+      >
+        <h1
+          class="font-title text-[length:var(--_typography-size---typography--h1)] font-semibold leading-[1.2] tracking-[-0.02em] text-white"
+        >
+          {title}
+        </h1>
+      </div>
+    </div>
+
+    <div class="mt-[var(--_typography-size---gap--content-gap)]">
+      <div
+        class="overflow-hidden rounded-[24px]"
+        data-blog-detail-animate
+        data-blog-detail-delay="0.12"
+      >
+        <AppImage
+          src={image}
+          alt={imageAlt}
+          width="1200"
+          height="675"
+          class="aspect-[16/9] max-h-[700px] w-full object-cover"
+          loading="lazy"
+        />
+      </div>
+      <div
+        class="mx-auto mt-[35px] max-w-[970px] text-left text-[16px] leading-[1.6] text-[#c4c4c4] max-[991px]:mt-5 max-[479px]:max-w-[90%]"
+        data-blog-detail-animate
+        data-blog-detail-delay="0.2"
+      >
+        <div
+          class="[&_h1]:font-title [&_h1]:text-[length:var(--_typography-size---typography--h1)] [&_h1]:font-normal [&_h1]:leading-[1.2] [&_h1]:tracking-[-0.02em] [&_h1]:text-white [&_h1]:mt-[30px] [&_h1]:mb-0 [&_h2]:font-title [&_h2]:text-[length:var(--_typography-size---typography--h2)] [&_h2]:font-normal [&_h2]:leading-[1.2] [&_h2]:tracking-[0.02em] [&_h2]:text-white [&_h2]:mt-[30px] [&_h2]:mb-0 [&_h3]:font-title [&_h3]:mt-[30px] [&_h3]:mb-0 [&_h3]:text-[length:var(--_typography-size---typography--h3)] [&_h3]:font-normal [&_h3]:leading-[1.3] [&_h3]:text-white [&_h4]:font-title [&_h4]:text-[length:var(--_typography-size---typography--h4)] [&_h4]:font-semibold [&_h4]:leading-[1.4] [&_h4]:tracking-[-0.01em] [&_h4]:text-white [&_h4]:mt-[30px] [&_h4]:mb-0 [&_h5]:font-title [&_h5]:text-[18px] [&_h5]:font-semibold [&_h5]:leading-[1.4] [&_h5]:text-white [&_h5]:mt-[30px] [&_h5]:mb-0 [&_h6]:mt-5 [&_h6]:mb-0 [&_h6]:font-title [&_h6]:text-[20px] [&_h6]:font-normal [&_h6]:leading-[1.3] [&_h6]:text-white [&_p]:mt-5 [&_ul]:mt-4 [&_ul]:mb-0 [&_ul]:flex [&_ul]:list-disc [&_ul]:list-outside [&_ul]:flex-col [&_ul]:gap-2 [&_ul]:pl-[35px] [&_blockquote]:mt-[30px] [&_blockquote]:mb-0 [&_blockquote]:rounded-[24px] [&_blockquote]:bg-[#0e1522] [&_blockquote]:bg-[url('/src/assets/images/blog-quate.png'),url('/src/assets/images/blog-details-noise.png')] [&_blockquote]:bg-[position:50%_40px,50%_0] [&_blockquote]:bg-no-repeat [&_blockquote]:px-[60px] [&_blockquote]:pt-[120px] [&_blockquote]:pb-[30px] [&_blockquote]:text-center [&_blockquote]:font-title [&_blockquote]:text-[30px] [&_blockquote]:italic [&_blockquote]:leading-[1.3] [&_blockquote]:text-white [&_blockquote_h1]:mt-0 [&_blockquote_h1]:mb-0 [&_blockquote_h2]:mt-0 [&_blockquote_h2]:mb-0 [&_blockquote_h3]:mt-0 [&_blockquote_h3]:mb-0 [&_blockquote_h4]:mt-0 [&_blockquote_h4]:mb-0 [&_blockquote_h5]:mt-0 [&_blockquote_h5]:mb-0 [&_blockquote_h6]:mt-0 [&_blockquote_h6]:mb-0 [&_blockquote_p]:mt-0 [&_blockquote_p]:mb-0 max-[991px]:[&_h3]:mt-[40px] max-[991px]:[&_h6]:mt-[30px] max-[991px]:[&_blockquote]:px-[80px] max-[767px]:[&_blockquote]:pt-[100px] max-[767px]:[&_blockquote]:px-[30px] max-[767px]:[&_blockquote]:text-[28px] max-[479px]:[&_h1]:mt-[24px] max-[479px]:[&_h2]:mt-[24px] max-[479px]:[&_h3]:mt-[24px] max-[479px]:[&_h4]:mt-[24px] max-[479px]:[&_h5]:mt-[24px] max-[479px]:[&_blockquote]:bg-[position:50%_25px,50%_0] max-[479px]:[&_blockquote]:pt-[80px] max-[479px]:[&_blockquote]:px-[20px] max-[479px]:[&_blockquote]:pb-[20px] max-[479px]:[&_blockquote]:text-[24px] max-[479px]:[&_p]:mt-4"
+        >
+          <slot />
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  [data-blog-detail-animate] {
+    opacity: 0;
+    transform: translateY(26px);
+    filter: blur(20px);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s ease,
+      filter 0.6s ease;
+  }
+
+  [data-blog-detail-animate].animate-in {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+</style>
+
+<script>
+  function initBlogDetailAnimation() {
+    const animatedElements = document.querySelectorAll(
+      "[data-blog-detail-animate]",
+    );
+
+    if (!animatedElements.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          if (!(el instanceof HTMLElement)) return;
+          const delay = parseFloat(el.dataset.blogDetailDelay || "0");
+
+          setTimeout(() => {
+            el.classList.add("animate-in");
+          }, delay * 1000);
+
+          observer.unobserve(el);
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -60px 0px",
+      },
+    );
+
+    animatedElements.forEach((el) => observer.observe(el));
+  }
+
+  document.addEventListener("DOMContentLoaded", initBlogDetailAnimation);
+  document.addEventListener("astro:page-load", initBlogDetailAnimation);
+</script>
+

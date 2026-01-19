@@ -1,0 +1,108 @@
+---
+const { impact } = Astro.props;
+const labelWidths = [
+  "max-w-[120px]",
+  "max-w-[82px]",
+  "max-w-[130px]",
+  "max-w-[100px]",
+];
+---
+
+<section
+  class="bg-[url('/src/assets/images/impact.png')] bg-cover bg-center py-[var(--_typography-size---gap--section-gap)] text-white"
+  data-impact-section
+>
+  <div
+    class="mx-auto w-full max-w-[970px] px-[15px] min-[1280px]:max-w-[1220px] min-[1440px]:max-w-[1330px]"
+  >
+    <div class="flex flex-col items-center text-center">
+      <div class="max-w-[750px]">
+        <h2
+          class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+          data-impact-heading
+        >
+          {impact.title.prefix}
+          <span class="text-gradient">{impact.title.highlight}</span>
+          {impact.title.suffix}
+        </h2>
+      </div>
+    </div>
+
+    <div
+      class="mt-[var(--_typography-size---gap--content-gap)] flex flex-wrap items-center justify-between gap-4 max-[991px]:justify-center max-[991px]:gap-y-10 max-[479px]:gap-[30px]"
+    >
+      {
+        impact.stats.map(
+          (
+            stat: {
+              prefix?: string;
+              value: string | number;
+              suffix?: string;
+              label: string;
+            },
+            index: number,
+          ) => (
+            <div class="relative z-[30] flex items-center gap-4 max-[991px]:z-[99] max-[991px]:flex-col max-[991px]:text-center">
+              <div class="flex items-stretch overflow-hidden">
+                {stat.prefix ? (
+                  <span class="relative left-2 bg-gradient-to-r from-[#d8ae6b] to-[#1ad079] bg-clip-text text-[40px] font-medium leading-[0.8] text-transparent min-[1280px]:text-[48px] min-[1440px]:text-[56px] max-[479px]:text-[28px]">
+                    {stat.prefix}
+                  </span>
+                ) : null}
+                <div class="flex flex-col items-stretch">
+                  <span class="counter-value bg-gradient-to-r from-[#d8ae6b] to-[#1ad079] bg-clip-text text-[40px] font-medium leading-[0.8] text-transparent min-[1280px]:text-[48px] min-[1440px]:text-[56px] max-[479px]:text-[28px]">
+                    {stat.value}
+                  </span>
+                </div>
+                <span class="bg-gradient-to-r from-[#d8ae6b] to-[#1ad079] bg-clip-text text-[40px] font-medium leading-[0.8] text-transparent min-[1280px]:text-[48px] min-[1440px]:text-[56px] max-[479px]:text-[28px]">
+                  {stat.suffix}
+                </span>
+              </div>
+              <p
+                class={`text-[16px] font-normal leading-[1.6] text-white ${labelWidths[index] ?? ""} max-[479px]:max-w-none`.trim()}
+              >
+                {stat.label}
+              </p>
+            </div>
+          ),
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Select spans that are direct children of the flex-col div, which contains the stat value
+  const counters = document.querySelectorAll(".counter-value");
+
+  counters.forEach((counter) => {
+    // clean value of any non-numeric characters for parsing, but here values are clean strings like '9', '135'
+    const value = parseInt(counter.textContent || "0", 10);
+
+    gsap.fromTo(
+      counter,
+      { innerText: 0 },
+      {
+        innerText: value,
+        duration: 3,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: counter,
+          start: "top 85%",
+          toggleActions: "play none none reverse",
+        },
+        snap: { innerText: 1 },
+        // Use a modifier or onUpdate to ensure integer display if needed, but innerText tweening usually works with snap
+        onUpdate: function () {
+          counter.innerHTML = Math.ceil(this.targets()[0].innerText).toString();
+        },
+      },
+    );
+  });
+</script>
+

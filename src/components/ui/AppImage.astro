@@ -1,0 +1,26 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { resolveImage } from "../../utils/resolveImage";
+
+const { src, alt, ...rest } = Astro.props;
+
+const resolved = typeof src === "string" ? await resolveImage(src) : src;
+
+const deriveAlt = (value: string) => {
+  const filename = value.split("/").pop() || "image";
+  return filename
+    .replace(/\.[^/.]+$/, "")
+    .replace(/[-_]+/g, " ")
+    .trim();
+};
+
+const computedAlt =
+  typeof alt === "string" && alt.trim().length > 0
+    ? alt
+    : typeof src === "string"
+      ? deriveAlt(src)
+      : "";
+---
+
+<Image src={resolved as string | ImageMetadata} alt={computedAlt} {...rest} />

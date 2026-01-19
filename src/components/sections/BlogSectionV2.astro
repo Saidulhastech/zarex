@@ -1,0 +1,108 @@
+---
+import AppImage from "../ui/AppImage.astro";
+const { blog, posts } = Astro.props;
+---
+
+<section
+  class="py-[var(--_typography-size---gap--section-gap)] text-white"
+  data-blog-v2
+>
+  <div class="main-container">
+    <div class="flex flex-col items-center text-center">
+      <div class="max-w-[600px]">
+        <h2
+          class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+          data-blog-v2-heading
+        >
+          {blog.title.prefix}
+          <span class="text-gradient">{blog.title.highlight}</span>
+          {" "}
+          and
+          {" "}
+          <span class="text-gradient">Insights</span>
+        </h2>
+      </div>
+      <div class="mt-5 max-w-[528px]">
+        <p class="text-[18px] text-[#c4c4c4]" data-blog-v2-summary>
+          {blog.summary}
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="mt-[var(--_typography-size---gap--content-gap)] grid gap-x-6 gap-y-[30px] min-[1280px]:grid-cols-3 min-[1280px]:gap-x-[30px] min-[1280px]:gap-y-[40px] min-[768px]:grid-cols-2 max-[767px]:grid-cols-1 max-[767px]:gap-[30px]"
+    >
+      {
+        posts.map(
+          (post: {
+            data: {
+              image: string;
+              title: string;
+              summary: string;
+              author: string;
+              date: Date;
+            };
+            slug: string;
+          }) => (
+            <article
+              class="group overflow-hidden rounded-[var(--_typography-size---gap--border-radius)] border border-[#363636] bg-[#0e1522]"
+              data-blog-v2-article
+            >
+              <div class="overflow-hidden">
+                <a href={`/blog/${post.slug}`} class="block">
+                  <AppImage
+                    src={post.data.image}
+                    alt={post.data.title}
+                    width="412"
+                    height="240"
+                    class="w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                    loading="lazy"
+                    data-blog-v2-image
+                  />
+                </a>
+              </div>
+              <div
+                class="bg-[#0e1522] px-5 pt-5 pb-6 min-[1280px]:px-6 min-[1280px]:pb-8 max-[767px]:pb-5"
+                data-blog-v2-content
+              >
+                <a
+                  href={`/blog/${post.slug}`}
+                  class="block text-white transition hover:text-[#d8ae6b]"
+                >
+                  <h3 class="font-title text-[22px] font-medium leading-[1.4]">
+                    {post.data.title}
+                  </h3>
+                </a>
+                <p class="mt-5 text-[16px] text-[#c4c4c4] max-[767px]:mt-4">
+                  {post.data.summary}
+                </p>
+                <a
+                  href={`/blog/${post.slug}`}
+                  class="mt-4 block font-title text-[14px] font-medium leading-[1.4] text-white underline decoration-[1px] decoration-current underline-offset-2 transition hover:text-[#d8ae6b] hover:decoration-transparent min-[1280px]:mt-5 min-[1280px]:mb-7"
+                >
+                  Read more
+                </a>
+                <div class="mt-5 flex items-center gap-1.5 border-y border-[#363636] py-2 text-[14px] text-[#888] max-[767px]:mt-4 max-[767px]:py-1.5">
+                  <a
+                    href="/blog"
+                    class="font-medium leading-[1.5] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                  >
+                    {post.data.author}
+                  </a>
+                  <span class="h-px w-2 bg-[#888]" />
+                  <span>
+                    {post.data.date.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
+              </div>
+            </article>
+          ),
+        )
+      }
+    </div>
+  </div>
+</section>

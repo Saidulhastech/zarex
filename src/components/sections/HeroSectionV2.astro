@@ -1,0 +1,128 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { hero } = Astro.props;
+---
+
+<section
+  class="relative overflow-hidden bg-[url('/src/assets/images/hero-v2.png')] bg-cover bg-center pt-[var(--_typography-size---gap--page-top-gap)] pb-[var(--_typography-size---gap--section-gap)] text-white"
+  data-hero-v2
+>
+  <Container>
+    <div class="relative flex flex-col items-center text-center">
+      <div
+        class="mx-auto max-w-[800px] min-[1280px]:max-w-[900px] min-[1440px]:max-w-[1050px]"
+      >
+        <span
+          class="text-gradient text-[16px] font-medium leading-[1.1]"
+          data-hero-v2-eyebrow
+        >
+          {hero.eyebrow}
+        </span>
+        <h1
+          class="mt-6 font-title text-[length:var(--_typography-size---typography--h1)] font-normal leading-[1.1] tracking-[-0.02em] text-white"
+          data-hero-v2-title
+        >
+          {hero.title.prefix}
+          <span class="font-semibold text-white">{hero.title.highlight}</span>
+          {hero.title.suffix}
+        </h1>
+        <p
+          class="mx-auto mt-5 max-w-[676px] text-[20px] leading-[1.6] text-[#c4c4c4] min-[1440px]:mt-[30px] max-[479px]:mt-4"
+          data-hero-v2-summary
+        >
+          {hero.summary.prefix}
+          <span class="font-semibold text-white">{hero.summary.highlight}</span>
+          {hero.summary.suffix}
+        </p>
+      </div>
+      <div
+        class="mt-10 flex flex-wrap items-center justify-center gap-6 min-[1440px]:mt-12 max-[991px]:mt-[30px] max-[767px]:mt-6 max-[479px]:mt-5 max-[479px]:flex-wrap-reverse max-[479px]:gap-5"
+        data-hero-v2-buttons
+      >
+        <Button href={hero.primaryCta.href}>{hero.primaryCta.label}</Button>
+        <a
+          href={hero.secondaryCta.href}
+          class="inline-flex items-center gap-3 text-[16px] text-white transition hover:text-[#d8ae6b]"
+          aria-label={hero.secondaryCta.label}
+        >
+          <span
+            class="flex h-12 w-12 items-center justify-center rounded-full border border-white/20"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="21"
+              viewBox="0 0 15 21"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M13.871 9.71006C14.5445 10.195 14.5445 11.1975 13.871 11.6824L1.97601 20.2468C1.17219 20.8255 0.0507813 20.2511 0.0507813 19.2606L0.0507819 2.13186C0.050782 1.14136 1.17219 0.566934 1.97601 1.14569L13.871 9.71006Z"
+                fill="currentColor"></path>
+            </svg>
+          </span>
+          <span>{hero.secondaryCta.label}</span>
+        </a>
+      </div>
+
+      <div
+        class="pointer-events-none absolute left-0 top-[30%] max-[991px]:top-[100px] max-[767px]:top-0 max-[479px]:top-[-5%]"
+        data-hero-v2-left-shape
+      >
+        <AppImage
+          src={hero.shapes.left}
+          alt=""
+          width="125"
+          height="125"
+          class="opacity-70"
+          aria-hidden="true"
+        />
+      </div>
+      <div
+        class="pointer-events-none absolute right-0 top-1/2 min-[1440px]:right-[5%] max-[991px]:top-auto max-[991px]:bottom-[7%] max-[767px]:bottom-[7%] max-[479px]:bottom-0"
+        data-hero-v2-right-shape
+      >
+        <AppImage
+          src={hero.shapes.right}
+          alt=""
+          width="82"
+          height="82"
+          class="opacity-70 max-[767px]:w-[50px]"
+          aria-hidden="true"
+        />
+      </div>
+    </div>
+  </Container>
+
+  <div
+    class="mt-[-10px] mx-auto max-w-[970px] min-[1280px]:max-w-[1170px] min-[1440px]:max-w-[1610px] min-[1440px]:mt-[-15px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[767px]:mt-[30px] max-[767px]:px-[15px] max-[479px]:mt-6"
+  >
+    <div
+      class="flex items-end justify-center gap-6 min-[1440px]:gap-8 max-[991px]:gap-5 max-[767px]:grid max-[767px]:grid-cols-2 max-[767px]:grid-rows-2 max-[767px]:auto-cols-fr max-[767px]:items-stretch max-[767px]:gap-5 max-[479px]:gap-2.5 max-[479px]:grid-rows-[auto]"
+      data-hero-v2-cards
+    >
+      {
+        hero.images.map((image: { src: string; alt: string }) => (
+          <div
+            class="flex-1 rounded-[var(--_typography-size---gap--border-radius)] bg-gradient-to-r from-[#d8ae6b4d] to-[#1ad0794d] p-[1px] max-[479px]:p-[0.5px]"
+            data-hero-v2-card
+          >
+            <AppImage
+              src={image.src}
+              alt={image.alt}
+              width="340"
+              height="250"
+              class="w-full rounded-[var(--_typography-size---gap--border-radius)]"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+

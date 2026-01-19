@@ -1,0 +1,111 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { growth } = Astro.props;
+---
+
+<section
+  class="bg-black py-[var(--_typography-size---gap--section-gap)] text-white h-[300vh] overflow-clip max-[767px]:h-[200vh] max-[479px]:h-auto"
+  data-growth-v2
+>
+  <div
+    class="relative flex flex-col items-center justify-center mb-[var(--_typography-size---gap--content-gap)]"
+    data-growth-v2-loop
+  >
+    <Container>
+      <div class="relative">
+        <div
+          class="absolute inset-x-0 top-0 flex items-center justify-center max-w-[500px] mx-auto min-[1280px]:max-w-[550px] min-[1440px]:max-w-[600px] max-[991px]:max-w-[480px] max-[767px]:max-w-[400px] max-[479px]:hidden"
+          data-growth-v2-title-block
+        >
+          <h2
+            class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white text-center"
+            set:html={growth.titles[0]}
+          />
+        </div>
+        <div
+          class="absolute inset-x-0 top-0 max-w-[640px] mx-auto opacity-0 min-[1280px]:max-w-[650px] min-[1440px]:max-w-[680px] max-[991px]:max-w-[500px] max-[767px]:max-w-[500px] max-[479px]:hidden"
+          data-growth-v2-title-block
+        >
+          <h2
+            class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white text-center"
+            set:html={growth.titles[1]}
+          />
+        </div>
+        <div
+          class="relative max-w-[700px] mx-auto opacity-0 min-[1280px]:max-w-[750px] min-[1440px]:max-w-[840px] max-[991px]:max-w-[600px] max-[767px]:max-w-[500px] max-[479px]:opacity-100"
+          data-growth-v2-title-block
+        >
+          <h2
+            class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white text-center"
+            set:html={growth.titles[2]}
+          />
+        </div>
+      </div>
+    </Container>
+  </div>
+
+  <div class="sticky top-[10%] flex flex-col items-center justify-end">
+    <Container>
+      <div
+        class="relative flex flex-col items-center justify-end max-[767px]:gap-[35px] max-[767px]:justify-start max-[479px]:gap-[24px] max-[479px]:justify-start"
+      >
+        <div
+          class="relative w-full max-w-[850px] min-[1280px]:max-w-[900px] min-[1440px]:max-w-[1000px] max-[767px]:max-w-[600px] max-[479px]:max-w-none max-[479px]:flex-none"
+          data-growth-v2-image="one"
+        >
+          <AppImage
+            src={growth.images[0].src}
+            alt={growth.images[0].alt}
+            width="1000"
+            height="600"
+            class="w-full rounded-[16px] border border-white/10 max-[479px]:rounded-[8px]"
+            loading="lazy"
+          />
+          <div
+            class="pointer-events-none absolute inset-0 rounded-[16px] shadow-[0_3px_50px_#6356e04d] max-[479px]:rounded-[8px] max-[479px]:shadow-[0_3px_20px_#6356e040]"
+            aria-hidden="true"
+          >
+          </div>
+        </div>
+        <div
+          class="absolute bottom-0 w-full max-w-[530px] max-[767px]:max-w-[400px] max-[479px]:max-w-none max-[479px]:relative max-[479px]:bottom-auto max-[479px]:flex-none"
+          data-growth-v2-image="two"
+        >
+          <AppImage
+            src={growth.images[1].src}
+            alt={growth.images[1].alt}
+            width="530"
+            height="350"
+            class="w-full rounded-[16px] border border-white/10 max-[479px]:rounded-[8px]"
+            loading="lazy"
+          />
+          <div
+            class="pointer-events-none absolute inset-0 rounded-[16px] shadow-[0_3px_50px_#6356e04d] max-[479px]:rounded-[8px] max-[479px]:shadow-[0_3px_20px_#6356e040]"
+            aria-hidden="true"
+          >
+          </div>
+        </div>
+        <div
+          class="absolute bottom-0 w-full max-w-[400px] max-[767px]:max-w-[300px] max-[479px]:max-w-none max-[479px]:relative max-[479px]:bottom-auto max-[479px]:flex-none"
+          data-growth-v2-image="three"
+        >
+          <AppImage
+            src={growth.images[2].src}
+            alt={growth.images[2].alt}
+            width="400"
+            height="300"
+            class="w-full rounded-[16px] border border-white/10 max-[479px]:rounded-[8px]"
+            loading="lazy"
+          />
+          <div
+            class="pointer-events-none absolute inset-0 rounded-[16px] shadow-[0_3px_50px_#6356e04d] max-[479px]:rounded-[8px] max-[479px]:shadow-[0_3px_20px_#6356e040]"
+            aria-hidden="true"
+          >
+          </div>
+        </div>
+      </div>
+    </Container>
+  </div>
+</section>

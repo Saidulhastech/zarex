@@ -1,0 +1,101 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { features } = Astro.props;
+---
+
+<section
+  class="bg-[url('/src/assets/images/features-image-bg-v2.png')] bg-cover bg-center bg-no-repeat py-[var(--_typography-size---gap--section-gap)] text-white overflow-hidden"
+  data-features-v2
+>
+  <Container>
+    <div class="flex flex-col items-center text-center">
+      <div class="max-w-[680px]">
+        <h2
+          class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+          data-features-v2-title
+        >
+          {features.title.prefix}
+          <span class="text-gradient font-semibold">
+            {features.title.highlight}
+          </span>
+          {features.title.suffix}
+        </h2>
+      </div>
+    </div>
+
+    <div
+      class="mt-[var(--_typography-size---gap--content-gap)] flex flex-col gap-[24px] min-[1280px]:gap-[30px] max-[991px]:gap-[20px] max-[767px]:gap-[25px]"
+    >
+      <div
+        class="grid grid-cols-2 gap-[24px] min-[1280px]:gap-[30px] max-[991px]:gap-[20px] max-[767px]:grid-cols-1 max-[767px]:gap-[25px]"
+      >
+        {
+          features.topCards.map(
+            (card: { title: string; summary: string; image: string }) => (
+              <article
+                class="flex flex-col items-center gap-[24px] rounded-[16px] border border-[#262c38] bg-[#0e1522] px-[24px] py-[30px] text-center min-[1280px]:gap-[53px] min-[1280px]:px-[30px] min-[1280px]:py-[40px]"
+                data-features-v2-card
+              >
+                <div class="flex flex-col items-center">
+                  <h3 class="font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] tracking-[-0.01em] text-white">
+                    {card.title}
+                  </h3>
+                  <p class="mt-[16px] max-w-[330px] text-[16px] text-[#c4c4c4]">
+                    {card.summary}
+                  </p>
+                </div>
+                <div class="w-full overflow-hidden" data-features-v2-image-wrap>
+                  <AppImage
+                    src={card.image}
+                    alt={card.title}
+                    width="612"
+                    height="400"
+                    class="w-full"
+                    loading="lazy"
+                  />
+                </div>
+              </article>
+            ),
+          )
+        }
+      </div>
+
+      <div
+        class="grid grid-cols-3 gap-[24px] min-[1280px]:gap-[30px] max-[991px]:grid-cols-2 max-[991px]:gap-[20px] max-[767px]:grid-cols-1 max-[767px]:gap-[25px]"
+      >
+        {
+          features.bottomCards.map(
+            (card: { title: string; summary: string; image: string }) => (
+              <article
+                class="flex flex-col items-center gap-[24px] rounded-[16px] border border-[#262c38] bg-[#0e1522] px-[24px] py-[30px] text-center min-[1280px]:gap-[30px] min-[1280px]:px-[30px] min-[1280px]:py-[40px]"
+                data-features-v2-card
+              >
+                <div class="flex flex-col items-center">
+                  <h3 class="font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] tracking-[-0.01em] text-white">
+                    {card.title}
+                  </h3>
+                  <p class="mt-[16px] text-[16px] text-[#c4c4c4]">
+                    {card.summary}
+                  </p>
+                </div>
+                <div class="w-full overflow-hidden" data-features-v2-image-wrap>
+                  <AppImage
+                    src={card.image}
+                    alt={card.title}
+                    width="400"
+                    height="300"
+                    class="w-full rounded-[16px] border-2 border-[#262c38]"
+                    loading="lazy"
+                  />
+                </div>
+              </article>
+            ),
+          )
+        }
+      </div>
+    </div>
+  </Container>
+</section>
+

@@ -1,0 +1,114 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import BlogSectionV3 from "../../../components/sections/BlogSectionV3.astro";
+import CtaVideoSection from "../../../components/sections/CtaVideoSection.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const slugify = (value: string) =>
+    value
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+  const posts = await getCollection("blog");
+  const categories = new Map();
+
+  posts.forEach((post) => {
+    const category = post.data.category || "Uncategorized";
+    const slug = slugify(category);
+    if (!categories.has(slug)) {
+      categories.set(slug, category);
+    }
+  });
+
+  return Array.from(categories.entries()).map(([slug, category]) => ({
+    params: { category: slug },
+    props: {
+      category,
+      posts: posts
+        .filter((post) => slugify(post.data.category || "Uncategorized") === slug)
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { category, posts } = Astro.props;
+
+const heading = {
+  subtitle: "Blog Category",
+  title: {
+    prefix: "Ideas, Inspiration, and Updates to Help You ",
+    highlight: "Grow Smarter",
+  },
+  summary: {
+    prefix: "To grow your LinkedIn profile through our ",
+    highlight: "Zarex",
+    suffix:
+      ", create opportunity for generate more Leeds, create more opportunities for profile progress",
+  },
+  categories: [
+    {
+      label: "All Articles",
+      value: "all",
+      href: "/blog",
+      isActive: category.toLowerCase() === "all",
+    },
+    {
+      label: "Zarex Software",
+      value: "Zarex Software",
+      href: "/blog/category/zarex-software",
+      isActive: category === "Zarex Software",
+    },
+    {
+      label: "Email Outreach",
+      value: "Email Outreach",
+      href: "/blog/category/email-outreach",
+      isActive: category === "Email Outreach",
+    },
+    {
+      label: "Lead Generation",
+      value: "Lead Generation",
+      href: "/blog/category/lead-generation",
+      isActive: category === "Lead Generation",
+    },
+    {
+      label: "Email Campaign",
+      value: "Email Campaign",
+      href: "/blog/category/email-campaign",
+      isActive: category === "Email Campaign",
+    },
+    {
+      label: "LinkedIn Hacks",
+      value: "LinkedIn Hacks",
+      href: "/blog/category/linkedin-hacks",
+      isActive: category === "LinkedIn Hacks",
+    },
+  ],
+};
+
+const cta = {
+  title: {
+    prefix: "Try Out the ",
+    highlight: "Leading Tools",
+    suffix: " for Your Profile’s Consistent Growth",
+  },
+  summary:
+    "Its intuitive interface, powerful automation workflows, and seamless LinkedIn integration gave our team the edge we needed reach.",
+  cta: {
+    href: "/pricing-plan",
+    label: "Start 16 Days Free Trial",
+  },
+  video: {
+    poster: "/videos/cta-videos-poster-00001.jpg",
+    mp4: "/videos/cta-videos-transcode.mp4",
+    webm: "/videos/cta-videos-transcode.webm",
+  },
+};
+---
+
+<BaseLayout title={category} description={`${category} blog posts`}>
+  <BlogSectionV3 heading={heading} posts={posts} />
+  <CtaVideoSection cta={cta} />
+</BaseLayout>

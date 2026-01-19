@@ -1,0 +1,210 @@
+---
+import Button from "../ui/Button.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { testimonials } = Astro.props;
+const titleParts = testimonials.title.split("Customers'");
+const testimonialGroups = Array.from({ length: 2 }, () => testimonials.items);
+const fullStars = Array.from({ length: testimonials.rating.full });
+const emptyStars = Array.from({ length: testimonials.rating.empty });
+---
+
+<section
+  class="bg-[url('/src/assets/images/testimonial-bg-v3.png')] bg-cover bg-center pt-[var(--_typography-size---gap--section-gap)] pb-[var(--_typography-size---gap--section-gap)] text-white overflow-hidden max-[767px]:pt-[10px]"
+  data-testimonials-v3
+>
+  <div
+    class="mx-auto w-full px-[15px] max-w-[1330px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[479px]:max-w-full"
+  >
+    <div
+      class="grid items-center gap-10 min-[992px]:grid-cols-[0.9fr_1.1fr] min-[1440px]:gap-[80px]"
+    >
+      <div
+        class="max-w-[560px]"
+        data-testimonials-v3c-animate
+        data-testimonials-v3c-delay="0.05"
+      >
+        <h2
+          class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+        >
+          {titleParts[0]}
+          <span class="text-gradient">Customers'</span>
+          {titleParts[1] ?? ""}
+        </h2>
+        <p class="mt-5 max-w-[520px] text-[18px] text-[#c4c4c4]">
+          {testimonials.summary}
+        </p>
+        <div class="mt-[30px]">
+          <Button href={testimonials.cta.href}>{testimonials.cta.label}</Button>
+        </div>
+      </div>
+
+      <div
+        class="relative max-h-[640px] overflow-hidden"
+        data-testimonials-v3c-animate
+        data-testimonials-v3c-delay="0.15"
+        data-testimonials-v3-content
+      >
+        <div class="flex flex-col gap-6">
+          {
+            testimonialGroups.map(
+              (
+                group: {
+                  title: string;
+                  feedback: string;
+                  name: string;
+                  role: string;
+                  image: string;
+                }[],
+              ) => (
+                <div class="flex flex-col gap-6" data-testimonials-v3-track>
+                  {group.map(
+                    (item: {
+                      title: string;
+                      feedback: string;
+                      name: string;
+                      role: string;
+                      image: string;
+                    }) => (
+                      <article class="flex flex-wrap gap-5 rounded-[16px] border border-[#ffffff4a] bg-[#0e1522] px-[25px] py-[30px] shadow-[0_8px_14px_#0000004a] min-[1280px]:flex-nowrap min-[1440px]:px-[34px] min-[1440px]:py-[40px] max-[991px]:p-5">
+                        <div class="h-[86px] w-[86px] overflow-hidden rounded-full border border-white/10 max-[991px]:h-[70px] max-[991px]:w-[70px]">
+                          <AppImage
+                            src={item.image}
+                            alt={item.name}
+                            width="86"
+                            height="86"
+                            class="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div class="flex-1">
+                          <div class="flex items-center justify-between gap-4 max-[479px]:flex-wrap">
+                            <h3 class="font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] text-white">
+                              {item.title}
+                            </h3>
+                            <div class="flex items-center gap-2">
+                              {fullStars.map(() => (
+                                <AppImage
+                                  src={testimonials.ratingIcon}
+                                  alt=""
+                                  width="16"
+                                  height="16"
+                                  class="h-4 w-4"
+                                  aria-hidden="true"
+                                />
+                              ))}
+                              {emptyStars.map(() => (
+                                <AppImage
+                                  src={testimonials.ratingInactiveIcon}
+                                  alt=""
+                                  width="16"
+                                  height="16"
+                                  class="h-4 w-4"
+                                  aria-hidden="true"
+                                />
+                              ))}
+                            </div>
+                          </div>
+                          <p class="mt-5 text-[16px] text-[#c4c4c4]">
+                            {item.feedback}
+                          </p>
+                          <div class="mt-6 flex items-center justify-between gap-4">
+                            <div>
+                              <p class="font-title text-[16px] font-medium text-white">
+                                {item.name}
+                              </p>
+                              <p class="mt-1 text-[14px] text-[#aaa]">
+                                {item.role}
+                              </p>
+                            </div>
+                            <AppImage
+                              src={testimonials.quoteIcon}
+                              alt=""
+                              width="32"
+                              height="32"
+                              class="h-8 w-8"
+                              aria-hidden="true"
+                              loading="lazy"
+                            />
+                          </div>
+                        </div>
+                      </article>
+                    ),
+                  )}
+                </div>
+              ),
+            )
+          }
+        </div>
+        <div
+          class="pointer-events-none absolute inset-x-0 top-0 h-[120px] bg-[linear-gradient(#000,#0000)]"
+        >
+        </div>
+        <div
+          class="pointer-events-none absolute inset-x-0 bottom-0 h-[120px] bg-[linear-gradient(0deg,#000,#0000)]"
+        >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  [data-testimonials-v3c-animate] {
+    opacity: 0;
+    filter: blur(100px);
+    transform: translateY(40px);
+    transition:
+      opacity 0.8s ease,
+      filter 0.8s ease,
+      transform 0.8s ease;
+  }
+
+  [data-testimonials-v3c-animate].animate-in {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const initTestimonialsV3CompactAnimation = () => {
+    const animatedElements = document.querySelectorAll(
+      "[data-testimonials-v3c-animate]",
+    );
+
+    if (!animatedElements.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry: IntersectionObserverEntry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            const delay = parseFloat(el.dataset.testimonialsV3cDelay || "0");
+
+            setTimeout(() => {
+              el.classList.add("animate-in");
+            }, delay * 1000);
+            observer.unobserve(el);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
+
+    animatedElements.forEach((el) => observer.observe(el));
+  };
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initTestimonialsV3CompactAnimation,
+  );
+  document.addEventListener(
+    "astro:page-load",
+    initTestimonialsV3CompactAnimation,
+  );
+</script>
+

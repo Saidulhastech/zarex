@@ -1,0 +1,82 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { growth } = Astro.props;
+
+const titleClasses = [
+  "section-animated-text-block _1 absolute inset-x-0 top-0 mx-auto flex items-center justify-center max-w-[500px] min-[1440px]:max-w-[600px] min-[1920px]:max-w-[550px] max-[991px]:max-w-[480px] max-[767px]:max-w-[400px] max-[479px]:hidden",
+  "section-animated-text-block _2 absolute inset-x-0 top-0 mx-auto opacity-0 max-w-[700px] min-[1440px]:max-w-[680px] min-[1920px]:max-w-[750px] max-[991px]:max-w-[500px] max-[767px]:max-w-[500px] max-[479px]:hidden",
+  "section-animated-text-block _3 relative mx-auto opacity-0 max-w-[700px] min-[1440px]:max-w-[840px] min-[1920px]:max-w-[750px] max-[991px]:max-w-[600px] max-[767px]:max-w-[500px] max-[479px]:opacity-100",
+];
+
+const imageWidthClasses = [
+  "max-w-[350px] min-[1920px]:max-w-[530px] max-[991px]:max-w-[280px] max-[767px]:max-w-[220px] max-[479px]:max-w-[180px]",
+  "max-w-[650px] min-[1920px]:max-w-[1000px] max-[991px]:max-w-[500px] max-[767px]:max-w-[400px] max-[479px]:max-w-[300px]",
+  "max-w-[300px] min-[1920px]:max-w-[400px] max-[991px]:max-w-[250px] max-[767px]:max-w-[220px] max-[479px]:max-w-[180px]",
+];
+
+const rowGapClasses =
+  "gap-[40px] min-[1920px]:gap-[60px] max-[991px]:gap-[30px] max-[767px]:gap-[24px]";
+const glowClass = "shadow-[0_4px_30px_#6356e05e]";
+const rows = 2;
+---
+
+<section
+  class="growth-section bg-black pt-[var(--_typography-size---gap--section-gap)] text-white overflow-hidden"
+>
+  <header class="section-title-with-text-loop-animation">
+    <Container>
+      <div class="section-heading-block align-center">
+        <div class="section-title-block align-center relative">
+          {
+            growth.titles.map((title: { html: string }, index: number) => (
+              <div class={titleClasses[index]}>
+                <h2
+                  class="section-title text-center font-title font-normal tracking-[-0.02em]"
+                  set:html={title.html}
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </Container>
+  </header>
+
+  <div class="growth-content-block overflow-hidden">
+    <div
+      class="growth-inner-content-block flex flex-nowrap items-center gap-[40px] min-[1920px]:gap-[60px] max-[991px]:gap-[30px] max-[767px]:gap-[24px] pt-[var(--_typography-size---gap--content-gap)]"
+    >
+      {
+        Array.from({ length: rows }).map((_, rowIndex) => (
+          <ul
+            class={`growth-single-content-wrap flex flex-none items-center ${rowGapClasses}`}
+            aria-label={`Growth row ${rowIndex + 1}`}
+          >
+            {growth.images.map((image: string, index: number) => {
+              const widthClass =
+                imageWidthClasses[index % imageWidthClasses.length];
+              const isGlow = index % imageWidthClasses.length === 1;
+
+              return (
+                <li class={`growth-single-image-wrap flex-none ${widthClass}`}>
+                  <AppImage
+                    src={image}
+                    alt="Growth visual"
+                    width="1000"
+                    height="600"
+                    class={`growth-single-image w-full max-h-[780px] h-auto rounded-[16px] border border-white/20 ${
+                      isGlow ? glowClass : ""
+                    }`}
+                    loading="lazy"
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        ))
+      }
+    </div>
+  </div>
+</section>

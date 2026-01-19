@@ -1,0 +1,185 @@
+---
+import { Image } from "astro:assets";
+import AppImage from "../ui/AppImage.astro";
+const { whyChoose } = Astro.props;
+
+const wcuLottieSources = [
+  "https://cdn.prod.website-files.com/689c486b98497379b2e85cbd/68bd186079614a03a089e82b_data-1.json",
+  "https://cdn.prod.website-files.com/689c486b98497379b2e85cbd/68bd4f9da972e47133eb54e0_speech-bubble%202%20fx.json",
+  "https://cdn.prod.website-files.com/689c486b98497379b2e85cbd/68bd281b6cdd2e175ad4e915_analytical1010.json",
+  "https://cdn.prod.website-files.com/689c486b98497379b2e85cbd/68bd185f71d09116d5949969_durability-1.json",
+];
+---
+
+<section
+  class="relative overflow-hidden bg-[url('/src/assets/images/wcu-border-line-bg.png')] bg-cover bg-center pt-[var(--_typography-size---gap--section-gap)] pb-[var(--_typography-size---gap--section-gap)] text-white"
+  data-wcu-section
+>
+  <div
+    class="mx-auto w-full max-w-[1330px] px-[15px] min-[1280px]:max-w-[1220px] min-[1440px]:max-w-[1330px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[479px]:max-w-full"
+  >
+    <div class="flex flex-col items-center text-center" data-wcu-heading>
+      <div
+        class="relative max-w-[600px] max-[991px]:max-w-[550px] max-[767px]:max-w-[450px] max-[479px]:max-w-full min-[1440px]:max-w-[700px]"
+      >
+        <h2 class="font-title font-normal text-white tracking-[-0.02em]">
+          {whyChoose.title.prefix}
+          <span class="text-gradient">{whyChoose.title.highlight}</span>
+          {whyChoose.title.suffix}
+        </h2>
+      </div>
+      <div
+        class="mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[528px]"
+      >
+        <p class="text-[18px] text-[#c4c4c4]">{whyChoose.summary}</p>
+      </div>
+    </div>
+
+    <div
+      class="mt-[var(--_typography-size---gap--content-gap)] grid grid-cols-2 items-center gap-10 min-[1440px]:grid-cols-[5.5fr_6.5fr] min-[1440px]:gap-[60px] max-[991px]:grid-cols-1"
+    >
+      <div class="flex flex-col" data-wcu-images>
+        <div
+          class="relative z-10 flex items-start justify-end rotate-[5deg] max-[479px]:justify-center max-[479px]:rotate-0"
+          data-wcu-image="top-right"
+        >
+          <AppImage
+            src={whyChoose.imageStack[0]}
+            alt="WCU top right image"
+            width="353"
+            height="235"
+            class="w-[353px] rounded-[14px] border-2 border-white/10 max-[479px]:w-[280px]"
+            loading="lazy"
+          />
+        </div>
+        <div
+          class="mt-[-140px] flex items-start justify-start rotate-[-2deg] max-[479px]:mt-0 max-[479px]:justify-center max-[479px]:rotate-0"
+          data-wcu-image="top-left"
+        >
+          <AppImage
+            src={whyChoose.imageStack[1]}
+            alt="WCU top left image"
+            width="361"
+            height="240"
+            class="w-[361px] rounded-[14px] border-2 border-white/10 max-[479px]:w-[280px]"
+            loading="lazy"
+          />
+        </div>
+        <div
+          class="relative z-[5] mt-[-100px] flex items-start justify-end rotate-[-11.2deg] min-[1440px]:mt-[-70px] max-[479px]:mt-0 max-[479px]:justify-center max-[479px]:rotate-0"
+          data-wcu-image="middle-right"
+        >
+          <AppImage
+            src={whyChoose.imageStack[2]}
+            alt="WCU middle right image"
+            width="304"
+            height="200"
+            class="w-[304px] rounded-[14px] border-2 border-white/10 max-[479px]:w-[280px]"
+            loading="lazy"
+          />
+        </div>
+        <div
+          class="mt-[-40px] flex items-start justify-start rotate-[7deg] max-[479px]:mt-0 max-[479px]:justify-center max-[479px]:rotate-0"
+          data-wcu-image="middle-left"
+        >
+          <AppImage
+            src={whyChoose.imageStack[3]}
+            alt="WCU middle left image"
+            width="386"
+            height="250"
+            class="w-[386px] rounded-[14px] border-2 border-white/10 max-[479px]:w-[280px]"
+            loading="lazy"
+          />
+        </div>
+        <div
+          class="mt-[-160px] flex items-start justify-end rotate-[3deg] min-[1440px]:mt-[-175px] max-[991px]:mt-[-195px] max-[767px]:mt-[-165px] max-[479px]:mt-0 max-[479px]:justify-center max-[479px]:rotate-0"
+          data-wcu-image="bottom-right"
+        >
+          <AppImage
+            src={whyChoose.imageStack[4]}
+            alt="WCU bottom right image"
+            width="275"
+            height="180"
+            class="w-[275px] rounded-[14px] border-2 border-white/10"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <div class="flex gap-5 min-[1440px]:gap-6 max-[479px]:gap-4">
+        <div class="flex flex-col items-center gap-[10px] max-[479px]:hidden">
+          {
+            whyChoose.lottie.map((item: { title: string }, index: number) => (
+              <>
+                <div
+                  class="relative h-14 w-14 flex-none rounded-full bg-gradient-to-r from-[#d8ae6b] to-[#1ad079] p-2 overflow-hidden max-[479px]:h-[45px] max-[479px]:w-[45px]"
+                  data-wcu-icon
+                  data-lottie-src={wcuLottieSources[index]}
+                  data-lottie-loop="true"
+                  data-lottie-autoplay="true"
+                  aria-label={item.title}
+                >
+                  <span class="absolute inset-0 m-[1.5px] rounded-full bg-[#1b1b25]" />
+                  <div class="wcu-icon relative z-10 h-full w-full" />
+                </div>
+                {index < whyChoose.lottie.length - 1 && (
+                  <div
+                    class="wcu-arrow overflow-hidden [transform-origin:50%_0]"
+                    data-wcu-arrow
+                  >
+                    <Image
+                      src="https://cdn.prod.website-files.com/689c486b98497379b2e85cbd/68a1b19814986ec265e065d8_arrow-icon.png"
+                      alt="Vertical connector arrow"
+                      width={6}
+                      height={83}
+                    />
+                  </div>
+                )}
+              </>
+            ))
+          }
+        </div>
+        <div
+          class="flex flex-col gap-5 min-[1440px]:gap-[60px] max-[991px]:gap-[65px] max-[767px]:gap-10 max-[479px]:gap-[30px]"
+        >
+          {
+            whyChoose.points.map(
+              (point: { title: string; summary: string }, index: number) => (
+                <div data-wcu-content={String(index + 1)}>
+                  <h3 class="font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] tracking-[-0.01em] text-white">
+                    {point.title}
+                  </h3>
+                  <p class="mt-[14px] text-[16px] text-[#c4c4c4] min-[1440px]:max-w-[468px] max-[767px]:mt-3">
+                    {point.summary}
+                  </p>
+                </div>
+              ),
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pointer-events-none absolute inset-0 -z-10">
+    <div class="absolute inset-y-[-15%] left-[-15%] w-full" data-wcu-left-bg>
+      <AppImage
+        src="/images/wcu-single-bg.png"
+        alt=""
+        width="1920"
+        height="1080"
+        class="h-[150%] w-full"
+        aria-hidden="true"
+      />
+    </div>
+    <div
+      class="absolute -top-[100px] -right-[100px] h-[600px] w-[446px] rotate-[-117deg] rounded-full bg-[linear-gradient(153deg,#097a992e_9%,#0fcbff_20%)] blur-[304px] opacity-50"
+      data-wcu-right-bg
+    >
+    </div>
+  </div>
+
+  <script is:inline src="/vendor/lottie.min.js"></script>
+  <script is:inline src="/scripts/wcu-lottie.js"></script>
+</section>
+

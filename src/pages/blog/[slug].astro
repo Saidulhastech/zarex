@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import BlogDetailSection from "../../components/sections/BlogDetailSection.astro";
+import MoreBlogSection from "../../components/sections/MoreBlogSection.astro";
+import CtaVideoSection from "../../components/sections/CtaVideoSection.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const formattedDate = post.data.date.toLocaleDateString("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+
+const cta = {
+  title: {
+    prefix: "Try Out the ",
+    highlight: "Leading Tools",
+    suffix: " for Your Profile’s Consistent Growth",
+  },
+  summary:
+    "Its intuitive interface, powerful automation workflows, and seamless LinkedIn integration gave our team the edge we needed reach.",
+  cta: {
+    href: "/pricing-plan",
+    label: "Start 16 Days Free Trial",
+  },
+  video: {
+    poster: "/videos/cta-videos-poster-00001.jpg",
+    mp4: "/videos/cta-videos-transcode.mp4",
+    webm: "/videos/cta-videos-transcode.webm",
+  },
+};
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.summary}
+  type="article"
+  publishedTime={post.data.date.toISOString()}
+  author={post.data.author}
+  image={post.data.image}
+>
+  <BlogDetailSection
+    author={post.data.author}
+    date={formattedDate}
+    title={post.data.title}
+    image={post.data.image}
+    imageAlt={post.data.title}
+  >
+    <Content />
+  </BlogDetailSection>
+  <MoreBlogSection posts={posts.slice(0, 3)} />
+  <CtaVideoSection cta={cta} />
+</BaseLayout>

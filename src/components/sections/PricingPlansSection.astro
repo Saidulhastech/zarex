@@ -1,0 +1,542 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { plans } = Astro.props;
+const popularBadge = "/images/price-plan-popular-badge.svg";
+---
+
+<section
+  class="bg-[url('/src/assets/images/price-plan-bg.png')] bg-cover bg-center bg-no-repeat py-[var(--_typography-size---gap--section-gap)] text-white"
+>
+  <Container>
+    <div
+      data-pricing-tabs
+      class="flex flex-wrap items-end justify-between gap-[30px] max-[991px]:flex-col max-[991px]:items-center max-[991px]:gap-6"
+    >
+      <div
+        class="max-w-[520px] min-[1440px]:max-w-[560px] max-[991px]:mx-auto max-[991px]:max-w-[500px] max-[991px]:text-center max-[767px]:max-w-[460px]"
+        data-pricing-animate
+      >
+        <h2
+          class="text-[length:var(--_typography-size---typography--h3)] font-normal leading-[1.4] tracking-[-0.01em]"
+        >
+          {plans.title.prefix}
+          <span class="highlight-text">{plans.title.highlight}</span>
+          {plans.title.suffix}
+        </h2>
+      </div>
+      <div
+        class="flex items-center gap-[15px] max-[479px]:flex-col max-[479px]:items-start"
+        data-pricing-animate
+      >
+        <button
+          type="button"
+          class="cursor-pointer border-0 bg-transparent p-0 text-left font-title text-[22px] leading-[1.4] tracking-[2px] text-[#888] min-[1440px]:text-[24px] max-[767px]:text-[18px] max-[479px]:text-[14px]"
+          data-tab-label="monthly"
+        >
+          {plans.tabs.monthly}
+        </button>
+
+        <div
+          class="relative flex min-w-[90px] max-w-[90px] max-h-[40px] items-center justify-between rounded-[100px] border border-white/10 bg-[#6356e066] p-[8px] shadow-[inset_0_4px_4px_#00000040] min-[1440px]:min-w-[90px] min-[1440px]:max-w-[90px] max-[991px]:mt-0 max-[767px]:min-w-[80px] max-[767px]:max-w-[80px] max-[767px]:max-h-[35px] max-[479px]:min-w-[70px] max-[479px]:max-w-[70px] max-[479px]:p-[5px]"
+        >
+          <button
+            type="button"
+            class="h-[25px] w-[25px] cursor-pointer rounded-full text-[#888]"
+            data-tab-button="monthly"
+            aria-pressed="true"></button>
+          <button
+            type="button"
+            class="h-[25px] w-[25px] cursor-pointer rounded-full text-[#888]"
+            data-tab-button="yearly"
+            aria-pressed="false"></button>
+        </div>
+
+        <button
+          type="button"
+          class="flex cursor-pointer items-center gap-[15px] border-0 bg-transparent p-0 text-left font-title text-[22px] leading-[1.4] text-[#888] min-[1440px]:text-[24px] max-[767px]:text-[18px] max-[479px]:gap-[5px] max-[479px]:text-[14px] max-[479px]:flex-col max-[479px]:items-start"
+          data-tab-label="yearly"
+        >
+          {plans.tabs.annual}
+        </button>
+      </div>
+
+      <div class="mt-[var(--_typography-size---gap--content-gap)] w-full">
+        <div class="pricing-panel" data-tab-panel="monthly">
+          <div
+            class="grid grid-cols-2 gap-[24px] min-[1280px]:grid-cols-3 min-[1440px]:gap-[30px] max-[767px]:grid-cols-1"
+          >
+            {
+              plans.monthly.map(
+                (
+                  card: {
+                    highlight?: boolean;
+                    name: string;
+                    summary: string;
+                    price: string;
+                    features: {
+                      title: string;
+                      summary?: string;
+                      items: { text: string; question?: boolean }[];
+                    };
+                    button: {
+                      label: string;
+                      href: string;
+                      variant?: "primary" | "outline";
+                      className?: string;
+                    };
+                    popular?: boolean;
+                  },
+                  index: number,
+                ) => (
+                  <article
+                    class={
+                      card.highlight
+                        ? "relative h-full rounded-[24px] bg-gradient-to-r from-[#d8ae6b] to-[#1ad079] p-px"
+                        : "relative h-full rounded-[24px] border border-white/20 bg-[#0e1522]"
+                    }
+                    data-pricing-card-animate
+                    data-pricing-card-delay={`${0.08 * (index + 1)}`}
+                  >
+                    <div
+                      class={
+                        card.highlight
+                          ? "flex h-full flex-col rounded-[24px] bg-[#0e1522] px-[24px] py-[30px] min-[1440px]:px-[32px] min-[1440px]:py-[40px]"
+                          : "flex h-full flex-col rounded-[24px] px-[24px] py-[30px] min-[1440px]:px-[32px] min-[1440px]:py-[40px]"
+                      }
+                    >
+                      <div class="font-title text-[20px] leading-[1.4] max-[767px]:text-[18px]">
+                        {card.name}
+                      </div>
+                      <p class="mt-[10px] mb-6 max-w-[300px] text-[14px] leading-[1.4] text-[#c4c4c4] min-[1440px]:mb-[30px] max-[767px]:mb-5">
+                        {card.summary}
+                      </p>
+                      <div class="h-px w-full bg-[#333]" />
+                      <h3 class="mt-5 text-[length:var(--_typography-size---typography--h3)] font-normal leading-[1.2] min-[1440px]:mt-6 min-[1440px]:text-[40px]">
+                        {card.price}
+                      </h3>
+                      <div class="mt-4 mb-5 flex max-w-[230px] items-center gap-[10px] min-[1440px]:mb-6">
+                        <span class="text-[16px] font-medium leading-[1.4] text-[#c4c4c4]">
+                          Email finder
+                        </span>
+                        <select
+                          class="min-w-[120px] max-w-[120px] appearance-none rounded-[40px] border border-[#414141] bg-[#0e1522] bg-[url('/src/assets/images/down-arrow-1.svg')] bg-[position:88%_center] bg-no-repeat px-[17px] py-[7px] text-[14px] text-white"
+                          name={`${card.name.toLowerCase()}-credits`}
+                        >
+                          {plans.credits.map((label: string, index: number) => (
+                            <option value={index === 0 ? "" : label}>
+                              {label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div class="h-px w-full bg-[#333]" />
+                      {card.features.summary ? (
+                        <div class="flex h-full flex-col justify-between">
+                          <div class="mt-[30px] mb-[30px] min-[1440px]:mt-[40px] min-[1440px]:mb-[40px] max-[767px]:mt-6 max-[767px]:mb-6 max-[479px]:mt-5 max-[479px]:mb-5">
+                            <div class="text-[18px] leading-[1.4] text-[#6356e0]">
+                              {card.features.title}
+                            </div>
+                            <p class="mt-[20px] max-w-[300px] text-[14px] leading-[1.4] text-[#c4c4c4] min-[1440px]:mt-[24px] max-[767px]:mt-4">
+                              {card.features.summary}
+                            </p>
+                            <ul class="mt-4 flex flex-col gap-[10px] pl-0 min-[1440px]:mt-6 min-[1440px]:gap-[16px]">
+                              {card.features.items.map((item) => (
+                                <li
+                                  class={`text-[16px] leading-[1.4] text-[#c4c4c4] ${item.question ? "bg-[url('/src/assets/images/001-question-1.png'),url('/src/assets/images/List-Dot.svg')] bg-[position:100%_center,0_8px] bg-no-repeat pr-[25px] pl-5" : "bg-[url('/src/assets/images/List-Dot.svg')] bg-[position:0_8px] bg-no-repeat pl-5"}`}
+                                >
+                                  {item.text}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <div class="h-px w-full bg-[#333]" />
+                            <div class="mt-6 min-[1440px]:mt-8 max-[767px]:mt-5">
+                              <Button
+                                href={card.button.href}
+                                variant={card.button.variant}
+                                class={card.button.className ?? ""}
+                              >
+                                {card.button.label}
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div class="mt-[30px] mb-[30px] min-[1440px]:mt-[40px] min-[1440px]:mb-[40px] max-[767px]:mt-6 max-[767px]:mb-6 max-[479px]:mt-5 max-[479px]:mb-5">
+                            <div class="text-[18px] leading-[1.4] text-[#6356e0]">
+                              {card.features.title}
+                            </div>
+                            <ul class="mt-5 flex flex-col gap-[10px] pl-0 min-[1440px]:mt-6 min-[1440px]:gap-[16px]">
+                              {card.features.items.map((item) => (
+                                <li
+                                  class={`text-[16px] leading-[1.4] text-[#c4c4c4] ${item.question ? "bg-[url('/src/assets/images/001-question-1.png'),url('/src/assets/images/List-Dot.svg')] bg-[position:100%_center,0_8px] bg-no-repeat pr-[25px] pl-5" : "bg-[url('/src/assets/images/List-Dot.svg')] bg-[position:0_8px] bg-no-repeat pl-5"}`}
+                                >
+                                  {item.text}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div class="h-px w-full bg-[#333]" />
+                          <div class="mt-6 min-[1440px]:mt-8 max-[767px]:mt-5">
+                            <Button
+                              href={card.button.href}
+                              variant={card.button.variant}
+                              class={card.button.className ?? ""}
+                            >
+                              {card.button.label}
+                            </Button>
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    {card.popular ? (
+                      <div class="absolute right-0 top-[32px] flex items-center max-[991px]:top-[28px]">
+                        <AppImage
+                          src={popularBadge}
+                          alt="Price Plan Popular Icon"
+                          width="161"
+                          height="151"
+                          class="h-auto w-auto"
+                          loading="lazy"
+                        />
+                        <span class="absolute right-[10px] font-title text-[14px] font-semibold leading-[1.4]">
+                          {"\u00a0POPULAR"}
+                        </span>
+                      </div>
+                    ) : null}
+                  </article>
+                ),
+              )
+            }
+          </div>
+        </div>
+
+        <div class="pricing-panel hidden" data-tab-panel="yearly">
+          <div
+            class="grid grid-cols-2 gap-[24px] min-[1280px]:grid-cols-3 min-[1440px]:gap-[30px] max-[767px]:grid-cols-1"
+          >
+            {
+              plans.annual.map(
+                (
+                  card: {
+                    highlight?: boolean;
+                    name: string;
+                    summary: string;
+                    price: string;
+                    features: {
+                      title: string;
+                      summary?: string;
+                      items: { text: string; question?: boolean }[];
+                    };
+                    button: {
+                      label: string;
+                      href: string;
+                      variant?: "primary" | "outline";
+                      className?: string;
+                    };
+                    popular?: boolean;
+                  },
+                  index: number,
+                ) => (
+                  <article
+                    class={
+                      card.highlight
+                        ? "relative h-full rounded-[24px] bg-gradient-to-r from-[#d8ae6b] to-[#1ad079] p-px"
+                        : "relative h-full rounded-[24px] border border-white/20 bg-[#0e1522]"
+                    }
+                    data-pricing-card-animate
+                    data-pricing-card-delay={`${0.08 * (index + 1)}`}
+                  >
+                    <div
+                      class={
+                        card.highlight
+                          ? "flex h-full flex-col rounded-[24px] bg-[#0e1522] px-[24px] py-[30px] min-[1440px]:px-[32px] min-[1440px]:py-[40px]"
+                          : "flex h-full flex-col rounded-[24px] px-[24px] py-[30px] min-[1440px]:px-[32px] min-[1440px]:py-[40px]"
+                      }
+                    >
+                      <div class="font-title text-[20px] leading-[1.4] max-[767px]:text-[18px]">
+                        {card.name}
+                      </div>
+                      <p class="mt-[10px] mb-6 max-w-[300px] text-[14px] leading-[1.4] text-[#c4c4c4] min-[1440px]:mb-[30px] max-[767px]:mb-5">
+                        {card.summary}
+                      </p>
+                      <div class="h-px w-full bg-[#333]" />
+                      <h3 class="mt-5 text-[length:var(--_typography-size---typography--h3)] font-normal leading-[1.2] min-[1440px]:mt-6 min-[1440px]:text-[40px]">
+                        {card.price}
+                      </h3>
+                      <div class="mt-4 mb-5 flex max-w-[230px] items-center gap-[10px] min-[1440px]:mb-6">
+                        <span class="text-[16px] font-medium leading-[1.4] text-[#c4c4c4]">
+                          Email finder
+                        </span>
+                        <select
+                          class="min-w-[120px] max-w-[120px] appearance-none rounded-[40px] border border-[#414141] bg-[#0e1522] bg-[url('/src/assets/images/down-arrow-1.svg')] bg-[position:88%_center] bg-no-repeat px-[17px] py-[7px] text-[14px] text-white"
+                          name={`${card.name.toLowerCase()}-credits`}
+                        >
+                          {plans.credits.map((label: string, index: number) => (
+                            <option value={index === 0 ? "" : label}>
+                              {label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div class="h-px w-full bg-[#333]" />
+                      {card.features.summary ? (
+                        <div class="flex h-full flex-col justify-between">
+                          <div class="mt-[30px] mb-[30px] min-[1440px]:mt-[40px] min-[1440px]:mb-[40px] max-[767px]:mt-6 max-[767px]:mb-6 max-[479px]:mt-5 max-[479px]:mb-5">
+                            <div class="text-[18px] leading-[1.4] text-[#6356e0]">
+                              {card.features.title}
+                            </div>
+                            <p class="mt-[20px] max-w-[300px] text-[14px] leading-[1.4] text-[#c4c4c4] min-[1440px]:mt-[24px] max-[767px]:mt-4">
+                              {card.features.summary}
+                            </p>
+                            <ul class="mt-4 flex flex-col gap-[10px] pl-0 min-[1440px]:mt-6 min-[1440px]:gap-[16px]">
+                              {card.features.items.map((item) => (
+                                <li
+                                  class={`text-[16px] leading-[1.4] text-[#c4c4c4] ${item.question ? "bg-[url('/src/assets/images/001-question-1.png'),url('/src/assets/images/List-Dot.svg')] bg-[position:100%_center,0_8px] bg-no-repeat pr-[25px] pl-5" : "bg-[url('/src/assets/images/List-Dot.svg')] bg-[position:0_8px] bg-no-repeat pl-5"}`}
+                                >
+                                  {item.text}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <div class="h-px w-full bg-[#333]" />
+                            <div class="mt-6 min-[1440px]:mt-8 max-[767px]:mt-5">
+                              <Button
+                                href={card.button.href}
+                                variant={card.button.variant}
+                                class={card.button.className ?? ""}
+                              >
+                                {card.button.label}
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div class="mt-[30px] mb-[30px] min-[1440px]:mt-[40px] min-[1440px]:mb-[40px] max-[767px]:mt-6 max-[767px]:mb-6 max-[479px]:mt-5 max-[479px]:mb-5">
+                            <div class="text-[18px] leading-[1.4] text-[#6356e0]">
+                              {card.features.title}
+                            </div>
+                            <ul class="mt-5 flex flex-col gap-[10px] pl-0 min-[1440px]:mt-6 min-[1440px]:gap-[16px]">
+                              {card.features.items.map((item) => (
+                                <li
+                                  class={`text-[16px] leading-[1.4] text-[#c4c4c4] ${item.question ? "bg-[url('/src/assets/images/001-question-1.png'),url('/src/assets/images/List-Dot.svg')] bg-[position:100%_center,0_8px] bg-no-repeat pr-[25px] pl-5" : "bg-[url('/src/assets/images/List-Dot.svg')] bg-[position:0_8px] bg-no-repeat pl-5"}`}
+                                >
+                                  {item.text}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div class="h-px w-full bg-[#333]" />
+                          <div class="mt-6 min-[1440px]:mt-8 max-[767px]:mt-5">
+                            <Button
+                              href={card.button.href}
+                              variant={card.button.variant}
+                              class={card.button.className ?? ""}
+                            >
+                              {card.button.label}
+                            </Button>
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    {card.popular ? (
+                      <div class="absolute right-0 top-[32px] flex items-center max-[991px]:top-[28px]">
+                        <AppImage
+                          src={popularBadge}
+                          alt="Price Plan Popular Icon"
+                          width="161"
+                          height="151"
+                          class="h-auto w-auto"
+                          loading="lazy"
+                        />
+                        <span class="absolute right-[10px] font-title text-[14px] font-semibold leading-[1.4]">
+                          {"\u00a0POPULAR"}
+                        </span>
+                      </div>
+                    ) : null}
+                  </article>
+                ),
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  [data-pricing-animate] {
+    opacity: 0;
+    filter: blur(100px);
+    transform: translateY(40px);
+    transition:
+      opacity 0.8s ease,
+      filter 0.8s ease,
+      transform 0.8s ease;
+  }
+
+  [data-pricing-animate].animate-in {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+
+  [data-pricing-card-animate] {
+    opacity: 0;
+    filter: blur(100px);
+    transform: translateY(30px);
+    transition:
+      opacity 0.8s ease,
+      filter 0.8s ease,
+      transform 0.8s ease;
+  }
+
+  [data-pricing-card-animate].animate-in {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const initPricingPlansAnimation = () => {
+    const animatedElements = document.querySelectorAll(
+      "[data-pricing-animate]",
+    );
+    const pricingCards = document.querySelectorAll(
+      "[data-pricing-card-animate]",
+    );
+
+    if (!animatedElements.length && !pricingCards.length) return;
+
+    const isInViewport = (el: Element) => {
+      if (!(el instanceof Element)) return false;
+      const rect = el.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            if (!(el instanceof HTMLElement)) return;
+            const delay = parseFloat(el.dataset.pricingCardDelay || "0");
+
+            setTimeout(() => {
+              el.classList.add("animate-in");
+            }, delay * 1000);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
+
+    animatedElements.forEach((el) => observer.observe(el));
+    pricingCards.forEach((el) => {
+      if (isInViewport(el)) {
+        if (!(el instanceof HTMLElement)) return;
+        const delay = parseFloat(el.dataset.pricingCardDelay || "0");
+        setTimeout(() => {
+          el.classList.add("animate-in");
+        }, delay * 1000);
+        return;
+      }
+      observer.observe(el);
+    });
+  };
+
+  document.addEventListener("DOMContentLoaded", initPricingPlansAnimation);
+  document.addEventListener("astro:page-load", initPricingPlansAnimation);
+</script>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector("[data-pricing-tabs]");
+    if (!root) return;
+
+    const monthlyButton = root.querySelector("[data-tab-button='monthly']");
+    const yearlyButton = root.querySelector("[data-tab-button='yearly']");
+    const monthlyLabel = root.querySelector("[data-tab-label='monthly']");
+    const yearlyLabel = root.querySelector("[data-tab-label='yearly']");
+    const monthlyPanel = root.querySelector("[data-tab-panel='monthly']");
+    const yearlyPanel = root.querySelector("[data-tab-panel='yearly']");
+
+    const setActive = (tab) => {
+      const isMonthly = tab === "monthly";
+      monthlyPanel?.classList.toggle("hidden", !isMonthly);
+      yearlyPanel?.classList.toggle("hidden", isMonthly);
+
+      monthlyButton?.classList.toggle("bg-[#6356e0]", isMonthly);
+      monthlyButton?.classList.toggle("text-white", isMonthly);
+      monthlyButton?.classList.toggle("shadow-[5px_5px_13px_#0009]", isMonthly);
+      monthlyButton?.classList.toggle("font-medium", isMonthly);
+      monthlyButton?.classList.toggle("text-[#888]", !isMonthly);
+      if (monthlyButton) monthlyButton.ariaPressed = String(isMonthly);
+
+      yearlyButton?.classList.toggle("bg-[#6356e0]", !isMonthly);
+      yearlyButton?.classList.toggle("text-white", !isMonthly);
+      yearlyButton?.classList.toggle("shadow-[5px_5px_13px_#0009]", !isMonthly);
+      yearlyButton?.classList.toggle("font-medium", !isMonthly);
+      yearlyButton?.classList.toggle("text-[#888]", isMonthly);
+      if (yearlyButton) yearlyButton.ariaPressed = String(!isMonthly);
+
+      monthlyLabel?.classList.toggle("text-white", isMonthly);
+      monthlyLabel?.classList.toggle("text-[#888]", !isMonthly);
+      yearlyLabel?.classList.toggle("text-white", !isMonthly);
+      yearlyLabel?.classList.toggle("text-[#888]", isMonthly);
+
+      if (isMonthly) {
+        animatePanel(monthlyPanel);
+      } else {
+        animatePanel(yearlyPanel);
+      }
+    };
+
+    const animatePanel = (panel) => {
+      if (!panel) return;
+      panel.classList.remove("pricing-panel-animate");
+      void panel.offsetWidth;
+      panel.classList.add("pricing-panel-animate");
+    };
+
+    monthlyButton?.addEventListener("click", () => setActive("monthly"));
+    yearlyButton?.addEventListener("click", () => setActive("yearly"));
+    monthlyLabel?.addEventListener("click", () => setActive("monthly"));
+    yearlyLabel?.addEventListener("click", () => setActive("yearly"));
+
+    setActive("monthly");
+  })();
+</script>
+
+<style is:global>
+  @keyframes pricingFadeSlide {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .pricing-panel-animate {
+    animation: pricingFadeSlide 300ms ease;
+  }
+</style>
+

@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import IntegrationBreadcrumbSection from "../components/sections/IntegrationBreadcrumbSection.astro";
+import IntegrationDetailsSection from "../components/sections/IntegrationDetailsSection.astro";
+import TestimonialsSectionV2 from "../components/sections/TestimonialsSectionV2.astro";
+import MoreIntegrationsSection from "../components/sections/MoreIntegrationsSection.astro";
+import CtaVideoSection from "../components/sections/CtaVideoSection.astro";
+import { integrationPage } from "../data/integration";
+import { pricingPage } from "../data/pricing-plan";
+
+const moreIntegrations = integrationPage.items;
+const testimonials = pricingPage.testimonials;
+const cta = pricingPage.cta;
+---
+
+<BaseLayout title="Integration Details" description="Integration details">
+  <IntegrationBreadcrumbSection
+    subtitle="Integration Details"
+    titlePrefix="Connected Tools for "
+    titleHighlight="Unstoppable"
+    titleSuffix=" Results"
+    summaryPrefix="To grow your LinkedIn profile through our "
+    summaryHighlight="Zarex,"
+    summarySuffix=" create opportunity for generate more Leeds, create more."
+  />
+  <IntegrationDetailsSection details="" about="" setup="" support="" />
+  <TestimonialsSectionV2 testimonials={testimonials} />
+  <MoreIntegrationsSection items={moreIntegrations} />
+  <CtaVideoSection cta={cta} />
+</BaseLayout>

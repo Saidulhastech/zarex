@@ -1,0 +1,136 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { wcu } = Astro.props;
+
+const wcuLottieSources = [
+  "https://cdn.prod.website-files.com/689c486b98497379b2e85cbd/68bd186079614a03a089e82b_data-1.json",
+  "https://cdn.prod.website-files.com/689c486b98497379b2e85cbd/68bd4f9da972e47133eb54e0_speech-bubble%202%20fx.json",
+  "https://cdn.prod.website-files.com/689c486b98497379b2e85cbd/68bd281b6cdd2e175ad4e915_analytical1010.json",
+  "https://cdn.prod.website-files.com/689c486b98497379b2e85cbd/68bd185f71d09116d5949969_durability-1.json",
+];
+---
+
+<section
+  class="bg-[url('/src/assets/images/wcu-images-bg.png')] bg-cover bg-[position:50%_0] py-[var(--_typography-size---gap--section-gap)] text-white"
+  data-about-wcu
+>
+  <Container
+    class="max-w-[970px] px-[15px] min-[1280px]:max-w-[1220px] min-[1440px]:max-w-[1330px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[479px]:max-w-full"
+  >
+    <div
+      class="section-heading-block align-center flex flex-col items-center text-center"
+      data-about-wcu-heading
+    >
+      <div class="section-title-block max-w-[720px]">
+        <h2
+          class="section-title font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+        >
+          {wcu.title.prefix}
+          <span class="highlight-text">{wcu.title.highlight}</span>
+          {wcu.title.suffix}
+        </h2>
+      </div>
+      <div
+        class="section-summary-block mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[624px]"
+      >
+        <p class="section-summary text-[18px] text-[#c4c4c4]">
+          {wcu.summary}
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="wcu-inner-wrapper mt-[var(--_typography-size---gap--content-gap)] grid gap-10 min-[992px]:grid-cols-[7fr_5fr] min-[1280px]:gap-[40px] min-[1440px]:gap-[90px] max-[991px]:items-start max-[991px]:gap-[24px] max-[767px]:grid-cols-1 max-[767px]:gap-[35px]"
+    >
+      <div class="wcu-card-wrapper flex flex-col gap-5" data-about-wcu-cards>
+        {
+          wcu.items.map(
+            (
+              item: { icon: string; title: string; summary: string },
+              index: number,
+            ) => (
+              <article
+                class={`flex items-start gap-[14px] rounded-[16px] border-2 border-[#ffffff33] bg-[#0e1522] px-5 py-[30px] max-[479px]:flex-wrap min-[1280px]:px-6 ${
+                  index === 0
+                    ? "rotate-[6deg] max-[767px]:rotate-0"
+                    : index === 1
+                      ? "rotate-[-6deg]"
+                      : index === 2
+                        ? "rotate-[6deg]"
+                        : "max-[767px]:rotate-0"
+                }`}
+                data-about-wcu-card
+              >
+                <div
+                  class="relative h-[56px] w-[56px] flex-none rounded-full bg-gradient-to-r from-[#d8ae6b] to-[#1ad079] p-2 overflow-hidden"
+                  data-wcu-icon
+                  data-lottie-src={wcuLottieSources[index]}
+                  data-lottie-loop="true"
+                  data-lottie-autoplay="true"
+                  aria-label={item.title}
+                >
+                  <span class="absolute inset-0 m-[1.5px] rounded-full bg-[#1b1b25]" />
+                  <div class="wcu-icon relative z-10 h-full w-full" />
+                </div>
+                <div class="wcu-content-block flex flex-col gap-5">
+                  <h3 class="wcu-title font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] tracking-[-0.01em] text-white">
+                    {item.title}
+                  </h3>
+                  <p class="wcu-summary mt-[14px] text-[16px] text-[#c4c4c4]">
+                    {item.summary}
+                  </p>
+                </div>
+              </article>
+            ),
+          )
+        }
+      </div>
+
+      <div
+        class="wcu-images-wrapper flex flex-col items-center gap-5 bg-[url('/src/assets/images/wcu-image-bg.png')] bg-[position:50%] bg-no-repeat bg-[length:auto] min-[1280px]:gap-6 max-[991px]:sticky max-[991px]:top-5 max-[991px]:bg-[length:60%_auto] max-[767px]:static max-[767px]:top-auto max-[479px]:bg-[length:180px_auto]"
+        data-about-wcu-images
+      >
+        <div class="wcu-image-block w-full">
+          <AppImage
+            src={wcu.images[0]}
+            alt="WCU Dashboard Preview 1"
+            width="508"
+            height="378"
+            class="wcu-images rounded-[16px] border-2 border-[#262c38]"
+            loading="lazy"
+          />
+        </div>
+        <div
+          class="wcu-image-block w-full max-w-[90%] min-[1440px]:max-w-[417px]"
+        >
+          <AppImage
+            src={wcu.images[1]}
+            alt="WCU Dashboard Preview 2"
+            width="417"
+            height="310"
+            class="wcu-images rounded-[16px] border-2 border-[#262c38]"
+            loading="lazy"
+          />
+        </div>
+        <div
+          class="wcu-image-block w-full max-w-[80%] min-[1440px]:max-w-[317px]"
+        >
+          <AppImage
+            src={wcu.images[2]}
+            alt="WCU Dashboard Preview 3"
+            width="317"
+            height="236"
+            class="wcu-images rounded-[16px] border-2 border-[#262c38]"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </Container>
+
+  <script is:inline src="/vendor/lottie.min.js"></script>
+  <script is:inline src="/scripts/wcu-lottie.js"></script>
+</section>
+

@@ -1,0 +1,162 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { compare } = Astro.props;
+const iconMap = {
+  check: "/images/compare-check-1.svg",
+  remove: "/images/002-remove.svg",
+};
+---
+
+<section
+  class="bg-[url('/src/assets/images/compare-plan-bg.png')] bg-cover bg-center bg-no-repeat pb-[var(--_typography-size---gap--section-gap)]"
+>
+  <Container>
+    <div
+      class="mx-auto flex max-w-[780px] flex-col items-center text-center"
+      data-compare-animate
+      data-compare-animate-delay="0.05"
+    >
+      <h2
+        class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+      >
+        {compare.title.prefix}
+        <span class="highlight-text">{compare.title.highlight}</span>
+        {compare.title.suffix}
+      </h2>
+      <p
+        class="mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[690px] text-[18px] text-[#c4c4c4]"
+      >
+        {compare.summary}
+      </p>
+    </div>
+
+    <div class="overflow-auto overflow-x-hidden overflow-y-hidden">
+      <div
+        class="relative mt-[var(--_typography-size---gap--content-gap)] min-w-[940px] rounded-[var(--_typography-size---gap--border-radius)] border border-white/20 bg-[#0e1522]"
+        data-compare-animate
+        data-compare-animate-delay="0.15"
+      >
+        <div class="grid grid-cols-[1fr_1fr_1fr_1fr] gap-[16px] px-10 py-6">
+          <h3
+            class="font-title text-[length:var(--_typography-size---typography--h4)] leading-[1.4] tracking-[-0.01em] text-white"
+          >
+            {compare.columns[0]}
+          </h3>
+          {
+            compare.columns
+              .slice(1)
+              .map((label: string) => (
+                <h4 class="text-center font-title text-[length:var(--_typography-size---typography--h4)] leading-[1.4] tracking-[-0.01em] text-white">
+                  {label}
+                </h4>
+              ))
+          }
+        </div>
+        <div class="h-px w-full bg-[#414141]"></div>
+
+        {
+          compare.groups.map(
+            (group: { title: string; items: string[]; values: string[][] }) => (
+              <>
+                <div class="grid grid-cols-[1fr_1fr_1fr_1fr] gap-[16px] px-10 py-6">
+                  <div>
+                    <div class="font-title text-[18px] font-semibold leading-[1.4] text-transparent underline decoration-[#6356e0] [text-decoration-thickness:1px] bg-[#6356e0] bg-clip-text">
+                      {group.title}
+                    </div>
+                    <div class="mt-5 flex flex-col gap-4">
+                      {group.items.map((item: string) => (
+                        <div class="text-[16px] leading-[1.4] text-white">
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {group.values.map((columnValues: string[]) => (
+                    <div class="mt-5 flex flex-col items-center gap-4">
+                      {columnValues.map((value: string) =>
+                        value === "check" || value === "remove" ? (
+                          <AppImage
+                            src={iconMap[value as keyof typeof iconMap]}
+                            alt="Compare Plan Icon"
+                            width="20"
+                            height="20"
+                            class="h-5 w-5"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div class="text-[16px] leading-[1.4] text-white">
+                            {value}
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <div class="h-px w-full bg-[#414141]" />
+              </>
+            ),
+          )
+        }
+
+        <div class="absolute right-1/4 top-0 h-full w-px bg-[#414141]"></div>
+        <div class="absolute right-1/2 top-0 h-full w-px bg-[#414141]"></div>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  [data-compare-animate] {
+    opacity: 0;
+    filter: blur(100px);
+    transform: translateY(40px);
+    transition:
+      opacity 0.8s ease,
+      filter 0.8s ease,
+      transform 0.8s ease;
+  }
+
+  [data-compare-animate].animate-in {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const initComparePlansAnimation = () => {
+    const animatedElements = document.querySelectorAll(
+      "[data-compare-animate]",
+    );
+
+    if (!animatedElements.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry: IntersectionObserverEntry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            const delay = parseFloat(el.dataset.compareAnimateDelay || "0");
+
+            setTimeout(() => {
+              el.classList.add("animate-in");
+            }, delay * 1000);
+            observer.unobserve(el);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
+
+    animatedElements.forEach((el) => observer.observe(el));
+  };
+
+  document.addEventListener("DOMContentLoaded", initComparePlansAnimation);
+  document.addEventListener("astro:page-load", initComparePlansAnimation);
+</script>
+

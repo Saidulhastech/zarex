@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import IntegrationBreadcrumbSection from "../../components/sections/IntegrationBreadcrumbSection.astro";
+import IntegrationDetailsSection from "../../components/sections/IntegrationDetailsSection.astro";
+import TestimonialsSectionV2 from "../../components/sections/TestimonialsSectionV2.astro";
+import MoreIntegrationsSection from "../../components/sections/MoreIntegrationsSection.astro";
+import CtaVideoSection from "../../components/sections/CtaVideoSection.astro";
+import { integrationPage } from "../../data/integration";
+import { pricingPage } from "../../data/pricing-plan";
+
+export function getStaticPaths() {
+  return integrationPage.items.map((item) => ({
+    params: { slug: item.slug },
+    props: { integration: item },
+  }));
+}
+
+const { integration } = Astro.props;
+const moreIntegrations = integrationPage.items
+  .filter((item) => item.slug !== integration.slug)
+  .slice(0, 3);
+const testimonials = pricingPage.testimonials;
+const cta = pricingPage.cta;
+---
+
+<BaseLayout title={`${integration.title} Integration`} description={integration.summary}>
+  <IntegrationBreadcrumbSection
+    subtitle="Integration Details"
+    titlePrefix="Connected Tools for "
+    titleHighlight="Unstoppable"
+    titleSuffix=" Results"
+    summaryPrefix="To grow your LinkedIn profile through our "
+    summaryHighlight="Zarex,"
+    summarySuffix=" create opportunity for generate more Leeds, create more."
+  />
+  <IntegrationDetailsSection
+    icon={integration.icon}
+    details={integration.details}
+    about={integration.about}
+    setup={integration.setup}
+    support={integration.support}
+  />
+  <TestimonialsSectionV2 testimonials={testimonials} />
+  <MoreIntegrationsSection items={moreIntegrations} />
+  <CtaVideoSection cta={cta} />
+</BaseLayout>

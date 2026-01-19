@@ -1,0 +1,61 @@
+{
+  "name": "zarex-astro",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Zarex - Astro website template with modern, data-driven sections, blog content, and conversion-focused layouts.",
+  "author": {
+    "name": "Your Name",
+    "email": "your-email@example.com",
+    "url": "https://your-website.com"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://your-demo-url.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/zarex-astro"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/zarex-astro/issues",
+    "email": "support@your-website.com"
+  },
+  "keywords": [
+    "astro",
+    "astro-theme",
+    "withastro",
+    "astro-template",
+    "saas",
+    "saas-template",
+    "landing-page",
+    "marketing",
+    "linkedin",
+    "lead-generation",
+    "b2b",
+    "dark-theme",
+    "tailwindcss",
+    "gsap",
+    "responsive",
+    "premium-theme"
+  ],
+  "engines": {
+    "node": ">=18.17.1"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.11",
+    "gsap": "^3.14.2",
+    "lenis": "^1.3.17",
+    "lottie-web": "^5.13.0",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3"
+  }
+}

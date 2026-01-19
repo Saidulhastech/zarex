@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { homeTwo } from "../data/home-two";
+import HeroSectionV2 from "../components/sections/HeroSectionV2.astro";
+import PartnerSection from "../components/sections/PartnerSection.astro";
+import FeaturesSectionV2 from "../components/sections/FeaturesSectionV2.astro";
+import ApproachSection from "../components/sections/ApproachSection.astro";
+import AboutSection from "../components/sections/AboutSection.astro";
+import WcuSectionV2 from "../components/sections/WcuSectionV2.astro";
+import GrowthSectionV2 from "../components/sections/GrowthSectionV2.astro";
+import SpecialFeaturesSectionV2 from "../components/sections/SpecialFeaturesSectionV2.astro";
+import IntegrationsSectionV2 from "../components/sections/IntegrationsSectionV2.astro";
+import TestimonialsSectionV2 from "../components/sections/TestimonialsSectionV2.astro";
+import ImpactSectionV2 from "../components/sections/ImpactSectionV2.astro";
+import BlogSectionV2 from "../components/sections/BlogSectionV2.astro";
+import CtaSectionV2 from "../components/sections/CtaSectionV2.astro";
+
+const posts = (await getCollection("blog"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title="Zarex - Astro Website Template"
+  description="Zarex is an Astro website template with modern, data-driven sections, blog content, and conversion-focused layouts."
+>
+  <HeroSectionV2 hero={homeTwo.hero} />
+  <PartnerSection partners={homeTwo.partners} />
+  <FeaturesSectionV2 features={homeTwo.features} />
+  <ApproachSection approach={homeTwo.approach} />
+  <AboutSection about={homeTwo.about} />
+  <WcuSectionV2 wcu={homeTwo.wcu} />
+  <GrowthSectionV2 growth={homeTwo.growth} />
+  <SpecialFeaturesSectionV2 special={homeTwo.special} />
+  <IntegrationsSectionV2 integrations={homeTwo.integrations} />
+  <TestimonialsSectionV2 testimonials={homeTwo.testimonials} />
+  <ImpactSectionV2 impact={homeTwo.impact} />
+  <div class="bg-[url('/src/assets/images/blog-bg-v2.png')] bg-cover bg-top">
+    <BlogSectionV2 blog={homeTwo.blog} posts={posts} />
+    <CtaSectionV2 cta={homeTwo.cta} />
+  </div>
+</BaseLayout>
+

@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactUsSection from "../components/sections/ContactUsSection.astro";
+import FaqSection from "../components/sections/FaqSection.astro";
+import CtaVideoSection from "../components/sections/CtaVideoSection.astro";
+import { contactPage } from "../data/contact-us";
+---
+
+<BaseLayout
+  title="Zarex - Contact Us"
+  description="Have questions or need support? Contact the Zarex team for assistance with your LinkedIn marketing strategy or our software platform."
+>
+  <ContactUsSection content={contactPage} />
+  <FaqSection faq={contactPage.faq} />
+  <CtaVideoSection cta={contactPage.cta} />
+</BaseLayout>

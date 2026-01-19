@@ -1,0 +1,186 @@
+---
+import { Image } from "astro:assets";
+import { resolveImage } from "../../utils/resolveImage";
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+
+const { integrations } = Astro.props;
+
+const iconSlots = [
+  "https://cdn.prod.website-files.com/68a3f48c515f538aacaaae24/68ad4a116ec69fa4ae8803a4_zeltufy.svg",
+  "https://cdn.prod.website-files.com/68a3f48c515f538aacaaae24/68ad4b1de492f2b844d9f835_kb-drive.svg",
+  "https://cdn.prod.website-files.com/68a3f48c515f538aacaaae24/68ad4ad1571a5d311d3cd24f_calprint.svg",
+  "https://cdn.prod.website-files.com/68a3f48c515f538aacaaae24/68ad4b5b9e47915781800ebf_quick-fill.svg",
+  "https://cdn.prod.website-files.com/68a3f48c515f538aacaaae24/68ad4a9c7bd00372bd7ff50e_plack.svg",
+  "https://cdn.prod.website-files.com/68a3f48c515f538aacaaae24/68ad4a413e7e2dcd1b5e87bf_frello.svg",
+];
+
+// Determine if a source is remote or local
+const resolveSource = (src: string) =>
+  src.startsWith("http") ? src : resolveImage(src);
+
+// Resolve the main logo and all icons
+const mainLogo = await resolveSource(integrations.logo);
+const resolvedIcons = await Promise.all(iconSlots.map(resolveSource));
+
+const iconBlockClass =
+  "integration-icon-block flex h-full w-full items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)]";
+const iconClass =
+  "integration-icon w-[50px] min-[1440px]:w-auto max-[991px]:w-[40px]";
+const leftIconBlockClass =
+  "integration-left-icon-block absolute top-[-45px] left-[-80px] flex h-[80px] w-[80px] items-center justify-center min-[1440px]:h-[90px] min-[1440px]:w-[90px] max-[767px]:h-[70px] max-[767px]:w-[70px] max-[767px]:top-[-35px] max-[767px]:left-[-65px] max-[479px]:left-[-59px]";
+const rightIconBlockClass =
+  "integration-right-icon-block absolute top-[-45px] right-[-80px] flex h-[80px] w-[80px] items-center justify-center min-[1440px]:h-[90px] min-[1440px]:w-[90px] max-[767px]:h-[70px] max-[767px]:w-[70px] max-[767px]:top-[-35px] max-[767px]:right-[-65px] max-[479px]:top-[-27px]";
+---
+
+<section
+  class="integrations-section bg-[url('/src/assets/images/integration-BG.png')] bg-cover bg-center pt-[var(--_typography-size---gap--section-gap)] pb-[180px] min-[1440px]:pb-[230px] max-[991px]:pb-[140px] max-[767px]:pb-[110px] max-[479px]:pb-[80px] text-white overflow-hidden"
+>
+  <Container>
+    <div class="section-heading-block align-center text-center">
+      <div class="section-title-block max-w-[640px] mx-auto">
+        <h2 class="section-title font-title font-normal tracking-[-0.02em]">
+          {integrations.title.prefix}
+          <span class="text-gradient">{integrations.title.highlight}</span>
+          {integrations.title.suffix}
+        </h2>
+      </div>
+      <div class="section-summary-block max-w-[528px] mx-auto">
+        <p class="section-summary text-[18px] text-[#c4c4c4]">
+          {integrations.summary}
+        </p>
+      </div>
+      <div
+        class="integration-button-group mt-[30px] min-[1440px]:mt-[48px] max-[767px]:mt-[24px] flex flex-wrap items-center justify-center gap-4"
+      >
+        <Button href={integrations.primaryCta.href}>
+          {integrations.primaryCta.label}
+        </Button>
+        <Button href={integrations.secondaryCta.href} variant="outline">
+          {integrations.secondaryCta.label}
+        </Button>
+      </div>
+    </div>
+
+    <div
+      class="integrations-wrapper mt-[120px] min-[1440px]:mt-[130px] max-[991px]:mt-[100px] max-[479px]:mt-[70px] flex items-center justify-center relative"
+    >
+      <div
+        class="integrations-circle-block relative z-10 flex h-[140px] w-[140px] items-center justify-center rounded-full border border-white/20 bg-[#0e1522] shadow-[0_4px_27px_#6356e04d] max-[767px]:h-[100px] max-[767px]:w-[100px] max-[479px]:h-[80px] max-[479px]:w-[80px]"
+      >
+        <Image
+          src={mainLogo as any}
+          alt="Integration logo"
+          width={60}
+          height={60}
+          class="integration-logo h-[60px] w-[60px] max-[479px]:h-[50px] max-[479px]:w-[50px]"
+          loading="lazy"
+        />
+      </div>
+
+      <div
+        class="integrations-left-column relative h-[411px] w-px bg-[radial-gradient(circle,#101010,#767676)] left-[-140px] max-[767px]:h-[380px] max-[767px]:left-[-98px] max-[479px]:h-[220px] max-[479px]:left-[-78px]"
+      >
+        <div
+          class="integration-left-top-border absolute right-0 top-0 h-px w-[63px] bg-[linear-gradient(#101010,#767676)] max-[479px]:w-[30px]"
+        >
+          <div class={leftIconBlockClass}>
+            <div class={iconBlockClass}>
+              <Image
+                src={resolvedIcons[0] as any}
+                alt="Integration icon"
+                width={50}
+                height={50}
+                class={iconClass}
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="integration-left-bottom-border absolute right-0 bottom-0 h-px w-[63px] bg-[linear-gradient(#101010,#767676)] max-[479px]:w-[30px]"
+        >
+          <div class={leftIconBlockClass}>
+            <div class={iconBlockClass}>
+              <Image
+                src={resolvedIcons[1] as any}
+                alt="Integration icon"
+                width={50}
+                height={50}
+                class={iconClass}
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="integration-middle-column absolute h-px w-[500px] bg-[radial-gradient(circle,#101010,#767676)] min-[1440px]:w-[600px] max-[991px]:w-[411px] max-[767px]:w-[320px] max-[479px]:w-[180px]"
+      >
+        <div class={rightIconBlockClass}>
+          <div class={iconBlockClass}>
+            <Image
+              src={resolvedIcons[2] as any}
+              alt="Integration icon"
+              width={50}
+              height={50}
+              class={iconClass}
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <div class={leftIconBlockClass}>
+          <div class={iconBlockClass}>
+            <Image
+              src={resolvedIcons[3] as any}
+              alt="Integration icon"
+              width={50}
+              height={50}
+              class={iconClass}
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="integrations-right-column relative h-[411px] w-px bg-[radial-gradient(circle,#101010,#767676)] left-[-3px] max-[767px]:h-[380px] max-[479px]:h-[220px]"
+      >
+        <div
+          class="integration-right-top-border absolute left-0 top-0 h-px w-[63px] bg-[linear-gradient(#101010,#767676)] max-[479px]:w-[30px]"
+        >
+          <div class={rightIconBlockClass}>
+            <div class={iconBlockClass}>
+              <Image
+                src={resolvedIcons[4] as any}
+                alt="Integration icon"
+                width={50}
+                height={50}
+                class={iconClass}
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="integration-right-bottom-border absolute left-0 bottom-0 h-px w-[63px] bg-[linear-gradient(#101010,#767676)] max-[479px]:w-[30px]"
+        >
+          <div class={rightIconBlockClass}>
+            <div class={iconBlockClass}>
+              <Image
+                src={resolvedIcons[5] as any}
+                alt="Integration icon"
+                width={50}
+                height={50}
+                class={iconClass}
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+

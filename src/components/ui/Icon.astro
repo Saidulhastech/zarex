@@ -1,0 +1,21 @@
+---
+type IconName = "play";
+
+const {
+  name,
+  class: className = "",
+} = Astro.props as {
+  name: IconName;
+  class?: string;
+};
+
+const icons = {
+  play: `
+    <svg width="14" height="18" viewBox="0 0 15 21" fill="none" aria-hidden="true">
+      <path d="M13.871 9.71006C14.5445 10.195 14.5445 11.1975 13.871 11.6824L1.97601 20.2468C1.17219 20.8255 0.0507813 20.2511 0.0507813 19.2606L0.0507819 2.13186C0.050782 1.14136 1.17219 0.566934 1.97601 1.14569L13.871 9.71006Z" fill="currentColor"></path>
+    </svg>
+  `,
+};
+---
+
+<span class={className} set:html={icons[name]} />

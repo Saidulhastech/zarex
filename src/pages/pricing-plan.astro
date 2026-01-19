@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PricingBreadcrumbSection from "../components/sections/PricingBreadcrumbSection.astro";
+import PricingPlansSection from "../components/sections/PricingPlansSection.astro";
+import ComparePlansSection from "../components/sections/ComparePlansSection.astro";
+import TestimonialsSectionV2 from "../components/sections/TestimonialsSectionV2.astro";
+import FaqSection from "../components/sections/FaqSection.astro";
+import CtaVideoSection from "../components/sections/CtaVideoSection.astro";
+import { pricingPage } from "../data/pricing-plan";
+---
+
+<BaseLayout
+  title="Zarex - Pricing Plan"
+  description="Choose the perfect plan for your LinkedIn marketing needs. From flexible starter kits to enterprise-grade outreach tools, Zarex has you covered."
+>
+  <PricingBreadcrumbSection breadcrumb={pricingPage.breadcrumb} />
+  <PricingPlansSection plans={pricingPage.plans} />
+  <ComparePlansSection compare={pricingPage.compare} />
+  <TestimonialsSectionV2 testimonials={pricingPage.testimonials} />
+  <FaqSection faq={pricingPage.faq} />
+  <CtaVideoSection cta={pricingPage.cta} />
+</BaseLayout>

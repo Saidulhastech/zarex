@@ -1,0 +1,164 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { hero, funfacts, cards } = Astro.props;
+---
+
+<section
+  class="about-us-section pt-[var(--_typography-size---gap--page-top-gap)] pb-[var(--_typography-size---gap--section-gap)] text-white"
+  data-about-intro
+>
+  <Container
+    class="max-w-[970px] px-[15px] min-[1280px]:max-w-[1220px] min-[1440px]:max-w-[1330px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[479px]:max-w-full"
+  >
+    <div
+      class="page-heading-block align-center flex flex-col items-center text-center"
+      data-about-intro-heading
+    >
+      <div class="page-subtitle-block">
+        <div
+          class="page-subtitle-v2 text-[20px] font-semibold leading-[1.1] text-gradient"
+        >
+          {hero.subtitle}
+        </div>
+      </div>
+      <div class="page-title-block margin-top-24px max-w-[800px]">
+        <h1
+          class="page-title font-title text-[length:var(--_typography-size---typography--h1)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+        >
+          {hero.title.prefix}
+          <span class="make-bold font-semibold text-gradient"
+            >{hero.title.highlight}</span
+          >
+          {hero.title.suffix}
+        </h1>
+      </div>
+      <div
+        class="page-summary-block max-width-690px mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[690px] text-[20px]"
+      >
+        <p class="hero-summary text-[20px] text-[#c4c4c4]">
+          {hero.summary.prefix}
+          <span class="make-bold font-semibold text-gradient"
+            >{hero.summary.highlight}</span
+          >
+          {hero.summary.suffix}
+        </p>
+      </div>
+      <div
+        class="page-button-group mt-6 flex flex-wrap items-center justify-center gap-5 min-[1280px]:mt-[33px]"
+      >
+        <Button href={hero.cta.primary.href}>{hero.cta.primary.label}</Button>
+        <Button href={hero.cta.secondary.href} variant="outline">
+          {hero.cta.secondary.label}
+        </Button>
+      </div>
+    </div>
+
+    <div
+      class="about-us-wrapper mt-[var(--_typography-size---gap--content-gap)]"
+    >
+      <div
+        class="about-us-top-content-block grid grid-cols-2 gap-[30px] min-[1280px]:grid-cols-[770px_358px] min-[1440px]:grid-cols-[7.5fr_4.5fr] min-[1440px]:gap-[30px] max-[991px]:grid-cols-[7fr_5fr] max-[991px]:gap-6 max-[767px]:grid-cols-1 max-[767px]:gap-[30px]"
+      >
+        <div
+          class="about-us-image-wrap relative overflow-hidden rounded-[16px]"
+          data-about-intro-image
+        >
+          <AppImage
+            src={hero.image.src}
+            alt={hero.image.alt}
+            width="770"
+            height="450"
+            class="about-us-image h-full w-full object-cover"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <div
+            class="about-us-summary-block absolute bottom-5 left-5 rounded-[12px] max-[991px]:left-auto max-[991px]:right-5"
+          >
+            <AppImage
+              src={hero.summaryImage.src}
+              alt={hero.summaryImage.alt}
+              width="419"
+              height="144"
+              class="about-us-summary rounded-[12px]"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+        </div>
+
+        <div
+          class="about-us-funfact-wrap flex flex-col items-center justify-between gap-10 rounded-[16px] border border-[#ffffff1a] bg-[#0e1522] px-6 py-10 min-[1280px]:gap-[80px] min-[1280px]:px-[30px] min-[1280px]:py-[76px] max-[991px]:gap-[30px] max-[991px]:px-5 max-[767px]:grid max-[767px]:grid-cols-2 max-[767px]:justify-items-center"
+          data-about-intro-funfacts
+        >
+          {
+            funfacts.map(
+              (fact: { value: string; label: string }, index: number) => (
+                <div class="single-funfact-wrap align-center flex items-center gap-4 max-[991px]:flex-col max-[991px]:gap-5 max-[991px]:text-center">
+                  <div class="funfact-number-block flex h-[32px] items-start overflow-hidden min-[1280px]:h-[38px] min-[1440px]:h-[45px] max-[991px]:h-[28px] max-[479px]:h-[22px]">
+                    <div
+                      class="funfact-number text-gradient text-[40px] font-medium leading-[0.8] min-[1280px]:text-[48px] min-[1440px]:text-[56px] max-[991px]:text-[35px] max-[479px]:text-[28px]"
+                      data-about-intro-number
+                      data-about-intro-value={fact.value}
+                    >
+                      {fact.value}
+                    </div>
+                  </div>
+                  <div
+                    class={`number-text-label text-[16px] leading-[1.6] text-white ${
+                      index === 0
+                        ? "max-w-[100px]"
+                        : index === 1
+                          ? "max-w-[130px]"
+                          : index === 2
+                            ? "max-w-[82px]"
+                            : "max-w-[112px]"
+                    } max-[479px]:max-w-none`}
+                  >
+                    {fact.label}
+                  </div>
+                </div>
+              ),
+            )
+          }
+        </div>
+      </div>
+
+      <div
+        class="about-us-lower-content-block mt-[30px] grid grid-cols-3 gap-6 min-[1440px]:gap-[30px] max-[991px]:grid-cols-2 max-[991px]:mt-6 max-[767px]:grid-cols-1"
+        data-about-intro-cards
+      >
+        {
+          cards.map(
+            (card: { icon: string; title: string; summary: string }) => (
+              <article
+                class="about-us-single-card-block rounded-[24px] border border-[#484848] px-6 py-6 min-[1440px]:px-[32px] min-[1440px]:py-[40px] max-[991px]:p-5"
+                data-about-intro-card
+              >
+                <div class="about-us-card-icon-block">
+                  <AppImage
+                    src={card.icon}
+                    alt="About Us Card Icon"
+                    width="48"
+                    height="48"
+                    class="about-us-card-icon"
+                    loading="lazy"
+                  />
+                </div>
+                <h3 class="about-us-card-title mt-[30px] font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] tracking-[-0.01em] text-white min-[1440px]:mt-[48px] max-[767px]:mt-6">
+                  {card.title}
+                </h3>
+                <p class="about-us-card-summary mt-[var(--_typography-size---gap--subtitle-gap)] text-[16px] text-[#c4c4c4]">
+                  {card.summary}
+                </p>
+              </article>
+            ),
+          )
+        }
+      </div>
+    </div>
+  </Container>
+</section>

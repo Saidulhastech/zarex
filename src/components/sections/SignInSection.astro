@@ -1,0 +1,156 @@
+---
+import Container from "../ui/Container.astro";
+import FormInput from "../ui/FormInput.astro";
+---
+
+<section
+  data-sign-in-section
+  class="bg-[url('/src/assets/images/Sign-In-BG.png')] bg-cover bg-center bg-no-repeat py-[var(--_typography-size---gap--section-gap)]"
+>
+  <Container>
+    <div
+      data-sign-in-wrapper
+      class="mx-auto flex w-full flex-col items-center rounded-[8px]"
+    >
+      <h2
+        class="mb-[60px] max-w-[440px] text-center font-title text-[length:var(--_typography-size---typography--h3)] font-normal leading-[1.3] tracking-[-0.02em] text-white min-[1280px]:mb-[88px] min-[1280px]:max-w-[460px] max-[991px]:max-w-[400px] max-[767px]:mb-[50px] max-[767px]:max-w-[380px] max-[479px]:mb-[40px]"
+      >
+        Enter Your Email and Password to Access Your Account
+      </h2>
+
+      <form class="w-full max-w-[421px]" method="get">
+        <div
+          class="flex w-full flex-col items-center gap-[35px] min-[1280px]:gap-[60px] max-[767px]:gap-[30px]"
+        >
+          <FormInput
+            maxlength={256}
+            name="Username-or-email"
+            placeholder="Username or email"
+            type="email"
+            required
+          />
+          <FormInput
+            maxlength={256}
+            name="Password"
+            placeholder="Password"
+            type="password"
+            required
+          />
+        </div>
+
+        <div
+          class="mt-[16px] flex w-full items-center justify-between min-[1280px]:mt-[20px] max-[479px]:flex-wrap"
+        >
+          <label class="flex items-center gap-[8px]">
+            <input
+              type="checkbox"
+              name="Remember"
+              class="peer sr-only"
+              required
+            />
+            <span
+              class="relative h-[16px] w-[16px] rounded-[4px] border border-[#b1b1b1] peer-checked:border-[#d8ae6b] peer-checked:bg-[#d8ae6b] after:content-[''] after:absolute after:left-[5px] after:top-[1px] after:h-[9px] after:w-[5px] after:rotate-45 after:border-b-2 after:border-r-2 after:border-[#0e1522] after:opacity-0 peer-checked:after:opacity-100"
+            ></span>
+            <span
+              class="font-title text-[14px] font-medium leading-[1.1] text-[#b1b1b1]"
+            >
+              Remember me
+            </span>
+          </label>
+        </div>
+
+        <div class="mt-[72px] flex w-full justify-center">
+          <input
+            type="submit"
+            value="Sign In"
+            class="submit-button border-0 w-full"
+          />
+        </div>
+      </form>
+
+      <div class="mt-[30px] w-full max-w-[421px] min-[1280px]:mt-[48px]">
+        <div class="flex items-center justify-between gap-[11px]">
+          <span
+            class="h-px w-full min-w-[190px] bg-[#888] max-[479px]:min-w-[100px]"
+          ></span>
+          <span
+            class="flex-none font-title text-[18px] leading-none tracking-[0.02em] text-white"
+          >
+            Or
+          </span>
+          <span
+            class="h-px w-full min-w-[190px] bg-[#888] max-[479px]:min-w-[100px]"
+          ></span>
+        </div>
+
+        <a
+          href="https://example.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-[30px] flex items-center justify-center gap-[8px] rounded-[41px] border border-[#888] px-[20px] py-[13px] text-white transition hover:bg-black"
+        >
+          <span class="flex items-center justify-center">
+            <svg
+              width="17"
+              height="16"
+              viewBox="0 0 17 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <g clip-path="url(#clip0_8_896)">
+                <path
+                  d="M15.8957 6.60908L9.36944 6.60876C9.08125 6.60876 8.84766 6.84233 8.84766 7.13051V9.21536C8.84766 9.50348 9.08125 9.73711 9.36941 9.73711H13.0446C12.6422 10.7815 11.891 11.6562 10.9327 12.2119L12.4998 14.9247C15.0136 13.4709 16.4998 10.92 16.4998 8.06439C16.4998 7.6578 16.4698 7.36714 16.4099 7.03986C16.3643 6.7912 16.1485 6.60908 15.8957 6.60908Z"
+                  fill="#167EE6"></path>
+                <path
+                  d="M8.50083 12.8696C6.70227 12.8696 5.13214 11.8869 4.28886 10.4327L1.57617 11.9963C2.95664 14.3889 5.5427 16 8.50083 16C9.95199 16 11.3213 15.6093 12.5008 14.9284V14.9247L10.9337 12.2119C10.2169 12.6276 9.38742 12.8696 8.50083 12.8696Z"
+                  fill="#12B347"></path>
+                <path
+                  d="M12.5 14.9283V14.9246L10.9329 12.2118C10.2161 12.6275 9.38666 12.8695 8.5 12.8695V15.9999C9.95116 15.9999 11.3205 15.6092 12.5 14.9283Z"
+                  fill="#0F993E"></path>
+                <path
+                  d="M3.63044 7.99994C3.63044 7.11341 3.87237 6.28401 4.28803 5.56722L1.57534 4.00366C0.890687 5.17951 0.5 6.54507 0.5 7.99994C0.5 9.45482 0.890687 10.8204 1.57534 11.9962L4.28803 10.4327C3.87237 9.71588 3.63044 8.88647 3.63044 7.99994Z"
+                  fill="#FFD500"></path>
+                <path
+                  d="M8.50083 3.13044C9.67367 3.13044 10.751 3.54719 11.5925 4.24041C11.8 4.41141 12.1018 4.39906 12.2919 4.20891L13.7691 2.73172C13.9849 2.51597 13.9695 2.16281 13.739 1.96287C12.3292 0.739781 10.4948 0 8.50083 0C5.5427 0 2.95664 1.61116 1.57617 4.00372L4.28886 5.56728C5.13214 4.11312 6.70227 3.13044 8.50083 3.13044Z"
+                  fill="#FF4B26"></path>
+                <path
+                  d="M11.5916 4.24041C11.7992 4.41141 12.101 4.39906 12.2911 4.20891L13.7683 2.73172C13.984 2.51597 13.9686 2.16281 13.7382 1.96288C12.3283 0.73975 10.494 0 8.5 0V3.13044C9.67281 3.13044 10.7502 3.54719 11.5916 4.24041Z"
+                  fill="#D93F21"></path>
+              </g>
+              <defs>
+                <clipPath id="clip0_8_896">
+                  <rect
+                    width="16"
+                    height="16"
+                    fill="white"
+                    transform="translate(0.5)"></rect>
+                </clipPath>
+              </defs>
+            </svg>
+          </span>
+          <span class="text-[16px] leading-[1.5] tracking-[-0.02em]">
+            Login with Google
+          </span>
+        </a>
+
+        <div
+          class="mt-[20px] flex w-full items-center justify-center gap-[5px] min-[1280px]:mt-[24px] max-[479px]:flex-wrap max-[479px]:gap-[12px]"
+        >
+          <span
+            class="font-title text-[14px] font-medium leading-[1.1] text-[#b1b1b1]"
+          >
+            Don't have an account?
+          </span>
+          <a
+            href="/authentication/sign-up"
+            class="font-title text-[14px] font-semibold leading-[1.1] tracking-[0.02em] text-white underline transition hover:text-[#d8ae6b]"
+          >
+            Create Here
+          </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+

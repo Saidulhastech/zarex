@@ -1,0 +1,272 @@
+---
+import Container from "../ui/Container.astro";
+
+const { faq } = Astro.props;
+
+const faqIcon = {
+  width: 34,
+  height: 34,
+  viewBox: "0 0 34 34",
+  path: [
+    "M10.3327 17.5515L16.9993 24.1665L23.666 17.5515M16.9993 23.2473V9.83317",
+    "M17 0.999999C25.8333 0.999999 33 8.16667 33 17C33 25.8333 25.8333 33 17 33C8.16667 33 0.999999 25.8333 0.999999 17C0.999999 8.16667 8.16667 0.999999 17 0.999999Z",
+  ],
+};
+---
+
+<section
+  class="bg-[url('/src/assets/images/faq-bg.png')] bg-cover bg-no-repeat py-[var(--_typography-size---gap--section-gap)]"
+  data-faq-section
+>
+  <Container>
+    <div
+      class="mx-auto flex max-w-[710px] flex-col items-center text-center"
+      data-faq-heading
+    >
+      <h2
+        class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+      >
+        {faq.title.prefix}
+        <span class="text-gradient">{faq.title.highlight}</span>
+        {faq.title.suffix}
+      </h2>
+      <p
+        class="mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[624px] text-[18px] text-[#c4c4c4]"
+      >
+        {faq.summary}
+      </p>
+    </div>
+
+    <div
+      class="faq-wrapper mx-auto mt-[var(--_typography-size---gap--content-gap)] flex w-full max-w-[966px] flex-col items-center gap-[24px]"
+      data-faq-accordion
+    >
+      {
+        faq.items.map(
+          (item: { question: string; answer: string }, index: number) => (
+            <details
+              class="faq-item w-full rounded-[var(--_typography-size---gap--border-radius)] border border-white/20 bg-[#0e1522] p-[30px] min-[1440px]:p-[40px] max-[767px]:p-[20px]"
+              data-faq-item
+            >
+              <summary class="faq-toggle flex w-full cursor-pointer list-none items-center justify-between gap-[20px] [&::-webkit-details-marker]:hidden">
+                <span class="font-title text-[24px] font-medium leading-[1.4] text-white whitespace-pre-wrap [overflow-wrap:anywhere] max-[767px]:text-[22px]">
+                  {item.question}
+                </span>
+                <span class="faq-arrow relative flex h-[32px] w-[32px] items-center justify-center max-[991px]:h-[35px] max-[991px]:w-[35px] max-[767px]:h-[30px] max-[767px]:w-[30px]">
+                  <span class="faq-arrow-primary text-white">
+                    <svg
+                      width={faqIcon.width}
+                      height={faqIcon.height}
+                      viewBox={faqIcon.viewBox}
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d={faqIcon.path[0]}
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d={faqIcon.path[1]}
+                        stroke="currentColor"
+                        stroke-miterlimit="10"
+                      />
+                    </svg>
+                  </span>
+                  <span class="faq-arrow-secondary absolute inset-0 flex items-center justify-center opacity-0">
+                    <svg
+                      width={faqIcon.width}
+                      height={faqIcon.height}
+                      viewBox={faqIcon.viewBox}
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M23.6673 16.4485L17.0007 9.8335L10.334 16.4485M17.0007 10.7527V24.1668"
+                        stroke={`url(#faq-gradient-line-${index})`}
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M17 33C8.16667 33 1 25.8333 1 17C1 8.16667 8.16667 1 17 1C25.8333 1 33 8.16667 33 17C33 25.8333 25.8333 33 17 33Z"
+                        stroke={`url(#faq-gradient-ring-${index})`}
+                        stroke-miterlimit="10"
+                      />
+                      <defs>
+                        <linearGradient
+                          id={`faq-gradient-line-${index}`}
+                          x1="19.4081"
+                          y1="10.3848"
+                          x2="19.3916"
+                          y2="22.7888"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop stop-color="#D8AE6B" />
+                          <stop offset="1" stop-color="#1AD079" />
+                        </linearGradient>
+                        <linearGradient
+                          id={`faq-gradient-ring-${index}`}
+                          x1="22.7778"
+                          y1="2.23077"
+                          x2="22.7437"
+                          y2="29.9236"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop stop-color="#D8AE6B" />
+                          <stop offset="1" stop-color="#1AD079" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </span>
+                </span>
+              </summary>
+              <div class="faq-content overflow-hidden">
+                <div class="max-w-[95%] pt-[20px] ml-[35px] min-[1440px]:ml-[40px] max-[767px]:ml-0">
+                  <p class="text-[16px] leading-[1.6] text-[#c4c4c4]">
+                    {item.answer}
+                  </p>
+                </div>
+              </div>
+            </details>
+          ),
+        )
+      }
+    </div>
+  </Container>
+</section>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector("[data-faq-accordion]");
+    if (!root) return;
+
+    const items = Array.from(root.querySelectorAll("details"));
+
+    const setState = (item, state) => {
+      item.dataset.state = state;
+    };
+
+    const setContentHeight = (item, height) => {
+      const content = item.querySelector(".faq-content");
+      if (!content) return;
+      content.style.maxHeight = `${height}px`;
+    };
+
+    const openItem = (item) => {
+      if (item.open) return;
+      item.open = true;
+      setState(item, "open");
+      const content = item.querySelector(".faq-content");
+      if (!content) return;
+      content.style.maxHeight = "0px";
+      requestAnimationFrame(() => {
+        setContentHeight(item, content.scrollHeight);
+      });
+    };
+
+    const closeItem = (item) => {
+      if (!item.open) return;
+      setState(item, "closed");
+      const content = item.querySelector(".faq-content");
+      if (!content) {
+        item.open = false;
+        return;
+      }
+      setContentHeight(item, content.scrollHeight);
+      requestAnimationFrame(() => {
+        setContentHeight(item, 0);
+      });
+
+      const onEnd = (event) => {
+        if (event.propertyName !== "max-height") return;
+        item.open = false;
+        content.removeEventListener("transitionend", onEnd);
+      };
+      content.addEventListener("transitionend", onEnd);
+    };
+
+    items.forEach((item) => {
+      const summary = item.querySelector("summary");
+      const content = item.querySelector(".faq-content");
+      if (content) {
+        content.style.maxHeight = item.open
+          ? `${content.scrollHeight}px`
+          : "0px";
+      }
+      setState(item, item.open ? "open" : "closed");
+
+      summary?.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (item.open) {
+          closeItem(item);
+        } else {
+          items.forEach((other) => {
+            if (other !== item) closeItem(other);
+          });
+          openItem(item);
+        }
+      });
+    });
+
+    window.addEventListener("resize", () => {
+      items.forEach((item) => {
+        if (item.dataset.state === "open") {
+          const content = item.querySelector(".faq-content");
+          if (content) setContentHeight(item, content.scrollHeight);
+        }
+      });
+    });
+  })();
+</script>
+
+<style is:global>
+  .faq-item {
+    transition: border-color 200ms ease;
+  }
+
+  .faq-item[data-state="open"] {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .faq-arrow-primary,
+  .faq-arrow-secondary {
+    transition:
+      opacity 220ms ease,
+      transform 220ms ease;
+  }
+
+  .faq-item[data-state="open"] .faq-arrow-primary {
+    opacity: 0;
+    transform: translateY(-2px) scale(0.98);
+  }
+
+  .faq-item[data-state="open"] .faq-arrow-secondary {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .faq-content {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+      max-height 360ms ease,
+      opacity 260ms ease,
+      transform 260ms ease;
+  }
+
+  .faq-item[data-state="open"] .faq-content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-arrow-primary,
+    .faq-arrow-secondary,
+    .faq-content {
+      transition: none;
+    }
+  }
+</style>
+

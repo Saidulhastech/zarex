@@ -1,0 +1,61 @@
+---
+import { Image } from "astro:assets";
+import { resolveImage } from "../../utils/resolveImage";
+
+const { partners } = Astro.props;
+
+// Resolve all partner logos
+const resolvedLogos = await Promise.all(
+  partners.logos.map((logo: string) => resolveImage(logo)),
+);
+---
+
+<section
+  class="partner-section bg-[linear-gradient(90deg,#1312324a,#1312324a_17%,#5846fd17_57%)] py-[40px] min-[1440px]:py-[50px]"
+>
+  <div class="main-container">
+    <div
+      class="partner-wrapper flex items-center max-[767px]:flex-wrap max-[767px]:justify-center max-[767px]:text-center max-[767px]:gap-[24px] max-[479px]:gap-[20px]"
+    >
+      <div class="partner-text-wrap min-w-[240px] max-w-[240px]">
+        <div
+          class="partner-number-text font-title text-white tracking-[-0.01em] text-[30px] font-bold leading-none min-[1440px]:text-[40px]"
+        >
+          {partners.stat}
+        </div>
+        <div
+          class="partner-summary mt-[10px] text-[18px] min-[1440px]:mt-[14px]"
+        >
+          {partners.caption}
+        </div>
+      </div>
+      <div
+        class="partner-devider h-[60px] w-px min-w-[1px] bg-[#313131] ml-[40px] min-[1440px]:h-[90px] min-[1440px]:ml-[88px] max-[991px]:ml-[30px] max-[767px]:hidden"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="partner-logo-wrapper flex items-center overflow-hidden max-w-full relative gap-[60px] min-[1440px]:gap-[80px] max-[991px]:gap-[40px]"
+      >
+        {
+          [0, 1].map(() => (
+            <div class="partner-logo-wrap flex items-center flex-none gap-[60px] min-[1440px]:gap-[80px] max-[991px]:gap-[40px] w-max will-change-transform">
+              {resolvedLogos.map((logo) => (
+                <div class="partner-logo-block flex-none">
+                  <Image
+                    src={logo as any}
+                    alt="Partner logo"
+                    width={120}
+                    height={32}
+                    class="partner-logo h-8 w-auto"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

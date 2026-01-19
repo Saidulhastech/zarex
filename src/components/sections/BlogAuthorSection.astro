@@ -1,0 +1,176 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { title = "", posts } = Astro.props;
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+---
+
+<section
+  class="bg-[url('/src/assets/images/blog-page-bg.png')] bg-cover bg-top bg-no-repeat pt-[var(--_typography-size---gap--page-top-gap)] pb-[var(--_typography-size---gap--section-gap)] text-white"
+>
+  <Container>
+    <div
+      class="flex flex-col items-center text-center"
+      data-blog-author-animate
+      data-blog-author-delay="0.05"
+    >
+      <div
+        class="inline-flex text-gradient text-[20px] font-medium leading-[1.1] max-[767px]:text-[18px]"
+      >
+        Blog Author
+      </div>
+      <div class="page-title-block margin-top-24px max-w-[750px]">
+        <h1 class="page-title">{title}</h1>
+      </div>
+    </div>
+
+    <div class="mt-[var(--_typography-size---gap--content-gap)]">
+      <div
+        class="grid grid-cols-1 gap-x-[24px] gap-y-[30px] min-[768px]:grid-cols-2 min-[1280px]:grid-cols-3 min-[1440px]:gap-x-[30px] min-[1440px]:gap-y-[40px] max-[767px]:gap-x-[30px] max-[767px]:gap-y-[30px]"
+      >
+        {
+          posts.map(
+            (
+              post: {
+                data: {
+                  image: string;
+                  title: string;
+                  summary: string;
+                  author: string;
+                  date: Date;
+                };
+                slug: string;
+              },
+              index: number,
+            ) => (
+              <article
+                class="group overflow-hidden rounded-[var(--_typography-size---gap--border-radius)] border border-[#363636] bg-[#0e1522]"
+                data-blog-author-animate
+                data-blog-author-delay={(0.15 + index * 0.08).toFixed(2)}
+              >
+                <div class="overflow-hidden">
+                  <a href={`/blog/${post.slug}`} class="block">
+                    <AppImage
+                      src={post.data.image}
+                      alt={post.data.title}
+                      width="412"
+                      height="240"
+                      class="w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                      loading="lazy"
+                    />
+                  </a>
+                </div>
+                <div class="px-5 pt-5 pb-6 min-[1440px]:px-6 min-[1440px]:pb-8 max-[767px]:pb-5">
+                  <a
+                    href={`/blog/${post.slug}`}
+                    class="block text-white transition hover:text-[#d8ae6b]"
+                  >
+                    <h2 class="font-title text-[22px] font-medium leading-[1.4]">
+                      {post.data.title}
+                    </h2>
+                  </a>
+                  <p class="mt-5 text-[16px] text-[#c4c4c4] max-[767px]:mt-4">
+                    {post.data.summary}
+                  </p>
+                  <a
+                    href={`/blog/${post.slug}`}
+                    class="mt-4 block font-title text-[14px] font-medium leading-[1.4] text-white underline decoration-[1px] decoration-current underline-offset-2 transition hover:text-[#d8ae6b] hover:decoration-transparent min-[1440px]:mt-5 min-[1440px]:mb-7"
+                  >
+                    Read more
+                  </a>
+                  <div class="mt-5 flex items-center gap-1.5 border-y border-[#363636] py-2 text-[16px] max-[767px]:mt-4 max-[767px]:py-1.5">
+                    <a
+                      href={`/blog/author/${slugify(post.data.author)}`}
+                      class="font-medium leading-[1.5] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                    >
+                      {post.data.author}
+                    </a>
+                    <span class="h-px w-2 bg-[#888]" />
+                    <span class="font-medium leading-[1.5] text-[#c4c4c4]">
+                      {post.data.date.toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </div>
+                </div>
+              </article>
+            ),
+          )
+        }
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  [data-blog-author-animate] {
+    opacity: 0;
+    transform: translateY(26px);
+    filter: blur(20px);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s ease,
+      filter 0.6s ease;
+  }
+
+  [data-blog-author-animate].animate-in {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+</style>
+
+<script>
+  function initBlogAuthorAnimation() {
+    const animatedElements = document.querySelectorAll(
+      "[data-blog-author-animate]",
+    );
+
+    if (!animatedElements.length) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (prefersReducedMotion) {
+      animatedElements.forEach((element) => {
+        element.classList.add("animate-in");
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const delay = parseFloat(el.dataset.blogAuthorDelay || "0");
+
+          setTimeout(() => {
+            el.classList.add("animate-in");
+          }, delay * 1000);
+
+          observer.unobserve(el);
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -60px 0px",
+      },
+    );
+
+    animatedElements.forEach((el) => observer.observe(el));
+  }
+
+  document.addEventListener("DOMContentLoaded", initBlogAuthorAnimation);
+  document.addEventListener("astro:page-load", initBlogAuthorAnimation);
+</script>
+

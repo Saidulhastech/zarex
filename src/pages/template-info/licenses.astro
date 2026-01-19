@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LicensesBreadcrumbSection from "../../components/sections/LicensesBreadcrumbSection.astro";
+import LicensesSection from "../../components/sections/LicensesSection.astro";
+
+const cards = [
+  {
+    title: "Images",
+    summary:
+      "All images are sourced from Freepik. Find the Freepik license information here.",
+    links: [
+      {
+        label: "Read More",
+        href: "https://www.freepikcompany.com/legal#nav-freepik-license",
+      },
+    ],
+  },
+  {
+    title: "Fonts",
+    summary:
+      "The Zarex template uses Google font. Find Plus Jakarta Sans & Inter font license info here.",
+    links: [
+      {
+        label: "Plus Jakarta Sans",
+        href: "https://fonts.google.com/specimen/Plus+Jakarta+Sans/license",
+      },
+      {
+        label: "Inter",
+        href: "https://fonts.google.com/specimen/Inter/license?query=inter",
+      },
+    ],
+  },
+  {
+    title: "Icons",
+    summary:
+      "The Zarex template uses SVG image format for all Icon font icons. Find license information here.",
+    links: [
+      {
+        label: "Read More",
+        href: "https://www.flaticon.com/",
+      },
+    ],
+  },
+  {
+    title: "Illustrations",
+    summary:
+      "The Zarex template uses blush illustrations. Find blush design license information here.",
+    links: [
+      {
+        label: "Read More",
+        href: "https://unsplash.com/",
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Licenses"
+  description="Review the legal information for the Zarex theme, including third-party licenses for images, fonts, and icons used in our platform."
+>
+  <LicensesBreadcrumbSection />
+  <LicensesSection cards={cards} />
+</BaseLayout>

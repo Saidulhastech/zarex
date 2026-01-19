@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import IntegrationPageSection from "../../components/sections/IntegrationPageSection.astro";
+import TestimonialsSectionV3Compact from "../../components/sections/TestimonialsSectionV3Compact.astro";
+import FaqSection from "../../components/sections/FaqSection.astro";
+import CtaVideoSection from "../../components/sections/CtaVideoSection.astro";
+import { integrationPage } from "../../data/integration";
+import { featuresPage } from "../../data/features";
+import { pricingPage } from "../../data/pricing-plan";
+---
+
+<BaseLayout
+  title="Integration"
+  description="Seamlessly connect Zarex with your favorite tools. Explore our wide range of integrations for CRM, email, and marketing automation to supercharge your workflow."
+>
+  <IntegrationPageSection
+    hero={integrationPage.hero}
+    items={integrationPage.items}
+  />
+  <TestimonialsSectionV3Compact testimonials={integrationPage.testimonials} />
+  <FaqSection faq={pricingPage.faq} />
+  <CtaVideoSection cta={featuresPage.cta} />
+</BaseLayout>

@@ -1,0 +1,38 @@
+---
+const { href = "#", label = "", class: className = "" } = Astro.props;
+const isExternal = href.startsWith("http");
+---
+
+<a
+  href={href}
+  target={isExternal ? "_blank" : undefined}
+  rel={isExternal ? "noopener noreferrer" : undefined}
+  class={`inline-flex items-center gap-[6px] text-white underline decoration-transparent decoration-[1px] leading-[1.5] transition-[color,text-decoration-color] duration-500 hover:text-[#d8ae6b] hover:decoration-[#010101] min-[1920px]:text-[18px] ${className}`.trim()}
+>
+  <span>{label}</span>
+  <span class="flex items-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M20 12L4 12"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+      <path
+        d="M15 7C15 7 20 10.6824 20 12C20 13.3176 15 17 15 17"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+    </svg>
+  </span>
+</a>

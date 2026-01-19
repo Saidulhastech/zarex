@@ -1,0 +1,175 @@
+---
+import { Image } from "astro:assets";
+import { resolveImage } from "../../utils/resolveImage";
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+
+const { features } = Astro.props;
+
+const leftColumn = features.items.slice(0, 2);
+const rightColumn = features.items.slice(2);
+
+// Resolve images for all feature items
+const itemImages = await Promise.all(
+  features.items.map((item: any) => resolveImage(item.image)),
+);
+---
+
+<section
+  data-features-section
+  class="overflow-hidden bg-[url('/src/assets/images/features-bg.png')] bg-cover bg-[50%_100%] pb-[var(--_typography-size---gap--section-gap)] text-white"
+>
+  <Container>
+    <div
+      class="bg-[url('/src/assets/images/Line-28.png'),url('/src/assets/images/Line-28.png')] bg-[length:1px_100%,1px_100%] bg-no-repeat bg-[position:100%_0%,0%_0%] pt-[var(--_typography-size---gap--section-gap)]"
+    >
+      <div
+        class="flex items-end justify-between gap-4 px-5 max-[767px]:flex-wrap max-[767px]:justify-center max-[767px]:text-center max-[767px]:px-[10px] min-[1440px]:px-10"
+      >
+        <div
+          class="relative max-w-[550px] max-[991px]:max-w-[480px] max-[767px]:max-w-[400px] min-[1440px]:max-w-[640px]"
+        >
+          <h2 class="font-title font-normal text-white tracking-[-0.02em]">
+            {features.title.prefix}
+            <span class="text-gradient">{features.title.highlight}</span>
+            {features.title.suffix.replace("Features", "")}
+            <span class="text-gradient">Features</span>
+          </h2>
+        </div>
+        <Button href={features.cta.href} variant="outline">
+          {features.cta.label}
+        </Button>
+      </div>
+
+      <div class="relative mt-10 min-[1440px]:mt-14">
+        <div class="absolute left-0 top-0 h-px w-[100vw] bg-[#48484875]"></div>
+        <div class="relative flex max-[767px]:flex-wrap">
+          <div
+            class="flex w-[42.2%] flex-col items-end min-[1440px]:w-[42.6%] max-[991px]:w-[41%] max-[767px]:w-full"
+          >
+            <div
+              class="p-5 min-[1440px]:p-10 max-[767px]:flex max-[767px]:flex-col max-[767px]:items-center max-[767px]:text-center"
+            >
+              <div class="features-title-and-summary-block">
+                <h3
+                  class="font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] tracking-[-0.01em] text-white"
+                >
+                  {leftColumn[0].title}
+                </h3>
+                <p
+                  class="mt-4 max-w-[330px] text-[16px] text-[#c4c4c4] max-[479px]:mt-3"
+                >
+                  {leftColumn[0].summary}
+                </p>
+              </div>
+              <div
+                class="mt-6 min-[1440px]:mt-8 overflow-hidden rounded-[16px] bg-[#141a27]"
+              >
+                <Image
+                  src={itemImages[0]}
+                  alt={leftColumn[0].title}
+                  width={500}
+                  height={350}
+                  class="w-full rounded-[16px] border-2 border-[#262c38]"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <div class="h-px w-[100vw] bg-[#48484875]"></div>
+            <div
+              class="flex flex-col items-center p-5 text-center min-[1440px]:p-10 max-[767px]:flex max-[767px]:flex-col max-[767px]:items-center"
+            >
+              <div class="features-title-and-summary-block">
+                <h3
+                  class="font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] tracking-[-0.01em] text-white"
+                >
+                  {leftColumn[1].title}
+                </h3>
+                <p class="mt-4 max-w-[279px] text-[16px] text-[#c4c4c4]">
+                  {leftColumn[1].summary}
+                </p>
+              </div>
+              <div
+                class="mt-6 min-[1440px]:mt-8 overflow-hidden rounded-[16px] bg-[#141a27]"
+              >
+                <Image
+                  src={itemImages[1]}
+                  alt={leftColumn[1].title}
+                  width={500}
+                  height={350}
+                  class="w-full rounded-[16px] border-2 border-[#262c38]"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="flex flex-1 flex-col items-start border-l border-[#48484875] max-[767px]:border-l-0"
+          >
+            <div
+              class="flex flex-col items-center p-5 text-center min-[1440px]:p-10 max-[767px]:flex max-[767px]:flex-col max-[767px]:items-center"
+            >
+              <div class="features-title-and-summary-block">
+                <h3
+                  class="font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] tracking-[-0.01em] text-white"
+                >
+                  {rightColumn[0].title}
+                </h3>
+                <p
+                  class="mt-4 max-w-[321px] text-[16px] text-[#c4c4c4] mx-auto"
+                >
+                  {rightColumn[0].summary}
+                </p>
+                <div
+                  class="mt-6 min-[1440px]:mt-8 overflow-hidden rounded-[16px] bg-[#141a27]"
+                >
+                  <Image
+                    src={itemImages[2]}
+                    alt={rightColumn[0].title}
+                    width={500}
+                    height={350}
+                    class="w-full rounded-[16px] border-2 border-[#262c38]"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="h-px w-full bg-[#48484875]"></div>
+            <div
+              class="p-5 min-[1440px]:p-10 max-[767px]:flex max-[767px]:flex-col max-[767px]:items-center max-[767px]:text-center"
+            >
+              <div class="features-title-and-summary-block">
+                <h3
+                  class="font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] tracking-[-0.01em] text-white"
+                >
+                  {rightColumn[1].title}
+                </h3>
+                <p
+                  class="mt-4 max-w-[330px] text-[16px] text-[#c4c4c4] max-[479px]:mt-3"
+                >
+                  {rightColumn[1].summary}
+                </p>
+              </div>
+              <div
+                class="mt-6 min-[1440px]:mt-8 overflow-hidden rounded-[16px] bg-[#141a27]"
+              >
+                <Image
+                  src={itemImages[3]}
+                  alt={rightColumn[1].title}
+                  width={500}
+                  height={350}
+                  class="w-full rounded-[16px] border-2 border-[#262c38]"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="absolute bottom-0 left-0 h-px w-[100vw] bg-[#48484875]">
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+

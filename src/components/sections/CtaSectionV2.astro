@@ -1,0 +1,72 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { cta } = Astro.props;
+---
+
+<section
+  class="pb-[var(--_typography-size---gap--section-gap)] text-white"
+  data-cta-v2
+>
+  <Container>
+    <div
+      class="grid items-center gap-[30px] overflow-hidden rounded-[24px] border border-white/10 bg-[#0e1522] p-[30px] min-[992px]:grid-cols-[6.5fr_6fr] min-[1280px]:gap-[40px] min-[1280px]:p-[40px] min-[1920px]:gap-[89px] min-[1920px]:p-[56px] max-[767px]:p-5"
+    >
+      <div data-cta-v2-content>
+        <div class="max-w-[550px]">
+          <h2
+            class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+          >
+            {cta.title.prefix}
+            <span class="text-gradient">{cta.title.highlight}</span>
+            {cta.title.suffix}
+          </h2>
+        </div>
+        <div
+          class="mt-[30px] min-[1280px]:mt-10 max-[767px]:mt-6"
+          data-cta-v2-button
+        >
+          <Button href={cta.cta.href}>{cta.cta.label}</Button>
+        </div>
+      </div>
+
+      <div class="relative flex items-center justify-start">
+        <div
+          class="relative z-10 mt-[50px] mr-[-40px] rotate-[-21deg]"
+          data-cta-v2-image
+        >
+          <AppImage
+            src={(cta.images as { src: string; alt: string }[])[0].src}
+            alt={(cta.images as { src: string; alt: string }[])[0].alt}
+            width="400"
+            height="320"
+            class="rounded-[16px] border border-white/10"
+            loading="lazy"
+          />
+        </div>
+        <div class="relative z-[5] rotate-[-10deg]" data-cta-v2-image>
+          <AppImage
+            src={(cta.images as { src: string; alt: string }[])[1].src}
+            alt={(cta.images as { src: string; alt: string }[])[1].alt}
+            width="400"
+            height="320"
+            class="rounded-[16px] border border-white/10"
+            loading="lazy"
+          />
+        </div>
+        <div class="relative rotate-[12deg]" data-cta-v2-image>
+          <AppImage
+            src={(cta.images as { src: string; alt: string }[])[2].src}
+            alt={(cta.images as { src: string; alt: string }[])[2].alt}
+            width="400"
+            height="320"
+            class="rounded-[16px] border border-white/10"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

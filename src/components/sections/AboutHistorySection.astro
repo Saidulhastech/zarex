@@ -1,0 +1,100 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+
+const { history } = Astro.props;
+const historyColumns = [history.items, history.items];
+---
+
+<section
+  class="relative bg-[url('/src/assets/images/history.png')] bg-[position:0%_0%] bg-no-repeat bg-contain py-[var(--_typography-size---gap--section-gap)] text-white"
+  data-history-section
+>
+  <Container
+    class="max-w-[970px] px-[15px] min-[1280px]:max-w-[1220px] min-[1440px]:max-w-[1330px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[479px]:max-w-full"
+  >
+    <div
+      class="flex flex-col gap-[30px] min-[768px]:flex-row min-[768px]:items-center min-[768px]:justify-between min-[1440px]:gap-[80px] max-[991px]:flex-col-reverse max-[991px]:gap-[60px] max-[479px]:gap-[50px]"
+    >
+      <div
+        class="relative max-h-[500px] overflow-hidden min-[1280px]:max-h-[600px]"
+      >
+        <div
+          class="grid gap-[50px] min-[1280px]:gap-[67px] min-[768px]:grid-cols-1"
+          data-history-marquee
+        >
+          {
+            historyColumns.map(
+              (column: { year: string; title: string; summary: string }[]) => (
+                <div
+                  class="flex flex-col gap-[50px] min-[1280px]:gap-[67px]"
+                  data-history-column
+                >
+                  {column.map(
+                    (item: { year: string; title: string; summary: string }) => (
+                      <div
+                        class="flex max-w-[435px] flex-col items-center text-center max-[991px]:max-w-none"
+                        data-history-card
+                      >
+                        <h2 class="font-title text-[34px] font-bold text-white min-[1440px]:text-[40px]">
+                          {item.year}
+                        </h2>
+                        <div class="my-2 flex flex-col items-center">
+                          <span class="h-[14px] w-[14px] rounded-full bg-[#6356e0]" />
+                          <span class="h-[52px] w-px bg-[#88888878]" />
+                        </div>
+                        <div>
+                          <h3 class="font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] text-white">
+                            {item.title}
+                          </h3>
+                          <p class="mt-4 text-[16px] text-[#c4c4c4]">
+                            {item.summary}
+                          </p>
+                        </div>
+                      </div>
+                    ),
+                  )}
+                </div>
+              ),
+            )
+          }
+        </div>
+      </div>
+
+      <div
+        class="max-w-[429px] min-[992px]:sticky min-[992px]:top-[20px] min-[1280px]:max-w-[450px] max-[767px]:max-w-none max-[767px]:text-center max-[767px]:flex max-[767px]:flex-col max-[767px]:items-center"
+      >
+        <div class="section-heading-block" data-history-heading>
+          <div
+            class="section-title-block min-[768px]:max-w-[350px] max-[767px]:mx-auto"
+          >
+            <h2
+              class="section-title font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+            >
+              {history.title.prefix}
+              <span class="highlight-text">{history.title.highlight}</span>
+              {history.title.suffix}
+            </h2>
+          </div>
+          <div
+            class="section-summary-block mt-[var(--_typography-size---gap--subtitle-gap)] max-[767px]:text-center"
+            data-history-summary
+          >
+            <p class="section-summary text-[18px] text-[#c4c4c4]">
+              {history.summary}
+            </p>
+          </div>
+        </div>
+        <div
+          class="mt-[30px] min-[1280px]:mt-[48px] max-[479px]:mt-[24px]"
+          data-history-button
+        >
+          <Button href={history.cta.href} variant="outline">
+            {history.cta.label}
+          </Button>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+

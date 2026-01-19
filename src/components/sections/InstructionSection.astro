@@ -1,0 +1,494 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const tabButtonBase =
+  "cursor-pointer rounded-[8px] bg-transparent px-[15px] py-[15px] text-left text-[18px] font-medium text-white transition-colors duration-500 hover:bg-[#d8ae6b] hover:text-[#0e1522]";
+const tabPanelBase =
+  "rounded-[8px] border border-[#d8ae6b] p-10 max-[767px]:p-5 text-[#c4c4c4]";
+---
+
+<section
+  class="py-[var(--_typography-size---gap--section-gap)]"
+  data-instruction-tabs
+>
+  <Container>
+    <div class="relative flex items-start max-[991px]:flex-col">
+      <div
+        class="sticky top-[50px] flex w-[35%] flex-col gap-[6px] rounded-[8px] border border-[#d8ae6b] bg-[var(--color-black)] p-5 min-[1280px]:w-[360px] max-[991px]:mb-[30px] max-[991px]:w-full max-[991px]:flex-row max-[991px]:flex-wrap max-[767px]:p-[15px]"
+        role="tablist"
+        data-instruction-animate
+        data-instruction-delay="0.05"
+      >
+        <button
+          type="button"
+          id="tab-button-1"
+          class={`${tabButtonBase} bg-[#d8ae6b] text-[#0e1522]`}
+          data-tab-button="tab-1"
+          aria-selected="true"
+          aria-controls="tab-panel-1"
+          role="tab"
+        >
+          Change Colors &amp; Typography
+        </button>
+        <button
+          type="button"
+          id="tab-button-2"
+          class={tabButtonBase}
+          data-tab-button="tab-2"
+          aria-selected="false"
+          aria-controls="tab-panel-2"
+          role="tab"
+        >
+          Edit Text &amp; Images
+        </button>
+        <button
+          type="button"
+          id="tab-button-3"
+          class={tabButtonBase}
+          data-tab-button="tab-3"
+          aria-selected="false"
+          aria-controls="tab-panel-3"
+          role="tab"
+        >
+          Use Custom SVG Icons
+        </button>
+        <button
+          type="button"
+          id="tab-button-4"
+          class={tabButtonBase}
+          data-tab-button="tab-4"
+          aria-selected="false"
+          aria-controls="tab-panel-4"
+          role="tab"
+        >
+          Customize Other Animations &amp; Interactions
+        </button>
+        <button
+          type="button"
+          id="tab-button-5"
+          class={tabButtonBase}
+          data-tab-button="tab-5"
+          aria-selected="false"
+          aria-controls="tab-panel-5"
+          role="tab"
+        >
+          SEO &amp; Meta Settings
+        </button>
+        <button
+          type="button"
+          id="tab-button-6"
+          class={tabButtonBase}
+          data-tab-button="tab-6"
+          aria-selected="false"
+          aria-controls="tab-panel-6"
+          role="tab"
+        >
+          Smooth Scroll Effect
+        </button>
+        <button
+          type="button"
+          id="tab-button-7"
+          class={tabButtonBase}
+          data-tab-button="tab-7"
+          aria-selected="false"
+          aria-controls="tab-panel-7"
+          role="tab"
+        >
+          Using Lottie File
+        </button>
+      </div>
+
+      <div
+        class="ml-[40px] flex-1 max-[991px]:ml-0"
+        data-instruction-animate
+        data-instruction-delay="0.15"
+      >
+        <div
+          id="tab-panel-1"
+          class={tabPanelBase}
+          data-tab-panel="tab-1"
+          role="tabpanel"
+          aria-labelledby="tab-button-1"
+        >
+          <h2 class="text-white">How to update variables:</h2>
+          <ol class="mt-4 mb-0 flex list-decimal flex-col gap-3 pl-10">
+            <li>Open your project in <strong>Designer</strong>.</li>
+            <li>
+              Find the <strong>Variables panel</strong>:
+              <ul class="mt-0 mb-2.5 list-disc pl-10">
+                <li>
+                  Click the <strong>Variables icon</strong> (a circle with a dot inside)
+                  located near color or typography controls in the Style panel.
+                </li>
+                <li>
+                  Or press Shift + Cmd/Ctrl + M to open the Style Manager, then
+                  select Variables tab.
+                </li>
+              </ul>
+            </li>
+            <li>
+              Here you’ll see your color and typography variables grouped (like
+              --Primary Color, --Heading Font Size).
+            </li>
+            <li>Click any variable to edit its value.</li>
+            <li>
+              Your site updates automatically everywhere that variable is used.
+            </li>
+          </ol>
+          <figure class="mb-0 mt-4">
+            <div>
+              <AppImage
+                src="/images/how-to-assign-variables.webp"
+                alt="Interface showing how to assign variables in the design panel"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+          </figure>
+          <p class="mt-5 max-[767px]:mt-4">
+            You can also use the Style panel to directly change colors and
+            typography for individual elements, if you don’t want to use
+            variables.
+          </p>
+          <figure class="mb-0 mt-4">
+            <div>
+              <AppImage
+                src="/images/css-panel.webp"
+                alt="The CSS style panel interface for manual property adjustments"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+          </figure>
+        </div>
+
+        <div
+          id="tab-panel-2"
+          class={`${tabPanelBase} hidden`}
+          data-tab-panel="tab-2"
+          role="tabpanel"
+          aria-labelledby="tab-button-2"
+        >
+          <h3 class="font-semibold text-white">To change text:</h3>
+          <ul class="mb-2.5 list-disc pl-10">
+            <li>
+              Click directly on any text in Designer and type your own content.
+            </li>
+          </ul>
+          <h3 class="font-semibold text-white">To change images:</h3>
+          <ol class="mb-2.5 list-decimal pl-10">
+            <li>Select the image.</li>
+            <li>In the Settings panel (gear icon), click Replace Image.</li>
+            <li>Upload your new image or pick one from Assets.</li>
+          </ol>
+          <figure class="mb-0 mt-4">
+            <div>
+              <AppImage
+                src="/images/image-replace.webp"
+                alt="The settings panel showing the image replace functionality"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+          </figure>
+        </div>
+
+        <div
+          id="tab-panel-3"
+          class={`${tabPanelBase} hidden`}
+          data-tab-panel="tab-3"
+          role="tabpanel"
+          aria-labelledby="tab-button-3"
+        >
+          <h3 class="font-semibold text-white">To replace an icon:</h3>
+          <ol class="mb-2.5 list-decimal pl-10">
+            <li>Click the icon element → Edit Embed.</li>
+            <li>Paste your new &lt;svg&gt;...&lt;/svg&gt; code.</li>
+            <li>Save, and the icon updates instantly.</li>
+          </ol>
+          <figure class="mb-0 mt-4">
+            <div>
+              <AppImage
+                src="/images/svg-edit.webp"
+                alt="The code editor interface for modified SVG embed elements"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+          </figure>
+        </div>
+
+        <div
+          id="tab-panel-4"
+          class={`${tabPanelBase} hidden`}
+          data-tab-panel="tab-4"
+          role="tabpanel"
+          aria-labelledby="tab-button-4"
+        >
+          <ol class="mb-2.5 list-decimal pl-10">
+            <li>Select an animated element.</li>
+            <li>Open the Interactions panel (⚡ icon).</li>
+            <li>Modify triggers, easing, duration, or effects.</li>
+            <li>Preview using the eye icon.</li>
+          </ol>
+          <figure class="mb-0 mt-4">
+            <div>
+              <AppImage
+                src="/images/interaction-add.webp"
+                alt="The interactions panel showing animation trigger settings"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+          </figure>
+        </div>
+
+        <div
+          id="tab-panel-5"
+          class={`${tabPanelBase} hidden`}
+          data-tab-panel="tab-5"
+          role="tabpanel"
+          aria-labelledby="tab-button-5"
+        >
+          <ol class="mb-2.5 list-decimal pl-10">
+            <li>Open the Pages panel.</li>
+            <li>Click the gear icon beside the page.</li>
+            <li>
+              Update:
+              <ul class="mt-0 mb-2.5 list-disc pl-10">
+                <li>SEO Title</li>
+                <li>Meta Description</li>
+                <li>Open Graph Image</li>
+              </ul>
+            </li>
+          </ol>
+          <figure class="mb-0 mt-4">
+            <div>
+              <AppImage
+                src="/images/meta-edit.webp"
+                alt="The SEO settings panel for updating page titles and meta descriptions"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+          </figure>
+          <p class="mt-5 max-[767px]:mt-4">
+            This helps your site rank well and look great when shared.
+          </p>
+        </div>
+
+        <div
+          id="tab-panel-6"
+          class={`${tabPanelBase} hidden`}
+          data-tab-panel="tab-6"
+          role="tabpanel"
+          aria-labelledby="tab-button-6"
+        >
+          <ol class="mb-2.5 list-decimal pl-10">
+            <li>
+              Open Site Settings → Custom Code → before &lt;/body&gt; tag.
+            </li>
+            <li>Paste the code bellow:</li>
+          </ol>
+          <pre
+            contenteditable="false"
+            class="w-code-block"
+            style="display:block;overflow-x:auto;background:#2b2b2b;color:#f8f8f2;padding:0.5em"><code class="language-javascript" style="white-space:pre"><span>&lt;script src=</span><span style="color:#abe338">&quot;https://unpkg.com/lenis@1.3.1/dist/lenis.min.js&quot;</span><span>&gt;&lt;/script&gt;
+</span><span /><span class="xml" style="color:#ffa07a">&lt;</span><span class="xml" style="color:#ffa07a">link</span><span class="xml" style="color:#ffa07a"> </span><span class="xml hljs-attr" style="color:#ffa07a">rel</span><span class="xml" style="color:#ffa07a">=</span><span class="xml" style="color:#abe338">&quot;stylesheet&quot;</span><span class="xml" style="color:#ffa07a"> </span><span class="xml hljs-attr" style="color:#ffa07a">href</span><span class="xml" style="color:#ffa07a">=</span><span class="xml" style="color:#abe338">&quot;https://unpkg.com/lenis@1.1.20/dist/lenis.css&quot;</span><span class="xml" style="color:#ffa07a">&gt;</span><span class="xml">
+</span><span class="xml javascript">
+</span><span class="xml" /><span class="xml" style="color:#ffa07a">&lt;</span><span class="xml" style="color:#ffa07a">script</span><span class="xml" style="color:#ffa07a">&gt;</span><span class="xml javascript">
+</span><span class="xml javascript" /><span class="xml javascript" style="color:#f5ab35">window</span><span class="xml javascript">.Webflow ||= [];
+</span><span class="xml javascript" /><span class="xml javascript" style="color:#f5ab35">window</span><span class="xml javascript">.Webflow.push(</span><span class="xml javascript hljs-function">() =&gt;</span><span class="xml javascript"> {
+}<span class="xml javascript"> 
+</span><span class="xml javascript">  </span><span class="xml javascript" style="color:#dcc6e0">if</span><span class="xml javascript"> (</span><span class="xml javascript" style="color:#f5ab35">window</span><span class="xml javascript">.matchMedia(</span><span class="xml javascript" style="color:#abe338">&quot;(min-width: 768px)&quot;</span><span class="xml javascript">).matches) {
+}<span class="xml javascript"> 
+</span><span class="xml javascript">    </span><span class="xml javascript" style="color:#d4d0ab">// Initialize Lenis</span><span class="xml javascript">
+</span><span class="xml javascript">    </span><span class="xml javascript" style="color:#dcc6e0">const</span><span class="xml javascript"> lenis = </span><span class="xml javascript" style="color:#dcc6e0">new</span><span class="xml javascript"> Lenis({
+}<span class="xml javascript">       </span><span class="xml javascript hljs-attr">duration</span><span class="xml javascript">: </span><span class="xml javascript" style="color:#f5ab35">1</span><span class="xml javascript">,
+</span><span class="xml javascript">      </span><span class="xml javascript hljs-attr">easing</span><span class="xml javascript">: </span><span class="xml javascript hljs-function">(</span><span class="xml javascript hljs-function" style="color:#f5ab35">t</span><span class="xml javascript hljs-function">) =&gt;</span><span class="xml javascript"> </span><span class="xml javascript" style="color:#f5ab35">1</span><span class="xml javascript"> - </span><span class="xml javascript" style="color:#f5ab35">Math</span><span class="xml javascript">.pow(</span><span class="xml javascript" style="color:#f5ab35">1</span><span class="xml javascript"> - t, </span><span class="xml javascript" style="color:#f5ab35">3</span><span class="xml javascript">),
+</span><span class="xml javascript">      </span><span class="xml javascript hljs-attr">smoothWheel</span><span class="xml javascript">: </span><span class="xml javascript" style="color:#f5ab35">true</span><span class="xml javascript">,
+</span><span class="xml javascript">      </span><span class="xml javascript hljs-attr">smoothTouch</span><span class="xml javascript">: </span><span class="xml javascript" style="color:#f5ab35">false</span><span class="xml javascript">,
+</span><span class="xml javascript">      </span><span class="xml javascript hljs-attr">allowNestedScroll</span><span class="xml javascript">: </span><span class="xml javascript" style="color:#f5ab35">true</span><span class="xml javascript">
+</span><span class="xml javascript">    </span>);
+</span><span class="xml javascript">    
+</span><span class="xml javascript"> 
+</span><span class="xml javascript">    </span><span class="xml javascript" style="color:#d4d0ab">// RAF loop</span><span class="xml javascript">
+</span><span class="xml javascript">    </span><span class="xml javascript hljs-function" style="color:#dcc6e0">function</span><span class="xml javascript hljs-function"> </span><span class="xml javascript hljs-function" style="color:#00e0e0">raf</span><span class="xml javascript hljs-function">(</span><span class="xml javascript hljs-function" style="color:#f5ab35">time</span><span class="xml javascript hljs-function">) </span><span class="xml javascript">{
+}<span class="xml javascript">      lenis.raf(time);           </span><span class="xml javascript" style="color:#d4d0ab">// Lenis smooth scroll</span><span class="xml javascript">
+</span><span class="xml javascript">      requestAnimationFrame(raf);
+</span><span class="xml javascript">    </span>
+</span><span class="xml javascript">    requestAnimationFrame(raf);
+</span><span class="xml javascript"> 
+</span><span class="xml javascript">    </span><span class="xml javascript" style="color:#d4d0ab">// Sync ScrollTrigger with Lenis</span><span class="xml javascript">
+</span><span class="xml javascript">    lenis.on(</span><span class="xml javascript" style="color:#abe338">&quot;scroll&quot;</span><span class="xml javascript">, </span><span class="xml javascript hljs-function">() =&gt;</span><span class="xml javascript"> {
+}<span class="xml javascript">      ScrollTrigger.update();
+</span><span class="xml javascript">    </span>);
+</span><span class="xml javascript"> 
+</span><span class="xml javascript">    </span><span class="xml javascript" style="color:#d4d0ab">// Refresh ScrollTrigger after all images/fonts loaded</span><span class="xml javascript">
+</span><span class="xml javascript">    </span><span class="xml javascript" style="color:#f5ab35">window</span><span class="xml javascript">.addEventListener(</span><span class="xml javascript" style="color:#abe338">&quot;load&quot;</span><span class="xml javascript">, </span><span class="xml javascript hljs-function">() =&gt;</span><span class="xml javascript"> {
+}<span class="xml javascript">      ScrollTrigger.refresh();
+</span><span class="xml javascript">    </span>);
+</span><span class="xml javascript">    
+</span><span class="xml javascript"> 
+</span><span class="xml javascript">  </span> </span><span class="xml javascript" style="color:#dcc6e0">else</span><span class="xml javascript"> {
+}<span class="xml javascript">    </span><span class="xml javascript" style="color:#f5ab35">console</span><span class="xml javascript">.log(</span><span class="xml javascript" style="color:#abe338">&quot;Lenis disabled on mobile&quot;</span><span class="xml javascript">);
+</span><span class="xml javascript">  </span>
+</span><span class="xml javascript"> 
+</span><span class="xml javascript" />);
+</span><span class="xml javascript"> 
+</span><span class="xml javascript" /><span class="xml" style="color:#ffa07a">&lt;/</span><span class="xml" style="color:#ffa07a">script</span><span class="xml" style="color:#ffa07a">&gt;</span></code></pre>
+          <figure class="mb-0 mt-4">
+            <div>
+              <AppImage
+                src="/images/instructions-gsap.png"
+                alt="instruction-image"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+          </figure>
+        </div>
+
+        <div
+          id="tab-panel-7"
+          class={`${tabPanelBase} hidden`}
+          data-tab-panel="tab-7"
+          role="tabpanel"
+          aria-labelledby="tab-button-7"
+        >
+          <ul class="mb-2.5 list-disc pl-10">
+            <li>
+              Drag a <strong>Lottie Animation</strong> element onto your page.
+            </li>
+            <li>Upload your <strong>.json Lottie file</strong>.</li>
+            <li>
+              Choose how it plays (<strong>loop, scroll, click, or hover</strong
+              >).
+            </li>
+          </ul>
+          <figure class="mb-0 mt-4">
+            <div>
+              <AppImage
+                src="/images/lottie-icon.webp"
+                alt="The Lottie animation settings panel showing file upload and play triggers"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector("[data-instruction-tabs]");
+    if (!root) return;
+
+    const buttons = Array.from(root.querySelectorAll("[data-tab-button]"));
+    const panels = Array.from(root.querySelectorAll("[data-tab-panel]"));
+
+    const setActive = (tab) => {
+      buttons.forEach((button) => {
+        const isActive = button.dataset.tabButton === tab;
+        button.classList.toggle("bg-[#d8ae6b]", isActive);
+        button.classList.toggle("text-[#0e1522]", isActive);
+        button.classList.toggle("text-white", !isActive);
+        button.classList.toggle("bg-transparent", !isActive);
+        button.setAttribute("aria-selected", String(isActive));
+      });
+
+      panels.forEach((panel) => {
+        panel.classList.toggle("hidden", panel.dataset.tabPanel !== tab);
+      });
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () =>
+        setActive(button.dataset.tabButton),
+      );
+    });
+
+    setActive("tab-1");
+  })();
+</script>
+
+<style>
+  [data-instruction-animate] {
+    opacity: 0;
+    filter: blur(60px);
+    transform: translateY(30px);
+    transition:
+      opacity 0.8s ease,
+      filter 0.8s ease,
+      transform 0.8s ease;
+  }
+
+  [data-instruction-animate].animate-in {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const initInstructionAnimation = () => {
+    const animatedElements = document.querySelectorAll(
+      "[data-instruction-animate]",
+    );
+
+    if (!animatedElements.length) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (prefersReducedMotion) {
+      animatedElements.forEach((element) => {
+        element.classList.add("animate-in");
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          if (!(el instanceof HTMLElement)) return;
+          const delay = parseFloat(el.dataset.instructionDelay || "0");
+
+          if (delay > 0) {
+            window.setTimeout(() => {
+              el.classList.add("animate-in");
+            }, delay * 1000);
+          } else {
+            el.classList.add("animate-in");
+          }
+
+          observer.unobserve(el);
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
+
+    animatedElements.forEach((el) => observer.observe(el));
+  };
+
+  document.addEventListener("DOMContentLoaded", initInstructionAnimation);
+  document.addEventListener("astro:page-load", initInstructionAnimation);
+</script>

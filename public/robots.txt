@@ -1,0 +1,23 @@
+# Robots.txt for Zarex Astro Theme
+# https://www.robotstxt.org/robotstxt.html
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow admin and utility pages
+Disallow: /401
+Disallow: /template-info/
+
+# Disallow authentication pages from indexing
+Disallow: /authentication/
+
+# Block common non-content directories
+Disallow: /_astro/
+Disallow: /vendor/
+
+# Crawl-delay (optional - uncomment if needed)
+# Crawl-delay: 1
+
+# Sitemap location
+Sitemap: /sitemap-index.xml

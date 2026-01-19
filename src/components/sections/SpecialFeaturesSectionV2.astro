@@ -1,0 +1,174 @@
+---
+import Button from "../ui/Button.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { special } = Astro.props;
+const topTitleHtml = special.top.title.replace(
+  "Special Features",
+  '<span class="text-gradient">Special Features</span>',
+);
+const bottomTitleHtml = special.bottom.title.replace(
+  "Features",
+  '<span class="text-gradient">Features</span>',
+);
+const slides = [
+  {
+    titleHtml: topTitleHtml,
+    summary: special.top.summary,
+    list: special.top.list,
+    cta: special.top.cta,
+    image: special.top.image,
+    imageWidth: 577,
+    imageHeight: 430,
+    imageClass: "special-features-slider-image w-full max-w-[577px]",
+    gridClass: "special-features-slider-grid grid-cols-[7fr_5fr]",
+    reverse: false,
+  },
+  {
+    titleHtml: bottomTitleHtml,
+    summary: special.bottom.summary,
+    list: special.bottom.list,
+    cta: special.bottom.cta,
+    image: special.bottom.image,
+    imageWidth: 575,
+    imageHeight: 430,
+    imageClass: "special-features-slider-image w-full max-w-[575px]",
+    gridClass: "special-features-slider-grid-v2 grid-cols-[5fr_7fr]",
+    reverse: true,
+  },
+];
+const slideCount = slides.length;
+---
+
+<section
+  class="special-features-section-v2 bg-[url('/src/assets/images/speacial-features-bg.png')] bg-cover bg-center pt-[var(--_typography-size---gap--section-gap)] pb-0 text-white"
+  data-special-v2
+>
+  <div
+    class="main-container-1330px mx-auto max-w-[1330px] px-[15px] min-[1280px]:max-w-[1220px] min-[1440px]:max-w-[1330px]"
+  >
+    <div
+      class="special-features-inner-block rounded-[24px] border-2 border-white/10 bg-[#0e1522] p-10 min-[1440px]:p-20 min-[1920px]:p-[90px] max-[991px]:p-[30px] max-[767px]:p-5 max-[479px]:rounded-[16px]"
+    >
+      <div
+        class="special-features-slider-block relative"
+        data-special-v2-carousel
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="Special features carousel"
+      >
+        <div class="special-features-slider-inner-block relative">
+          <div class="special-features-slider-mask w-full overflow-hidden pb-[2px]" data-special-v2-viewport>
+            <div class="grid w-full grid-cols-1" data-special-v2-track>
+              {
+                slides.map((slide, index) => (
+                  <div
+                    class="special-features-single-slide col-start-1 row-start-1 w-full"
+                    data-special-v2-slide
+                    role="group"
+                    aria-roledescription="slide"
+                    aria-label={`Slide ${index + 1} of ${slideCount}`}
+                  >
+                    <div
+                      class={`grid items-center gap-[30px] ${slide.gridClass} min-[1440px]:gap-[60px] max-[767px]:grid-cols-1 max-[767px]:gap-6`}
+                      data-special-v2-block
+                    >
+                      <div
+                        class:list={[
+                          "special-features-content-block",
+                          slide.reverse ? "order-2" : "order-1",
+                        ]}
+                      >
+                        <div
+                          class:list={[
+                            "section-heading-block",
+                            !slide.reverse ? "min-[992px]:max-w-[600px]" : "min-[992px]:max-w-[550px]",
+                          ]}
+                        >
+                          <div class="section-title-block">
+                            <h2
+                              class="section-title font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+                              data-special-v2-title
+                              set:html={slide.titleHtml}
+                            />
+                          </div>
+                          <div class="section-summary-block mt-5">
+                            <p
+                              class="section-summary text-[18px] text-[#c4c4c4]"
+                              data-special-v2-summary
+                            >
+                              {slide.summary}
+                            </p>
+                          </div>
+                        </div>
+                        <ul
+                          class="special-features-list-block mt-[30px] flex flex-col gap-5 min-[1440px]:mt-[46px] min-[1440px]:gap-6"
+                          data-special-v2-list
+                        >
+                          {
+                            slide.list.map((item: string) => (
+                              <li class="special-features-list-item bg-[url('/src/assets/images/check-1.svg')] bg-[position:0_-1px] bg-no-repeat pl-10 font-title text-[22px] font-medium leading-[1.4] tracking-[-0.01em] text-white min-[1440px]:text-[24px]">
+                                {item}
+                              </li>
+                            ))
+                          }
+                        </ul>
+                        <div
+                          class="special-features-button-wrap mt-[30px] min-[1440px]:mt-[40px]"
+                          data-special-v2-button
+                        >
+                          <Button
+                            href={slide.cta.href}
+                            variant="outline"
+                            class="padding-32px"
+                          >
+                            {slide.cta.label}
+                          </Button>
+                        </div>
+                      </div>
+                      <div
+                        class={slide.reverse
+                          ? "order-1 flex justify-center max-[767px]:justify-start"
+                          : "order-2 flex justify-center max-[767px]:justify-start"}
+                      >
+                        <div class="special-features-slider-image-block flex justify-center">
+                          <AppImage
+                            src={slide.image}
+                            alt="Special Features Slider Image"
+                            width={slide.imageWidth}
+                            height={slide.imageHeight}
+                            class={slide.imageClass}
+                            loading="lazy"
+                            data-special-v2-image
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <div
+            class="features-slide-nav absolute bottom-0 right-0 flex items-center"
+            aria-label="Special feature slides"
+          >
+            {
+              slides.map((_, index) => (
+                <button
+                  type="button"
+                  class="w-slider-dot mx-[3px] mb-2 inline-block h-4 w-4 bg-white/40 transition duration-100 cursor-pointer data-[active=true]:bg-[#ffffff]"
+                  data-special-v2-dot
+                  data-special-v2-index={index}
+                  aria-label={`Go to slide ${index + 1}`}
+                ></button>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

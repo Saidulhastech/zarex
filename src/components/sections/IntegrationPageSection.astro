@@ -1,0 +1,134 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { hero, items } = Astro.props;
+---
+
+<section
+  data-integration-page
+  class="bg-[url('/src/assets/images/integrations-bg.png')] bg-cover bg-center bg-no-repeat pt-[var(--_typography-size---gap--page-top-gap)] pb-[var(--_typography-size---gap--section-gap)] text-white"
+>
+  <Container>
+    <div
+      data-integration-page-heading
+      class="flex flex-col items-center text-center"
+    >
+      <div
+        class="text-gradient text-[20px] font-medium leading-[1.1] max-[767px]:text-[18px]"
+      >
+        {hero.subtitle}
+      </div>
+      <div
+        class="mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[550px] min-[1280px]:max-w-[700px] max-[991px]:max-w-[480px] max-[767px]:max-w-[400px]"
+      >
+        <h1 class="page-title">
+          {hero.title.prefix}
+          <span class="highlight-text">{hero.title.highlight}</span>
+          {hero.title.suffix}
+        </h1>
+      </div>
+      <div
+        class="mt-[20px] max-w-[690px] min-[1280px]:mt-[30px] max-[767px]:mt-[16px]"
+      >
+        <p
+          class="hero-summary text-[20px] leading-[1.5] text-[#c4c4c4] max-[767px]:text-[18px]"
+        >
+          {hero.summary.prefix}
+          <span class="summary-bold">{hero.summary.highlight}</span>
+          {hero.summary.suffix}
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-[var(--_typography-size---gap--content-gap)]">
+      <div
+        class="grid grid-cols-3 gap-x-5 gap-y-[30px] min-[1440px]:gap-x-[30px] min-[1440px]:gap-y-[40px] max-[991px]:grid-cols-2 max-[767px]:grid-cols-1"
+      >
+        {
+          items.map(
+            (
+              item: {
+                href: string;
+                icon: string;
+                status: string;
+                title: string;
+                summary: string;
+              },
+              index: number,
+            ) => (
+              <article
+                data-integration-page-card
+                class="rounded-[var(--_typography-size---gap--border-radius)] border border-white/10 bg-[#0e1522] px-[24px] py-[30px] min-[1440px]:px-[32px] min-[1440px]:py-[40px] max-[767px]:p-5"
+              >
+                <div class="flex items-center justify-between gap-4">
+                  <a
+                    href={item.href}
+                    class="relative z-[12] flex h-[80px] w-[80px] flex-none items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] [transform-origin:50%] min-[1440px]:h-[105px] min-[1440px]:w-[105px] max-[991px]:h-[40px] max-[991px]:w-[40px]"
+                  >
+                    <AppImage
+                      src={item.icon}
+                      alt="Integration Icon"
+                      width="50"
+                      height="50"
+                      class="w-[50px] min-[1280px]:w-auto max-[991px]:w-[40px]"
+                      loading={index < 6 ? "eager" : "lazy"}
+                      fetchpriority={index < 6 ? "high" : "auto"}
+                    />
+                  </a>
+                  <div class="text-[18px] font-medium leading-none text-[#c4c4c4]">
+                    {item.status}
+                  </div>
+                </div>
+
+                <a
+                  aria-label="Integration Title Link"
+                  href={item.href}
+                  class="mt-5 block text-white transition hover:text-[#d8ae6b] min-[1440px]:mt-7"
+                >
+                  <h2 class="font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] tracking-[-0.01em]">
+                    {item.title}
+                  </h2>
+                </a>
+
+                <p class="mt-4 text-[16px] text-[#c4c4c4] min-[1440px]:mt-5">
+                  {item.summary}
+                </p>
+
+                <div class="mt-5 mb-[14px] h-px w-full bg-[#2f2e2e] min-[1440px]:mt-6" />
+
+                <div class="flex items-center justify-between gap-4">
+                  <div class="flex items-center gap-2">
+                    <AppImage
+                      src="/images/006-settings.svg"
+                      width="20"
+                      height="20"
+                      loading="lazy"
+                      alt="Configure Icon"
+                      class="h-5 w-5"
+                    />
+                    <span class="text-[14px] leading-none text-[#c4c4c4]">
+                      Configure
+                    </span>
+                  </div>
+                  <label class="flex h-[18px] w-[36px] cursor-pointer items-center rounded-[200px] border-[0.5px] border-white/10 bg-[#313131] p-[3px] transition-colors">
+                    <input type="checkbox" class="peer sr-only" />
+                    <span class="h-3 w-3 rounded-full bg-[#6356e0] transition-transform duration-200 peer-checked:translate-x-[18px]" />
+                  </label>
+                </div>
+              </article>
+            ),
+          )
+        }
+      </div>
+      {
+        items.length === 0 ? (
+          <div class="mt-6 text-center text-[16px] text-[#c4c4c4]">
+            No items found.
+          </div>
+        ) : null
+      }
+    </div>
+  </Container>
+</section>
+

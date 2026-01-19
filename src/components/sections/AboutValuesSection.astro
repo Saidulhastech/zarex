@@ -1,0 +1,68 @@
+---
+import Container from "../ui/Container.astro";
+
+const { values } = Astro.props;
+
+const normalizeText = (value: string = "") =>
+  value.replace(/ƒ\?T/g, "'").replace(/ƒ\?/g, "-").replace(/’'\?T/g, "'");
+---
+
+<section
+  class="pb-[var(--_typography-size---gap--section-gap)] text-white"
+  data-about-values
+>
+  <Container
+    class="max-w-[970px] px-[15px] min-[1280px]:max-w-[1220px] min-[1440px]:max-w-[1330px] max-[991px]:max-w-[740px] max-[767px]:max-w-[530px] max-[479px]:max-w-full"
+  >
+    <div class="grid items-start gap-4 min-[992px]:grid-cols-2">
+      <div
+        class="min-[992px]:sticky min-[992px]:top-[20px]"
+        data-about-values-heading
+      >
+        <div class="max-w-[480px]">
+          <h2
+            class="section-title font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+          >
+            {normalizeText(values.title.prefix)}
+            <span class="text-gradient"
+              >{normalizeText(values.title.highlight)}</span
+            >
+            {normalizeText(values.title.suffix)}
+          </h2>
+        </div>
+        <div
+          class="mt-[var(--_typography-size---gap--subtitle-gap)] max-w-[450px]"
+        >
+          <p class="section-summary text-[18px] text-[#c4c4c4]">
+            {normalizeText(values.summary)}
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="flex flex-col max-[991px]:mt-[var(--_typography-size---gap--content-gap)]"
+        data-about-values-items
+      >
+        {
+          values.items.map(
+            (item: { title: string; summary: string }, index: number) => (
+              <article
+                class={`flex items-start justify-between gap-4 border-b border-[#88888875] py-6 min-[1440px]:py-8 max-[991px]:py-5 max-[767px]:flex-col max-[479px]:flex-wrap ${
+                  index === 0 ? "pt-0" : ""
+                } ${index === values.items.length - 1 ? "border-b-0 pb-0" : ""}`}
+                data-about-values-item
+              >
+                <h3 class="values-title font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] text-white">
+                  {normalizeText(item.title)}
+                </h3>
+                <p class="values-summary max-w-[310px] text-[16px] leading-[1.5] text-[#c4c4c4] max-[991px]:max-w-[350px] max-[767px]:max-w-none">
+                  {normalizeText(item.summary)}
+                </p>
+              </article>
+            ),
+          )
+        }
+      </div>
+    </div>
+  </Container>
+</section>

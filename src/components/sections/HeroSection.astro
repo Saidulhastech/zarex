@@ -1,0 +1,149 @@
+---
+import { Image } from "astro:assets";
+import { resolveImage } from "../../utils/resolveImage";
+import Button from "../ui/Button.astro";
+
+const { hero } = Astro.props;
+
+// Resolve all images for the hero section
+const leftTopImg = await resolveImage(hero.images.leftTop.src);
+const leftBottomImg = await resolveImage(hero.images.leftBottom.src);
+const middleTopImg = await resolveImage(hero.images.middleTop.src);
+const middleBottomImg = await resolveImage(hero.images.middleBottom.src);
+const rightTopImg = await resolveImage(hero.images.rightTop.src);
+const rightBottomImg = await resolveImage(hero.images.rightBottom.src);
+---
+
+<section class="hero-section" data-hero>
+  <div class="main-container">
+    <div class="page-heading-and-button-wrap" data-hero-content>
+      <div class="page-heading-block">
+        <div class="page-subtitle-block">
+          <span class="page-subtitle">{hero.eyebrow}</span>
+        </div>
+        <div class="page-title-block margin-top-24px max-width-500px">
+          <h1 class="page-title">
+            {hero.title.prefix}
+            <span class="highlight-text v2">{hero.title.highlight}</span>
+            {hero.title.suffix}
+            <span class="linkedin-icon" aria-hidden="true">bv</span>
+          </h1>
+        </div>
+      </div>
+      <div class="hero-summary-and-button-wrap">
+        <p class="hero-summary">
+          {hero.summary.prefix}
+          <span class="summary-bold">{hero.summary.highlight}</span>
+          {hero.summary.suffix}
+        </p>
+        <div class="hero-button-group-block">
+          <Button href={hero.primaryCta.href}>{hero.primaryCta.label}</Button>
+          <div class="hero-video-lightbox-wrapper">
+            <a
+              href={hero.secondaryCta.href}
+              class="hero-video-lightbox"
+              aria-label={hero.secondaryCta.label}
+            >
+              <span class="hero-video-lightbox-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="15"
+                  height="21"
+                  viewBox="0 0 15 21"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M13.871 9.71006C14.5445 10.195 14.5445 11.1975 13.871 11.6824L1.97601 20.2468C1.17219 20.8255 0.0507813 20.2511 0.0507813 19.2606L0.0507819 2.13186C0.050782 1.14136 1.17219 0.566934 1.97601 1.14569L13.871 9.71006Z"
+                    fill="currentColor"></path>
+                </svg>
+              </span>
+            </a>
+            <div class="hero-video-lightbox-text">
+              {hero.secondaryCta.label}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-image-container" data-hero-visuals>
+      <div class="hero-single-column-block left-column">
+        <div
+          class="hero-single-image-block left-top hero-left-column-image-one rotate--11deg"
+        >
+          <Image
+            src={leftTopImg as any}
+            alt={hero.images.leftTop.alt}
+            width={400}
+            height={320}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+        <div class="hero-single-image-block left-bottom">
+          <Image
+            src={leftBottomImg as any}
+            alt={hero.images.leftBottom.alt}
+            class="hero-single-image"
+            width={400}
+            height={320}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+      <div class="hero-single-column-block">
+        <div class="hero-single-image-block middle-top">
+          <Image
+            src={middleTopImg as any}
+            alt={hero.images.middleTop.alt}
+            class="hero-single-image"
+            width={400}
+            height={320}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+        <div class="hero-single-image-block bottom">
+          <Image
+            src={middleBottomImg as any}
+            alt={hero.images.middleBottom.alt}
+            class="hero-single-image"
+            width={400}
+            height={320}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+      <div class="hero-single-column-block v2">
+        <div
+          class="hero-single-image-block right-top rotate-21deg"
+          data-hero-rotate
+        >
+          <Image
+            src={rightTopImg as any}
+            alt={hero.images.rightTop.alt}
+            class="hero-single-image"
+            width={400}
+            height={320}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+        <div class="hero-single-image-block right-bottom">
+          <Image
+            src={rightBottomImg as any}
+            alt={hero.images.rightBottom.alt}
+            class="hero-single-image"
+            width={400}
+            height={320}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

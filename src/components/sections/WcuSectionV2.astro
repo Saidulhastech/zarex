@@ -1,0 +1,73 @@
+---
+import Container from "../ui/Container.astro";
+
+const { wcu } = Astro.props;
+const wcuLottieSources = [
+  "/documents/data-1.json",
+  "/documents/speech-bubble-2-fx.json",
+  "/documents/durability-1.json",
+];
+---
+
+<section
+  class="bg-[url('/src/assets/images/WCU-BG2.png')] bg-cover bg-center py-[var(--_typography-size---gap--section-gap)] text-white"
+  data-wcu-v2
+>
+  <Container>
+    <div class="flex flex-col items-center text-center">
+      <div class="max-w-[720px]">
+        <h2
+          class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+          data-wcu-v2-title
+        >
+          {wcu.title.prefix}
+          <span class="text-gradient">{wcu.title.highlight}</span>
+          {wcu.title.suffix}
+        </h2>
+      </div>
+      <div class="mt-5 max-w-[624px]" data-wcu-v2-summary>
+        <p class="text-[18px] text-[#c4c4c4]">{wcu.summary}</p>
+      </div>
+    </div>
+
+    <div
+      class="mt-[var(--_typography-size---gap--content-gap)] grid grid-cols-3 gap-6 min-[1440px]:gap-[30px] max-[991px]:grid-cols-2 max-[991px]:gap-5 max-[767px]:grid-cols-1"
+    >
+      {
+        wcu.items.map(
+          (item: { title: string; summary: string }, index: number) => (
+            <article
+              class="rounded-[16px] border-2 border-white/10 bg-[#0e1522] px-6 py-10 min-[1440px]:px-8 min-[1440px]:py-14 max-[767px]:py-[30px] max-[479px]:px-5"
+              data-wcu-v2-card
+            >
+              <div class="ml-6 min-[1440px]:ml-[34px] max-[767px]:ml-0">
+                <div
+                  class="relative flex h-[120px] w-[120px] items-center justify-center"
+                  data-wcu-icon
+                  data-lottie-src={wcuLottieSources[index]}
+                  data-lottie-loop="true"
+                  data-lottie-autoplay="true"
+                  aria-label={item.title}
+                >
+                  <div class="wcu-icon relative z-10 h-full w-full" />
+                </div>
+              </div>
+              <div class="mt-[70px] min-[1440px]:mt-[50px] max-[767px]:mt-[50px] max-[479px]:mt-[20px]">
+                <h3 class="font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] text-white">
+                  {item.title}
+                </h3>
+                <p class="mt-[var(--_typography-size---gap--subtitle-gap)] text-[16px] text-[#c4c4c4]">
+                  {item.summary}
+                </p>
+              </div>
+            </article>
+          ),
+        )
+      }
+    </div>
+  </Container>
+
+  <script is:inline src="/vendor/lottie.min.js"></script>
+  <script is:inline src="/scripts/wcu-lottie.js"></script>
+</section>
+

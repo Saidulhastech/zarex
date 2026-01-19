@@ -1,0 +1,281 @@
+---
+import Container from "../ui/Container.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { heading, posts } = Astro.props;
+const categories = heading?.categories ?? [
+  { label: "All Articles", value: "all", isActive: true },
+];
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+---
+
+<section
+  data-blog-v3
+  class="bg-[url('/src/assets/images/blog-page-bg.png')] bg-cover bg-top bg-no-repeat pt-[var(--_typography-size---gap--page-top-gap)] pb-[var(--_typography-size---gap--section-gap)] text-white"
+>
+  <Container>
+    <div
+      class="page-heading-and-summary-wrap flex items-center justify-between gap-[30px] min-[1280px]:gap-[40px] max-[991px]:flex-wrap max-[991px]:gap-[20px] max-[767px]:gap-[16px]"
+    >
+      <div
+        data-blog-v3-heading
+        class="max-w-[550px] min-[1280px]:max-w-[600px] max-[991px]:max-w-[540px] max-[767px]:max-w-[500px]"
+      >
+        <span
+          class="inline-flex text-gradient text-[20px] font-medium leading-[1.1] max-[767px]:text-[18px]"
+        >
+          {heading.subtitle}
+        </span>
+        <h1 class="mt-6">
+          {heading.title.prefix}
+          <span class="highlight-text">{heading.title.highlight}</span>
+        </h1>
+      </div>
+
+      <div
+        data-blog-v3-summary
+        class="max-w-[420px] min-[1280px]:max-w-[486px] max-[991px]:max-w-none"
+      >
+        <p
+          class="hero-summary text-[#c4c4c4] leading-[1.5] max-[767px]:text-[18px]"
+        >
+          {heading.summary.prefix}
+          <span class="summary-bold">{heading.summary.highlight}</span>
+          {heading.summary.suffix}
+        </p>
+      </div>
+    </div>
+
+    <div
+      data-blog-v3-filters
+      class="blog-content-wrap mt-[var(--_typography-size---gap--content-gap)]"
+    >
+      <div
+        class="blog-category-block mx-auto flex flex-wrap items-center justify-center gap-4 px-[15px] pb-[10px] min-[1280px]:max-w-[1100px] max-[991px]:max-w-none max-[991px]:px-[20px]"
+      >
+        {
+          categories.map(
+            (category: {
+              label: string;
+              value: string;
+              isActive?: boolean;
+              href?: string;
+            }) => (
+              <a
+                href={category.href ?? "#"}
+                data-blog-filter
+                data-filter-value={category.value ?? category.label}
+                data-active={category.isActive ? "true" : "false"}
+                aria-current={category.isActive ? "true" : "false"}
+                class={`blog-category-link group relative flex flex-none items-center justify-center rounded-[40px] border px-[20px] py-[13px] text-white no-underline transition-[border-color,color,background-color] duration-500 hover:border-transparent min-[1280px]:px-[23.5px] min-[1280px]:py-4 ${
+                  category.isActive ? "border-[#1ad079]" : "border-[#888]"
+                }`}
+              >
+                <span
+                  data-blog-filter-text
+                  class={`relative z-10 text-[16px] font-medium leading-none tracking-[-0.02em] transition-colors duration-500 ${
+                    category.isActive
+                      ? "text-white"
+                      : "text-white group-hover:text-black"
+                  }`}
+                >
+                  {category.label}
+                </span>
+                <span
+                  data-blog-filter-bg
+                  class="blog-category-bg absolute inset-0 rounded-[40px] bg-gradient-to-r from-[#d8ae6b] to-[#1ad079] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                />
+              </a>
+            ),
+          )
+        }
+      </div>
+    </div>
+
+    <div class="blog-content-block-v3 mt-[56px]">
+      <div
+        class="grid grid-cols-2 gap-x-[24px] gap-y-[30px] min-[1280px]:grid-cols-3 min-[1440px]:gap-x-[30px] min-[1440px]:gap-y-[40px] max-[767px]:grid-cols-1 max-[767px]:gap-x-[30px] max-[767px]:gap-y-[30px]"
+      >
+        {
+          posts.map(
+            (post: {
+              data: {
+                image: string;
+                title: string;
+                summary: string;
+                author: string;
+                date: Date;
+                category: string;
+              };
+              slug: string;
+            }) => (
+              <article
+                data-blog-v3-card
+                data-blog-item
+                data-category={post.data.category}
+                class="blog-single-item-block group overflow-hidden rounded-[var(--_typography-size---gap--border-radius)] border border-[#363636]"
+              >
+                <div data-blog-v3-image class="blog-image-wrap overflow-hidden">
+                  <a href={`/blog/${post.slug}`} class="blog-link-block block">
+                    <AppImage
+                      src={post.data.image}
+                      alt={post.data.title}
+                      width="412"
+                      height="240"
+                      class="w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                      loading="lazy"
+                    />
+                  </a>
+                </div>
+                <div
+                  data-blog-v3-content
+                  class="blog-content-block-v2 bg-[#0e1522] px-5 pt-5 pb-6 min-[1440px]:px-6 min-[1440px]:pb-8"
+                >
+                  <a
+                    href={`/blog/${post.slug}`}
+                    class="blog-title-link-v2 block text-white transition hover:text-[#d8ae6b]"
+                  >
+                    <h2 class="blog-title font-title text-[22px] font-medium leading-[1.4]">
+                      {post.data.title}
+                    </h2>
+                  </a>
+                  <p class="blog-summary-v2 mt-5 text-[16px] text-[#c4c4c4] max-[767px]:mt-4">
+                    {post.data.summary}
+                  </p>
+                  <a
+                    href={`/blog/${post.slug}`}
+                    class="blog-read-more-block mt-4 mb-5 block font-title text-[14px] font-medium leading-[1.4] text-white underline decoration-[1px] decoration-current underline-offset-2 transition hover:text-[#d8ae6b] hover:decoration-transparent min-[1440px]:mt-5 min-[1440px]:mb-7"
+                  >
+                    Read More
+                  </a>
+                  <div class="blog-meta-wrap-v2 mt-5 flex items-center gap-1.5 border-y border-[#363636] py-2 text-[16px] max-[767px]:mt-4 max-[767px]:py-1.5">
+                    <a
+                      href={`/blog/author/${slugify(post.data.author)}`}
+                      class="blog-author-link-text font-medium leading-[1.5] text-[#c4c4c4] transition hover:text-[#d8ae6b]"
+                    >
+                      {post.data.author}
+                    </a>
+                    <span class="blog-meta-devider h-px w-2 bg-[#888]" />
+                    <span class="blog-date-text font-medium leading-[1.5] text-[#c4c4c4]">
+                      {post.data.date.toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </div>
+                </div>
+              </article>
+            ),
+          )
+        }
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .js [data-blog-v3] .blog-single-item-block {
+    opacity: 0;
+    transform: translateY(15%);
+    filter: blur(40px);
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const categoryBlock = document.querySelector(".blog-category-block");
+    const section = categoryBlock?.closest("section");
+    if (!categoryBlock || !section) return;
+
+    const buttons = Array.from(section.querySelectorAll("[data-blog-filter]"));
+    const items = Array.from(section.querySelectorAll("[data-blog-item]"));
+
+    const setActiveButton = (activeButton) => {
+      buttons.forEach((button) => {
+        const isActive = button === activeButton;
+        button.dataset.active = isActive ? "true" : "false";
+        button.setAttribute("aria-current", isActive ? "true" : "false");
+        button.classList.toggle("border-[#1ad079]", isActive);
+        button.classList.toggle("border-[#888]", !isActive);
+
+        const text = button.querySelector("[data-blog-filter-text]");
+        if (text) {
+          text.classList.toggle("group-hover:text-black", !isActive);
+        }
+
+        const bg = button.querySelector("[data-blog-filter-bg]");
+        if (bg) {
+          bg.classList.add("opacity-0");
+          bg.classList.remove("opacity-100");
+        }
+      });
+    };
+
+    const isInView = (element) => {
+      const rect = element.getBoundingClientRect();
+      return rect.top < window.innerHeight * 0.9 && rect.bottom > 0;
+    };
+
+    const revealItem = (item) => {
+      item.dataset.revealed = "true";
+      item.style.opacity = "1";
+      item.style.transform = "translateY(0)";
+      item.style.filter = "blur(0)";
+
+      const image = item.querySelector("[data-blog-v3-image]");
+      if (image) {
+        image.style.filter = "none";
+        image.style.transform = "none";
+      }
+
+      const content = item.querySelector("[data-blog-v3-content]");
+      if (content) {
+        content.style.opacity = "1";
+        content.style.transform = "none";
+        content.style.filter = "none";
+      }
+    };
+
+    const applyFilter = (filterValue, shouldReveal = false) => {
+      items.forEach((item) => {
+        const categories = (item.dataset.category || "")
+          .split("|")
+          .map((value) => value.trim())
+          .filter(Boolean);
+        const matches =
+          filterValue === "all" || categories.includes(filterValue);
+        item.classList.toggle("hidden", !matches);
+        if (matches && shouldReveal) {
+          revealItem(item);
+        }
+      });
+    };
+
+    const activeButton =
+      buttons.find((button) => button.dataset.active === "true") || buttons[0];
+    if (activeButton) {
+      applyFilter(activeButton.dataset.filterValue || "all");
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        if (
+          button.getAttribute("href") &&
+          button.getAttribute("href") !== "#"
+        ) {
+          return;
+        }
+        event.preventDefault();
+        setActiveButton(button);
+        applyFilter(button.dataset.filterValue || "all", true);
+      });
+    });
+  })();
+</script>
+

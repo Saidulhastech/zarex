@@ -1,0 +1,418 @@
+---
+import Button from "../ui/Button.astro";
+import AppImage from "../ui/AppImage.astro";
+
+const { integrations } = Astro.props;
+
+// 13 icon positions matching the Webflow design
+// Icons will be cycled if there aren't 13 unique ones
+const getIcon = (index: number) => {
+  return integrations.icons[index % integrations.icons.length];
+};
+---
+
+<section
+  class="integrations-section-v2 relative flex flex-col items-center justify-center overflow-hidden bg-[url('/src/assets/images/integration-bg-v2.png')] bg-cover bg-center py-[var(--_typography-size---gap--section-gap)] text-white"
+>
+  <div
+    class="integration-wrapper relative flex w-full flex-col items-center justify-end min-h-[450px] pt-[70px] overflow-hidden min-[1440px]:min-h-[550px] min-[1440px]:pt-[110px] max-[767px]:min-h-0 max-[767px]:px-[15px]"
+  >
+    <!-- Heading Block -->
+    <div
+      class="section-heading-block align-center float-bottom relative z-10 flex flex-col items-center text-center"
+      data-animate="fade-blur-up"
+    >
+      <div class="section-title-block max-w-[640px]">
+        <h2
+          class="section-title font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+        >
+          {integrations.title.prefix}
+          <span class="text-gradient">{integrations.title.highlight}</span>
+          {integrations.title.suffix}
+        </h2>
+      </div>
+      <div class="section-summary-block mt-5 max-w-[528px]">
+        <p class="section-summary text-[18px] text-[#c4c4c4]">
+          {integrations.summary}
+        </p>
+      </div>
+      <div
+        class="integration-button-group mt-8 flex flex-wrap items-center justify-center gap-4"
+      >
+        <Button href={integrations.primaryCta.href}
+          >{integrations.primaryCta.label}</Button
+        >
+        <Button
+          href={integrations.secondaryCta.href}
+          variant="secondary"
+          class="padding-32px"
+        >
+          {integrations.secondaryCta.label}
+        </Button>
+      </div>
+    </div>
+
+    <!-- Integration Circle Container -->
+    <div
+      class="integration-circle-container absolute inset-0 z-[5] flex items-start justify-center pt-[45px] overflow-hidden min-[1440px]:pt-[55px] max-[479px]:relative max-[479px]:mt-[20px] max-[479px]:pt-[50px] max-[479px]:pb-[50px] max-[767px]:w-full max-[767px]:max-w-[100vw]"
+    >
+      <div
+        class="integration-circle-wrapper mobile-rotate relative grid w-[800px] min-w-[800px] h-[800px] min-h-[800px] grid-rows-[auto_auto] grid-cols-1 gap-4 rounded-full outline outline-1 outline-dashed outline-[#4c4c4cc7] min-[1440px]:w-[1176px] min-[1440px]:min-w-[1176px] min-[1440px]:h-[1176px] min-[1440px]:min-h-[1176px] max-[991px]:w-[600px] max-[991px]:min-w-[600px] max-[991px]:h-[600px] max-[991px]:min-h-[600px] max-[479px]:w-[380px] max-[479px]:min-w-[380px] max-[479px]:h-[380px] max-[479px]:min-h-[380px] max-[479px]:grid-rows-[auto]"
+      >
+        <!-- Column 1: First 7 icons -->
+        <div
+          class="integration-single-column relative flex flex-row justify-center items-start w-full mx-auto"
+        >
+          <!-- Icon 1: Bottom left -->
+          <div
+            class="integration-icon-block _1 z-[12] absolute bottom-[6%] left-[-5%] flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:bottom-[22%] min-[1440px]:left-[-3%] max-[991px]:h-[70px] max-[991px]:w-[70px] max-[991px]:bottom-[-17%] max-[479px]:bottom-[-62%] max-[479px]:left-[4%]"
+            data-animate="scale-up"
+            data-animate-delay="0.1"
+          >
+            <AppImage
+              src={getIcon(0)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Icon 2: Middle left -->
+          <div
+            class="integration-icon-block _2 z-[12] absolute bottom-[50%] left-[3%] flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:bottom-[58%] min-[1440px]:left-[7%] max-[991px]:h-[70px] max-[991px]:w-[70px] max-[991px]:bottom-[33%] max-[991px]:left-[-3%] max-[479px]:bottom-[-3%] max-[479px]:left-[-8%]"
+            data-animate="scale-up"
+            data-animate-delay="0.2"
+          >
+            <AppImage
+              src={getIcon(1)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Icon 3: Top left -->
+          <div
+            class="integration-icon-block _3 z-[12] absolute bottom-[78%] left-[20%] flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:bottom-[83%] min-[1440px]:left-[24%] max-[991px]:h-[70px] max-[991px]:w-[70px] max-[991px]:top-[5%] max-[991px]:left-[16%] max-[479px]:top-[12%] max-[479px]:left-[6%]"
+            data-animate="scale-up"
+            data-animate-delay="0.3"
+          >
+            <AppImage
+              src={getIcon(2)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Icon 4: Top center -->
+          <div
+            class="integration-icon-block _4 z-[12] relative bottom-[40px] flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:bottom-[50px] max-[991px]:h-[70px] max-[991px]:w-[70px] max-[991px]:bottom-[35px]"
+            data-animate="scale-up"
+            data-animate-delay="0.4"
+          >
+            <AppImage
+              src={getIcon(3)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Icon 5: Top right -->
+          <div
+            class="integration-icon-block _5 z-[12] absolute bottom-[78%] right-[20%] flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:bottom-[84%] min-[1440px]:right-[24%] max-[991px]:h-[70px] max-[991px]:w-[70px] max-[991px]:top-[5%] max-[991px]:right-[16%] max-[479px]:top-[12%] max-[479px]:right-[6%]"
+            data-animate="scale-up"
+            data-animate-delay="0.5"
+          >
+            <AppImage
+              src={getIcon(4)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Icon 6: Middle right -->
+          <div
+            class="integration-icon-block _6 z-[12] absolute bottom-[50%] right-[3%] flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:bottom-[58%] min-[1440px]:right-[7%] max-[991px]:h-[70px] max-[991px]:w-[70px] max-[991px]:bottom-[33%] max-[991px]:right-[-2%] max-[479px]:bottom-[-3%] max-[479px]:right-[-8%]"
+            data-animate="scale-up"
+            data-animate-delay="0.6"
+          >
+            <AppImage
+              src={getIcon(5)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Icon 7: Bottom right -->
+          <div
+            class="integration-icon-block _7 z-[12] absolute bottom-[6%] right-[-5%] flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:bottom-[22%] min-[1440px]:right-[-3%] max-[991px]:h-[70px] max-[991px]:w-[70px] max-[991px]:bottom-[-17%] max-[991px]:right-[-5%] max-[479px]:bottom-[-64%] max-[479px]:right-[5%]"
+            data-animate="scale-up"
+            data-animate-delay="0.7"
+          >
+            <AppImage
+              src={getIcon(6)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <!-- Column 2: Last 6 icons -->
+        <div
+          class="integration-single-column v2 relative flex flex-row justify-center items-end w-full mx-auto"
+        >
+          <!-- Icon 8: Left side upper -->
+          <div
+            class="integration-icon-block _8 z-[12] absolute top-[24%] left-0 flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:top-[15%] min-[1440px]:left-[-2%] max-[991px]:h-[70px] max-[991px]:w-[70px] max-[991px]:top-[44%] max-[991px]:left-[5%] max-[479px]:hidden"
+            data-animate="scale-up"
+            data-animate-delay="0.8"
+          >
+            <AppImage
+              src={getIcon(7)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Icon 9: Left side lower -->
+          <div
+            class="integration-icon-block _9 z-[12] absolute top-[59%] left-[11%] flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:top-[63%] min-[1440px]:left-[14%] max-[991px]:h-[70px] max-[991px]:w-[70px] max-[991px]:bottom-[-3%] max-[991px]:left-[26%] max-[479px]:hidden"
+            data-animate="scale-up"
+            data-animate-delay="0.9"
+          >
+            <AppImage
+              src={getIcon(0)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Icon 10: Bottom left area -->
+          <div
+            class="integration-icon-block _10 z-[12] absolute bottom-[-6%] left-[31%] flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:bottom-[-8%] min-[1440px]:left-[38%] max-[991px]:hidden"
+            data-animate="scale-up"
+            data-animate-delay="1.0"
+          >
+            <AppImage
+              src={getIcon(1)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Icon 11: Bottom center right -->
+          <div
+            class="integration-icon-block _11 z-[12] absolute bottom-[-6%] left-[56%] flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:bottom-[0%] min-[1440px]:left-[65%] max-[991px]:h-[70px] max-[991px]:w-[70px] max-[991px]:bottom-[-6%] max-[991px]:left-[57%] max-[479px]:bottom-[-21%] max-[479px]:left-[41%]"
+            data-animate="scale-up"
+            data-animate-delay="1.1"
+          >
+            <AppImage
+              src={getIcon(2)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Icon 12: Right side lower -->
+          <div
+            class="integration-icon-block _12 z-[12] absolute top-[64%] right-[12%] flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:top-[50%] min-[1440px]:right-[8%] max-[991px]:hidden"
+            data-animate="scale-up"
+            data-animate-delay="1.2"
+          >
+            <AppImage
+              src={getIcon(3)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Icon 13: Right side upper -->
+          <div
+            class="integration-icon-block _13 z-[12] absolute top-[24%] right-0 flex h-[80px] w-[80px] items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(27deg,#0e1522,#1a2d52)] min-[1440px]:h-[105px] min-[1440px]:w-[105px] min-[1440px]:top-[11%] min-[1440px]:right-[-2%] max-[991px]:h-[70px] max-[991px]:w-[70px] max-[991px]:bottom-[28%] max-[991px]:right-[7%] max-[479px]:hidden"
+            data-animate="scale-up"
+            data-animate-delay="1.3"
+          >
+            <AppImage
+              src={getIcon(4)}
+              alt="Integration Icon"
+              width="50"
+              height="50"
+              class="integration-icon h-auto w-[50px] min-[1440px]:w-[60px] max-[991px]:w-[40px]"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Scale up animation from center */
+  [data-animate="scale-up"] {
+    opacity: 0;
+    transform: scale(0);
+    transition:
+      opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  [data-animate="scale-up"].animate-in {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Fade blur up animation */
+  [data-animate="fade-blur-up"] {
+    opacity: 0;
+    filter: blur(100px);
+    transform: translateY(50%);
+    transition:
+      opacity 0.8s ease,
+      filter 0.8s ease,
+      transform 0.8s ease;
+  }
+
+  [data-animate="fade-blur-up"].animate-in {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+
+  /* Mobile rotation animation for the circle */
+  @keyframes rotate-circle {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Counter-rotation for icons to keep them upright */
+  @keyframes counter-rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+
+  /* Apply rotation animation on mobile devices only */
+  @media (max-width: 767px) {
+    .mobile-rotate {
+      animation: rotate-circle 30s linear infinite;
+    }
+
+    /* Counter-rotate icons to keep them upright while orbiting */
+    .mobile-rotate .integration-icon-block {
+      animation: counter-rotate 30s linear infinite;
+    }
+
+    /* Override scale-up animation for mobile to include counter-rotation */
+    .mobile-rotate [data-animate="scale-up"].animate-in {
+      animation: counter-rotate 30s linear infinite;
+    }
+
+    /* Mobile icon sizing - make them smaller */
+    .integration-icon-block {
+      width: 60px !important;
+      height: 60px !important;
+      min-width: 60px !important;
+      min-height: 60px !important;
+    }
+
+    .integration-icon-block img {
+      width: 32px !important;
+    }
+  }
+
+  /* Even smaller screens */
+  @media (max-width: 479px) {
+    .integration-icon-block {
+      width: 55px !important;
+      height: 55px !important;
+      min-width: 55px !important;
+      min-height: 55px !important;
+    }
+
+    .integration-icon-block img {
+      width: 30px !important;
+    }
+  }
+</style>
+
+<script>
+  function initIntegrationAnimations() {
+    const section = document.querySelector(".integrations-section-v2");
+    const animatedElements = section?.querySelectorAll("[data-animate]");
+
+    if (!section || !animatedElements) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animatedElements.forEach((el) => {
+              const htmlEl = el as HTMLElement;
+              const delay = parseFloat(htmlEl.dataset.animateDelay || "0");
+
+              setTimeout(() => {
+                htmlEl.classList.add("animate-in");
+              }, delay * 1000);
+            });
+
+            observer.unobserve(section);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+      },
+    );
+
+    observer.observe(section);
+  }
+
+  // Run on DOMContentLoaded
+  document.addEventListener("DOMContentLoaded", initIntegrationAnimations);
+
+  // Also run for Astro view transitions
+  document.addEventListener("astro:page-load", initIntegrationAnimations);
+</script>
+

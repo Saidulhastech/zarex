@@ -1,0 +1,124 @@
+---
+import { Image } from "astro:assets";
+import { resolveImage } from "../../utils/resolveImage";
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+
+const { blog, posts } = Astro.props;
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]/g, "");
+const titleHtml = blog.title
+  .replace("News", '<span class="text-gradient">News</span>')
+  .replace("Insights", '<span class="text-gradient">Insights</span>');
+
+// Resolve article images
+const postImages = await Promise.all(
+  posts.map((post: any) => resolveImage(post.data.image)),
+);
+---
+
+<section
+  class="bg-[url('/src/assets/images/blog-bg.png')] bg-cover bg-center py-[var(--_typography-size---gap--section-gap)] text-white"
+>
+  <Container>
+    <div class="flex flex-col items-center text-center">
+      <div class="max-w-[550px]">
+        <h2
+          class="font-title text-[length:var(--_typography-size---typography--h2)] font-normal leading-[1.2] tracking-[-0.02em] text-white"
+          set:html={titleHtml}
+        />
+      </div>
+      <div class="mt-5 max-w-[528px]">
+        <p class="text-[18px] text-[#c4c4c4]">{blog.summary}</p>
+      </div>
+    </div>
+    <div class="mt-[var(--_typography-size---gap--content-gap)]">
+      {
+        posts.map(
+          (
+            post: {
+              data: {
+                author: string;
+                date: Date;
+                title: string;
+                summary: string;
+                image: string;
+              };
+              slug: string;
+            },
+            index: number,
+          ) => {
+            const isFirst = index === 0;
+            const isLast = index === posts.length - 1;
+            return (
+              <article
+                class={`border-b border-[#4e4e4e99] py-[35px] min-[1440px]:py-12 max-[767px]:py-[30px] max-[479px]:py-[24px] ${
+                  isFirst ? "pt-0" : ""
+                } ${isLast ? "border-b-0 pb-0" : ""}`}
+              >
+                <div class="flex flex-wrap items-center justify-between gap-6 max-[767px]:gap-5">
+                  <div class="flex flex-wrap items-center gap-5 max-[479px]:flex-row-reverse max-[479px]:flex-wrap-reverse max-[479px]:gap-4 min-[1440px]:gap-[35px]">
+                    <div class="max-w-[468px] max-[767px]:max-w-[400px] max-[479px]:max-w-none">
+                      <div class="flex items-center gap-[10px] text-[14px] text-[#888] max-[479px]:flex-wrap">
+                        <a
+                          href={`/blog/author/${slugify(post.data.author)}`}
+                          class="font-medium text-[#888] transition hover:text-[#d8ae6b]"
+                        >
+                          {post.data.author}
+                        </a>
+                        <span class="h-[2px] w-[8px] bg-[#888]" />
+                        <span>
+                          {post.data.date.toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })}
+                        </span>
+                      </div>
+                      <a
+                        href={`/blog/${post.slug}`}
+                        class="group mt-[14px] block max-w-[343px] text-white transition"
+                      >
+                        <h3 class="font-title text-[length:var(--_typography-size---typography--h4)] font-medium leading-[1.4] tracking-[-0.01em] text-white transition group-hover:text-[#d8ae6b]">
+                          {post.data.title}
+                        </h3>
+                      </a>
+                      <p class="mt-4 text-[16px] text-[#c4c4c4] max-[479px]:mt-3">
+                        {post.data.summary}
+                      </p>
+                    </div>
+                    <div class="overflow-hidden rounded-[24px] min-[1440px]:max-w-[370px]">
+                      <a href={`/blog/${post.slug}`} class="block">
+                        <Image
+                          src={postImages[index] as any}
+                          alt={post.data.title}
+                          width={370}
+                          height={240}
+                          class="w-full"
+                          loading="lazy"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                  <div class="flex-none">
+                    <Button
+                      href={`/blog/${post.slug}`}
+                      variant="outline"
+                      class="padding-32px"
+                    >
+                      Read More
+                    </Button>
+                  </div>
+                </div>
+              </article>
+            );
+          },
+        )
+      }
+    </div>
+  </Container>
+</section>
+
