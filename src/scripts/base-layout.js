@@ -1,6 +1,10 @@
-import Lenis from "lenis";
-import { gsap } from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+const gsap = globalThis.gsap;
+const ScrollTrigger = globalThis.ScrollTrigger;
+const Lenis = globalThis.Lenis;
+
+if (!gsap || !ScrollTrigger) {
+  console.warn("GSAP or ScrollTrigger not found. Animations disabled.");
+} else {
 // Register plugin only once at module level
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,6 +22,9 @@ let hasInitialized = false;
 let skipNextPageLoad = false;
 
 const setupLenis = () => {
+  if (!Lenis) {
+    return;
+  }
   const enableLenis = window.matchMedia("(min-width: 768px)").matches;
   if (!enableLenis || lenisInstance) {
     return;
@@ -4873,3 +4880,4 @@ document.addEventListener("astro:page-load", () => {
     startRefreshLoop();
   }, 150);
 });
+}
