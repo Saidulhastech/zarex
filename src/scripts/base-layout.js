@@ -3016,23 +3016,25 @@ const initGsap = () => {
         partnerSection.querySelectorAll(".partner-logo-wrap");
 
       if (prefersReducedMotion) {
-        gsap.set(partnerSection, { filter: "blur(0px)" });
+        gsap.set(partnerSection, { filter: "blur(0px)", opacity: 1 });
         if (partnerTracks.length) {
           gsap.set(partnerTracks, { xPercent: 0 });
         }
       } else {
         gsap.set(partnerSection, {
-          filter: "blur(0px)",
-          willChange: "filter",
+          filter: "blur(100px)",
+          opacity: 0,
+          willChange: "filter, opacity",
         });
 
         const partnerTl = gsap.timeline({ paused: true });
         let partnerLoopTween = null;
         partnerTl.fromTo(
           partnerSection,
-          { filter: "blur(100px)" },
+          { filter: "blur(100px)", opacity: 0 },
           {
             filter: "blur(0px)",
+            opacity: 1,
             duration: 0.9,
             ease: easeOutCirc,
             immediateRender: false,
@@ -3043,13 +3045,17 @@ const initGsap = () => {
           typeof ScrollTrigger.isInViewport === "function" &&
           ScrollTrigger.isInViewport(partnerSection, 0.15);
 
+        const playPartnerReveal = () => {
+          partnerTl.restart();
+        };
+
         if (partnerInView) {
-          partnerTl.play(0);
+          playPartnerReveal();
         } else {
           createScrollTrigger({
             trigger: partnerSection,
             start: "top 85%",
-            onEnter: () => partnerTl.play(0),
+            onEnter: playPartnerReveal,
             once: true,
           });
         }
