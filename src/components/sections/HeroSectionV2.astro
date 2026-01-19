@@ -43,29 +43,33 @@ const { hero } = Astro.props;
         data-hero-v2-buttons
       >
         <Button href={hero.primaryCta.href}>{hero.primaryCta.label}</Button>
-        <a
-          href={hero.secondaryCta.href}
-          class="inline-flex items-center gap-3 text-[16px] text-white transition hover:text-[#d8ae6b]"
-          aria-label={hero.secondaryCta.label}
-        >
-          <span
-            class="flex h-12 w-12 items-center justify-center rounded-full border border-white/20"
+        <div class="hero-video-lightbox-wrapper">
+          <button
+            type="button"
+            class="hero-video-lightbox"
+            aria-label={hero.secondaryCta.label}
+            aria-haspopup="dialog"
+            data-video-url={hero.secondaryCta.href}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="15"
-              height="21"
-              viewBox="0 0 15 21"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M13.871 9.71006C14.5445 10.195 14.5445 11.1975 13.871 11.6824L1.97601 20.2468C1.17219 20.8255 0.0507813 20.2511 0.0507813 19.2606L0.0507819 2.13186C0.050782 1.14136 1.17219 0.566934 1.97601 1.14569L13.871 9.71006Z"
-                fill="currentColor"></path>
-            </svg>
-          </span>
-          <span>{hero.secondaryCta.label}</span>
-        </a>
+            <span class="hero-video-lightbox-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="21"
+                viewBox="0 0 15 21"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M13.871 9.71006C14.5445 10.195 14.5445 11.1975 13.871 11.6824L1.97601 20.2468C1.17219 20.8255 0.0507813 20.2511 0.0507813 19.2606L0.0507819 2.13186C0.050782 1.14136 1.17219 0.566934 1.97601 1.14569L13.871 9.71006Z"
+                  fill="currentColor"></path>
+              </svg>
+            </span>
+          </button>
+          <div class="hero-video-lightbox-text">
+            {hero.secondaryCta.label}
+          </div>
+        </div>
       </div>
 
       <div
@@ -115,7 +119,7 @@ const { hero } = Astro.props;
               alt={image.alt}
               width="340"
               height="250"
-              class="w-full rounded-[var(--_typography-size---gap--border-radius)]"
+              class="w-full h-full object-fill rounded-[var(--_typography-size---gap--border-radius)]"
               loading="eager"
               fetchpriority="high"
             />
@@ -126,3 +130,155 @@ const { hero } = Astro.props;
   </div>
 </section>
 
+<div class="hero-video-modal" data-video-modal aria-hidden="true">
+  <div class="hero-video-overlay" data-video-close></div>
+  <div
+    class="hero-video-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Demo video"
+  >
+    <button class="hero-video-close" type="button" data-video-close>
+      <span class="sr-only">Close video</span>
+      &#10005;
+    </button>
+    <div class="hero-video-frame" data-video-frame></div>
+  </div>
+</div>
+
+<style>
+  .hero-video-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .hero-video-modal.is-open {
+    display: flex;
+  }
+
+  .hero-video-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 12, 20, 0.78);
+    backdrop-filter: blur(4px);
+  }
+
+  .hero-video-dialog {
+    position: relative;
+    z-index: 1;
+    width: min(92vw, 960px);
+    background: #0e1522;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .hero-video-frame {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+  }
+
+  .hero-video-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: 0;
+    background: rgba(15, 23, 42, 0.9);
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .hero-video-lightbox {
+    background-color: var(--color--white);
+    color: var(--color--neutral);
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    transition: transform 0.3s;
+    display: flex;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    line-height: inherit;
+    cursor: pointer;
+    appearance: none;
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const initVideoPopup = () => {
+      if (document.documentElement.dataset.videoPopupBound === "true") return;
+      document.documentElement.dataset.videoPopupBound = "true";
+
+      const modal = document.querySelector("[data-video-modal]");
+      const frame = document.querySelector("[data-video-frame]");
+      if (!modal || !frame) return;
+
+      const openModal = (url) => {
+        const embedUrl = url.includes("youtube.com")
+          ? url.replace("watch?v=", "embed/") + "?autoplay=1"
+          : url;
+        frame.innerHTML = `<iframe src="${embedUrl}" title="Demo video" allow="autoplay; fullscreen" allowfullscreen loading="lazy" style="width:100%;height:100%;border:0;"></iframe>`;
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      };
+
+      const closeModal = () => {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        frame.innerHTML = "";
+        document.body.style.overflow = "";
+      };
+
+      document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+
+        const trigger = target.closest(".hero-video-lightbox");
+        if (trigger) {
+          event.preventDefault();
+          const url =
+            trigger.getAttribute("data-video-url") ||
+            trigger.getAttribute("href");
+          if (url) openModal(url);
+          return;
+        }
+
+        if (target.closest("[data-video-close]")) {
+          event.preventDefault();
+          closeModal();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modal.classList.contains("is-open")) {
+          closeModal();
+        }
+      });
+    };
+
+    initVideoPopup();
+    document.addEventListener("astro:page-load", initVideoPopup);
+  })();
+</script>

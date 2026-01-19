@@ -20,4 +20,4 @@ Disallow: /vendor/
 # Crawl-delay: 1
 
 # Sitemap location
-Sitemap: /sitemap-index.xml
+Sitemap: https://your-domain.com/sitemap-index.xml

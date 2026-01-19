@@ -59,8 +59,8 @@ const postImages = await Promise.all(
                   isFirst ? "pt-0" : ""
                 } ${isLast ? "border-b-0 pb-0" : ""}`}
               >
-                <div class="flex flex-wrap items-center justify-between gap-6 max-[767px]:gap-5">
-                  <div class="flex flex-wrap items-center gap-5 max-[479px]:flex-row-reverse max-[479px]:flex-wrap-reverse max-[479px]:gap-4 min-[1440px]:gap-[35px]">
+                <div class="flex flex-col gap-6 max-[767px]:gap-5 min-[768px]:flex-row min-[768px]:items-center min-[768px]:justify-between">
+                  <div class="flex flex-col gap-5 min-[768px]:flex-row min-[768px]:items-center max-[479px]:flex-col-reverse max-[479px]:gap-4 min-[1440px]:gap-[35px]">
                     <div class="max-w-[468px] max-[767px]:max-w-[400px] max-[479px]:max-w-none">
                       <div class="flex items-center gap-[10px] text-[14px] text-[#888] max-[479px]:flex-wrap">
                         <a
@@ -109,7 +109,7 @@ const postImages = await Promise.all(
                       variant="outline"
                       class="padding-32px"
                     >
-                      Read More
+                      Read more
                     </Button>
                   </div>
                 </div>

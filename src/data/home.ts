@@ -69,7 +69,7 @@ export const home = {
         "/images/before-profile-views.jpg",
       ],
     },
-    cta: { label: "Learn More", href: "/about-us" },
+    cta: { label: "About Zarex", href: "/about-us" },
   },
   approach: {
     items: [

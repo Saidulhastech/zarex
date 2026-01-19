@@ -71,38 +71,57 @@ const labelWidths = [
   </div>
 </section>
 
-<script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
+<script is:inline>
+  (() => {
+    const initCounters = () => {
+      const gsap = window.gsap;
+      const ScrollTrigger = window.ScrollTrigger;
+      if (!gsap || !ScrollTrigger) return false;
 
-  gsap.registerPlugin(ScrollTrigger);
+      gsap.registerPlugin(ScrollTrigger);
 
-  // Select spans that are direct children of the flex-col div, which contains the stat value
-  const counters = document.querySelectorAll(".counter-value");
+      const counters = document.querySelectorAll(".counter-value");
+      if (!counters.length) return true;
 
-  counters.forEach((counter) => {
-    // clean value of any non-numeric characters for parsing, but here values are clean strings like '9', '135'
-    const value = parseInt(counter.textContent || "0", 10);
+      counters.forEach((counter) => {
+        const value = parseInt(counter.textContent || "0", 10);
 
-    gsap.fromTo(
-      counter,
-      { innerText: 0 },
-      {
-        innerText: value,
-        duration: 3,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: counter,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-        snap: { innerText: 1 },
-        // Use a modifier or onUpdate to ensure integer display if needed, but innerText tweening usually works with snap
-        onUpdate: function () {
-          counter.innerHTML = Math.ceil(this.targets()[0].innerText).toString();
-        },
-      },
-    );
-  });
+        gsap.fromTo(
+          counter,
+          { innerText: 0 },
+          {
+            innerText: value,
+            duration: 3,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: counter,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+            snap: { innerText: 1 },
+            onUpdate: function () {
+              counter.innerHTML = Math.ceil(
+                this.targets()[0].innerText,
+              ).toString();
+            },
+          },
+        );
+      });
+
+      return true;
+    };
+
+    const tryInit = () => {
+      if (initCounters()) return;
+      window.addEventListener("load", initCounters, { once: true });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", tryInit, { once: true });
+    } else {
+      tryInit();
+    }
+    document.addEventListener("astro:page-load", tryInit);
+  })();
 </script>
 

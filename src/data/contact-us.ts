@@ -7,7 +7,7 @@ export const contactPage = {
   },
   socials: [
     { label: "Facebook", href: "https://www.facebook.com/", icon: "facebook" },
-    { label: "X", href: "https://www.x.com/", icon: "x" },
+    { label: "X (Twitter)", href: "https://www.x.com/", icon: "x" },
     { label: "Instagram", href: "https://www.instagram.com/", icon: "instagram" },
     { label: "WhatsApp", href: "https://www.whatsapp.com/", icon: "whatsapp" },
   ],

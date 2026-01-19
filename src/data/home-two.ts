@@ -98,7 +98,7 @@ export const homeTwo = {
       image: '/images/linkedin-profile-3.jpg',
       badges: ['/images/before-followers.jpg', '/images/before-profile-views.jpg'],
     },
-    cta: { label: 'Learn More', href: '/about-us' },
+    cta: { label: 'About Zarex', href: '/about-us' },
   },
   wcu: {
     title: {

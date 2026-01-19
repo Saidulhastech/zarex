@@ -3029,6 +3029,7 @@ const initGsap = () => {
 
         const partnerTl = gsap.timeline({ paused: true });
         let partnerLoopTween = null;
+        let hasPlayedPartnerReveal = false;
         partnerTl.fromTo(
           partnerSection,
           { filter: "blur(100px)", opacity: 0 },
@@ -3046,6 +3047,10 @@ const initGsap = () => {
           ScrollTrigger.isInViewport(partnerSection, 0.15);
 
         const playPartnerReveal = () => {
+          if (hasPlayedPartnerReveal) {
+            return;
+          }
+          hasPlayedPartnerReveal = true;
           partnerTl.restart();
         };
 
