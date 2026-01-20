@@ -75,9 +75,9 @@ export const homeTwo = {
   approach: {
     items: [
       { title: 'Lead generation', icon: '/images/LimkedIn_Main-2.png' },
-      { title: 'Page view', icon: '/images/approach-icon-1.svg' },
-      { title: 'Campaign', icon: '/images/approach-icon-2.svg' },
-      { title: 'Outreach', icon: '/images/approach-icon-3.svg' },
+      { title: 'Page view', icon: '/images/approach-icon-1.png' },
+      { title: 'Campaign', icon: '/images/approach-icon-2.png' },
+      { title: 'Outreach', icon: '/images/approach-icon-3.png' },
       { title: 'Followers', icon: '/images/LimkedIn_Main-2.png' },
     ],
   },

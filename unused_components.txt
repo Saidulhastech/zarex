@@ -1,0 +1,3 @@
+AboutFaqSection.astro
+AboutTestimonialsSectionV2.astro
+PricingTestimonialsSection.astro
