@@ -2089,11 +2089,11 @@ if (!gsap || !ScrollTrigger) {
           const contentBlock = grid?.children[1] ?? null;
           const innerBlocks = contentBlock
             ? Array.from(contentBlock.children).filter(
-                (child) =>
-                  child instanceof HTMLElement &&
-                  child.classList.contains("flex") &&
-                  child.classList.contains("flex-col"),
-              )
+              (child) =>
+                child instanceof HTMLElement &&
+                child.classList.contains("flex") &&
+                child.classList.contains("flex-col"),
+            )
             : [];
 
           const slideStart = "top 85%";
@@ -3596,7 +3596,7 @@ if (!gsap || !ScrollTrigger) {
         );
         const growthTitles = Array.from(
           growthHeadingLoop?.querySelectorAll(".section-animated-text-block") ??
-            [],
+          [],
         );
 
         if (growthHeadingLoop && growthTitles.length) {
@@ -4623,64 +4623,6 @@ if (!gsap || !ScrollTrigger) {
         window.addEventListener("load", refresh);
       });
 
-      withSection("[data-about-faq]", (faqSection) => {
-        const heading = faqSection.querySelector("[data-about-faq-heading]");
-        const items = Array.from(
-          faqSection.querySelectorAll("[data-about-faq-item]"),
-        );
-
-        if (prefersReducedMotion) {
-          if (heading) {
-            gsap.set(heading, { filter: "blur(0px)", yPercent: 0 });
-          }
-          items.forEach((item) => {
-            gsap.set(item, { filter: "blur(0px)", yPercent: 0 });
-          });
-          return;
-        }
-
-        if (heading) {
-          gsap.set(heading, { filter: "blur(100px)", willChange: "filter" });
-        }
-        items.forEach((item) => {
-          gsap.set(item, {
-            filter: "blur(100px)",
-            yPercent: 50,
-            willChange: "transform, filter",
-          });
-        });
-
-        const revealTl = gsap.timeline({ paused: true });
-        if (heading) {
-          revealTl.to(heading, {
-            filter: "blur(0px)",
-            opacity: 1,
-            duration: 0.8,
-            ease: easeOutCirc,
-          });
-        }
-        if (items.length) {
-          revealTl.to(
-            items,
-            {
-              filter: "blur(0px)",
-              yPercent: 0,
-              duration: 0.8,
-              ease: easeOutCirc,
-              stagger: 0.12,
-            },
-            heading ? 0.1 : 0,
-          );
-        }
-
-        createScrollTrigger({
-          trigger: faqSection,
-          start: "top 85%",
-          onEnter: () => revealTl.play(),
-          onEnterBack: () => revealTl.play(),
-          toggleActions: "play none none none",
-        });
-      });
 
       withSection("[data-faq-section]", (faqSection) => {
         const heading = faqSection.querySelector("[data-faq-heading]");

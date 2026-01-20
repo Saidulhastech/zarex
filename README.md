@@ -35,6 +35,20 @@
 
 ---
 
+## Recent Project Updates
+
+### 🚀 Performance & Cleanup
+- **Component Optimization**: Removed unused components (`AboutFaqSection`, `AboutTestimonialsSectionV2`, `PricingTestimonialsSection`) to streamline the build process.
+- **Asset Management**: Cleaned up redundant image assets to reduce project size.
+- **GSAP Refinement**: Optimized `src/scripts/base-layout.js` by removing deprecated animation triggers and improving scroll performance.
+
+### 📱 Responsive Layout Enhancements
+- **Testimonials Slider**: Implemented a centered 90% width carousel for mobile devices with smooth color transitions for the active state.
+- **Hero Section**: Adjusted decorative shapes for better visibility and layout on mobile devices (including size and position fixes for screens under 768px).
+- **Growth Section**: Optimized title block widths and spacing for large screens (up to 1440px+) and mobile views.
+
+---
+
 ## Pages
 
 ### Main
