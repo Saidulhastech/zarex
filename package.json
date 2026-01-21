@@ -1,22 +1,22 @@
 {
-  "name": "zarex-astro",
+  "name": "zarex",
   "version": "1.0.0",
   "type": "module",
   "description": "Zarex - Astro website template with modern, data-driven sections, blog content, and conversion-focused layouts.",
   "author": {
-    "name": "Your Name",
-    "email": "your-email@example.com",
-    "url": "https://your-website.com"
+    "name": "Aslam Hasib",
+    "email": "hello@hasthemes.com",
+    "url": "https://hasthemes.com"
   },
   "license": "SEE LICENSE IN LICENSE",
-  "homepage": "https://your-demo-url.com",
+  "homepage": "https://zarex.demo.jamstacktemplates.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/zarex-astro"
+    "url": "#"
   },
   "bugs": {
-    "url": "https://github.com/your-username/zarex-astro/issues",
-    "email": "support@your-website.com"
+    "url": "#",
+    "email": "support@hasthemes.com"
   },
   "keywords": [
     "astro",
